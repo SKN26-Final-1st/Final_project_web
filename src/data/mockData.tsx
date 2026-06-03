@@ -10,15 +10,6 @@ import {
   ProfileOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import {
-  analysisReportApiResponse,
-  companyApiResponse,
-  coverLettersApiResponse,
-  coverLetterTemplateApiResponse,
-  dashboardApiResponse,
-  jobDescriptionsApiResponse,
-  recruitmentPostApiResponse,
-} from './apiMockData';
 
 export type AppRoute =
   | '/dashboard'
@@ -109,7 +100,7 @@ export const authMenu: MenuItem[] = [
   {
     route: '/login',
     label: '로그인',
-    description: '목업 인증 전환',
+    description: '목업 인증 화면',
     icon: <IdcardOutlined />,
   },
   {
@@ -125,93 +116,3 @@ export const authMenu: MenuItem[] = [
     icon: <FileTextOutlined />,
   },
 ];
-
-export const mockApiResponses = {
-  dashboard: dashboardApiResponse,
-  company: companyApiResponse,
-  jobDescriptions: jobDescriptionsApiResponse,
-  coverLetters: coverLettersApiResponse,
-  analysisReport: analysisReportApiResponse,
-  recruitmentPost: recruitmentPostApiResponse,
-  coverLetterTemplate: coverLetterTemplateApiResponse,
-};
-
-export const metrics = dashboardApiResponse.data.metrics.map((item) => ({
-  label: item.label,
-  value: item.value,
-  suffix: item.suffix,
-  change: item.delta_label,
-}));
-
-export const applicants = dashboardApiResponse.data.applicants.map((item) => ({
-  key: item.id,
-  name: item.applicant_name,
-  role: item.job_title,
-  fit: item.fit_score,
-  status: item.status_label,
-  stage: item.review_stage,
-}));
-
-export const insightCards = dashboardApiResponse.data.insights.map((item) => ({
-  title: item.title,
-  detail: item.detail,
-  tone: item.tone,
-}));
-
-export const analysisSummary = {
-  centerValue: dashboardApiResponse.data.analysis_summary.center_value,
-  centerLabel: dashboardApiResponse.data.analysis_summary.center_label,
-  segments: dashboardApiResponse.data.analysis_summary.segments.map((segment) => ({
-    label: segment.label,
-    value: segment.value,
-    colorKey: segment.color_key,
-  })),
-};
-
-export const tasks = dashboardApiResponse.data.tasks.map((task) => task.title);
-
-export const companyProfile = {
-  name: companyApiResponse.data.name,
-  industry: companyApiResponse.data.industry,
-  size: companyApiResponse.data.employee_size,
-  location: companyApiResponse.data.location,
-  introduction: companyApiResponse.data.introduction,
-  values: companyApiResponse.data.core_values,
-  benefits: companyApiResponse.data.benefits,
-  completion: companyApiResponse.data.profile_completion,
-};
-
-export const jdList = jobDescriptionsApiResponse.data.map((item) => ({
-  id: item.id,
-  title: item.title,
-  team: item.team_name,
-  status: item.status_label,
-  fit: item.fit_score,
-  stack: item.tech_stacks,
-  summary: item.summary,
-  requiredExperience: item.required_experience,
-  employmentType: item.employment_type,
-}));
-
-export type JdItem = (typeof jdList)[number];
-
-export const coverLetterRows = coverLettersApiResponse.data.rows.map((row) => ({
-  key: row.id,
-  applicant: row.applicant_name,
-  jd: row.job_title,
-  status: row.status_label,
-  score: row.analysis_score,
-}));
-
-export const reportTabs = analysisReportApiResponse.data.tabs;
-
-export const exampleQuestions = analysisReportApiResponse.data.example_questions;
-
-export const initialChatMessages: ChatMessage[] = analysisReportApiResponse.data.chat_messages;
-
-export const recruitmentPreview = recruitmentPostApiResponse.data;
-
-export const templateQuestions = coverLetterTemplateApiResponse.data.questions.map((question) => ({
-  title: question.title,
-  guide: question.guide,
-}));
