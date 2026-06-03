@@ -574,6 +574,20 @@ select {
   width: min(420px, calc(100vw - 32px));
 }
 
+.notification-list {
+  width: min(360px, calc(100vw - 48px));
+}
+
+.notification-list .ant-list-item {
+  padding-inline: 0;
+}
+
+.section-extra-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
 .auth-screen {
   min-height: 100vh;
   padding: 28px;
