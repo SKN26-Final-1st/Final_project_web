@@ -66,7 +66,12 @@ export function AppShell({ route, children, themeSwitch, navigate, showAlert }: 
           <Space>
             <Tooltip title="알림">
               <Badge dot>
-                <Button shape="circle" icon={<BellOutlined />} />
+                <Button
+                  aria-label="알림 확인"
+                  shape="circle"
+                  icon={<BellOutlined />}
+                  onClick={() => showAlert({ type: 'info', message: '읽지 않은 알림 3건이 있습니다.' })}
+                />
               </Badge>
             </Tooltip>
             {themeSwitch}
