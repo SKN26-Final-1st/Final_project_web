@@ -1,14 +1,18 @@
 import { Tag } from 'antd';
+import type { StatusCode } from '../data/apiMockData';
 
-export function statusTag(status: string) {
-  if (status.includes('완료') || status.includes('추천') || status === '정상') {
-    return <Tag color="success">{status}</Tag>;
-  }
-  if (status.includes('대기') || status.includes('질문')) {
-    return <Tag color="processing">{status}</Tag>;
-  }
-  if (status.includes('누락') || status.includes('보류')) {
-    return <Tag color="warning">{status}</Tag>;
-  }
-  return <Tag>{status}</Tag>;
+const statusColorByCode: Partial<Record<StatusCode, string>> = {
+  analysis_done: 'green',
+  interview_recommended: 'green',
+  valid: 'green',
+  normal: 'green',
+  analysis_pending: 'blue',
+  needs_followup: 'blue',
+  draft: 'default',
+  missing_answer: 'orange',
+  on_hold: 'gold',
+};
+
+export function statusTag(label: string, statusCode?: StatusCode) {
+  return <Tag color={statusCode ? statusColorByCode[statusCode] : 'default'}>{label}</Tag>;
 }
