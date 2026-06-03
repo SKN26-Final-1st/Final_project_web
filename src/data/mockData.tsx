@@ -158,6 +158,16 @@ export const insightCards = dashboardApiResponse.data.insights.map((item) => ({
   tone: item.tone,
 }));
 
+export const analysisSummary = {
+  centerValue: dashboardApiResponse.data.analysis_summary.center_value,
+  centerLabel: dashboardApiResponse.data.analysis_summary.center_label,
+  segments: dashboardApiResponse.data.analysis_summary.segments.map((segment) => ({
+    label: segment.label,
+    value: segment.value,
+    colorKey: segment.color_key,
+  })),
+};
+
 export const tasks = dashboardApiResponse.data.tasks.map((task) => task.title);
 
 export const companyProfile = {
