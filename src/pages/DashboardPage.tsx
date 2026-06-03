@@ -1,19 +1,21 @@
 import { Button, Col, Divider, List, Progress, Row, Space, Table } from 'antd';
 import { CheckCircleOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { DonutChart } from '../components/common/DonutChart';
+import { DonutChart } from '../components/charts/DonutChart';
 import { MetricCard } from '../components/common/MetricCard';
 import { PageTitle } from '../components/common/PageTitle';
 import { SectionCard } from '../components/common/SectionCard';
-import { applicants, insightCards, metrics, tasks } from '../data/mockData';
+import { analysisSummary, applicants, insightCards, metrics, tasks } from '../data/mockData';
 import type { Navigate, ShowAlert } from '../types/app';
+import type { ThemeMode } from '../types/app';
 import { statusTag } from '../utils/statusTag';
 
 type DashboardPageProps = {
+  mode: ThemeMode;
   navigate: Navigate;
   showAlert: ShowAlert;
 };
 
-export function DashboardPage({ navigate, showAlert }: DashboardPageProps) {
+export function DashboardPage({ mode, navigate, showAlert }: DashboardPageProps) {
   return (
     <>
       <PageTitle
@@ -77,7 +79,7 @@ export function DashboardPage({ navigate, showAlert }: DashboardPageProps) {
         </Col>
         <Col xs={24} xl={9}>
           <SectionCard title="분석 요약">
-            <DonutChart value={86} />
+            <DonutChart data={analysisSummary} mode={mode} />
             <Divider />
             <List
               dataSource={insightCards}
