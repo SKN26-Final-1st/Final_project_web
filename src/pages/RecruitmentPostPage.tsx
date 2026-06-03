@@ -1,38 +1,37 @@
 import type { Key } from 'react';
-import { Button, Col, Empty, Row, Space, Table, Tag } from 'antd';
+import { Button, Col, Row, Space } from 'antd';
 import { DownloadOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { JdSelectionPanel } from '../components/recruitment/JdSelectionPanel';
+import { RecruitmentPreviewPanel } from '../components/recruitment/RecruitmentPreviewPanel';
+import { SelectedJdSummary } from '../components/recruitment/SelectedJdSummary';
 import { InlineLoading } from '../components/common/InlineLoading';
 import { PageTitle } from '../components/common/PageTitle';
 import { SectionCard } from '../components/common/SectionCard';
-import { jdList, recruitmentPreview } from '../data/mockData';
-import type { KeySetter, RunMockAction, ShowAlert } from '../types/app';
-import { statusTag } from '../utils/statusTag';
+import type { JdItem, RecruitmentPreview } from '../api/adapters';
+import { mockClient } from '../api/mockClient';
+import type { KeySetter, RunMockAction } from '../types/app';
 
 type RecruitmentPostPageProps = {
+  jdList: JdItem[];
+  recruitmentPreview: RecruitmentPreview;
   selectedRows: Key[];
   postGenerated: boolean;
   loadingKey: string | null;
   setSelectedRows: KeySetter;
   setPostGenerated: (value: boolean) => void;
   runMockAction: RunMockAction;
-  showAlert: ShowAlert;
 };
 
 export function RecruitmentPostPage({
+  jdList,
+  recruitmentPreview,
   selectedRows,
   postGenerated,
   loadingKey,
   setSelectedRows,
   setPostGenerated,
   runMockAction,
-  showAlert,
 }: RecruitmentPostPageProps) {
-  const toggleSelectedRow = (id: string) => {
-    setSelectedRows((current) =>
-      current.includes(id) ? current.filter((selectedId) => selectedId !== id) : [...current, id],
-    );
-  };
-
   return (
     <>
       <PageTitle
@@ -46,12 +45,16 @@ export function RecruitmentPostPage({
               type="primary"
               disabled={!selectedRows.length || loadingKey === 'post-generate'}
               onClick={() =>
-                runMockAction('post-generate', { type: 'success', message: '모집 공고를 생성했습니다.' }, () => setPostGenerated(true))
+                void runMockAction(
+                  'post-generate',
+                  () => mockClient.generateRecruitmentPost(selectedRows.map(String)),
+                  () => setPostGenerated(true),
+                )
               }
             >
               {loadingKey === 'post-generate' ? <InlineLoading label="생성 중" /> : '공고 생성'}
             </Button>
-            <Button icon={<DownloadOutlined />} onClick={() => showAlert({ type: 'info', message: 'PDF 다운로드 목업을 실행했습니다.' })}>
+            <Button icon={<DownloadOutlined />} onClick={() => void runMockAction('post-pdf', mockClient.downloadRecruitmentPdf)}>
               PDF
             </Button>
           </Space>
@@ -60,77 +63,17 @@ export function RecruitmentPostPage({
       <Row gutter={[22, 22]}>
         <Col xs={24} xl={13}>
           <SectionCard title="JD 선택">
-            <div className="desktop-table-wrap">
-              <Table
-                rowKey="id"
-                pagination={false}
-                scroll={{ x: 560 }}
-                dataSource={jdList}
-                rowSelection={{
-                  selectedRowKeys: selectedRows,
-                  onChange: (keys) => setSelectedRows(keys),
-                }}
-                columns={[
-                  { title: '직무', dataIndex: 'title' },
-                  { title: '팀', dataIndex: 'team' },
-                  { title: '상태', dataIndex: 'status', render: statusTag },
-                  { title: '적합도', dataIndex: 'fit', render: (value: number) => `${value}%` },
-                ]}
-              />
-            </div>
-            <div className="mobile-selection-list">
-              {jdList.map((item) => {
-                const selected = selectedRows.includes(item.id);
-                return (
-                  <button
-                    aria-pressed={selected}
-                    className={`selection-card ${selected ? 'active' : ''}`}
-                    key={item.id}
-                    onClick={() => toggleSelectedRow(item.id)}
-                    type="button"
-                  >
-                    <span className="selection-check">{selected ? '선택됨' : '선택'}</span>
-                    <strong>{item.title}</strong>
-                    <span>{item.team}</span>
-                    <div>
-                      {statusTag(item.status)}
-                      <Tag color="blue">Fit {item.fit}%</Tag>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <JdSelectionPanel jdList={jdList} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
           </SectionCard>
         </Col>
         <Col xs={24} xl={11}>
           <SectionCard title="선택 요약">
-            {selectedRows.length ? (
-              <Space wrap>
-                {jdList
-                  .filter((item) => selectedRows.includes(item.id))
-                  .map((item) => (
-                    <Tag className="large-tag" key={item.id}>
-                      {item.title}
-                    </Tag>
-                  ))}
-              </Space>
-            ) : (
-              <Empty description="선택한 JD가 없습니다." />
-            )}
+            <SelectedJdSummary jdList={jdList} selectedRows={selectedRows} />
           </SectionCard>
         </Col>
         <Col span={24}>
           <SectionCard title="공고 미리보기">
-            {postGenerated ? (
-              <div className="document-preview">
-                <h2>{recruitmentPreview.title}</h2>
-                {recruitmentPreview.sections.map((section) => (
-                  <p key={section}>{section}</p>
-                ))}
-              </div>
-            ) : (
-              <Empty description="생성된 공고가 없습니다." />
-            )}
+            <RecruitmentPreviewPanel preview={recruitmentPreview} postGenerated={postGenerated} />
           </SectionCard>
         </Col>
       </Row>
