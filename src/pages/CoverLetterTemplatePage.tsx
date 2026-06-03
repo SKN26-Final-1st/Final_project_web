@@ -1,27 +1,29 @@
-import { Button, Col, Divider, Empty, List, Row, Space, Tag } from 'antd';
+import { Button, Col, Divider, List, Row, Space, Tag } from 'antd';
 import { DownloadOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { EmptyState } from '../components/common/PageState';
 import { InlineLoading } from '../components/common/InlineLoading';
 import { PageTitle } from '../components/common/PageTitle';
 import { SectionCard } from '../components/common/SectionCard';
-import { templateQuestions, type JdItem } from '../data/mockData';
-import type { RunMockAction, ShowAlert } from '../types/app';
+import type { JdItem, TemplateQuestion } from '../api/adapters';
+import { mockClient } from '../api/mockClient';
+import type { RunMockAction } from '../types/app';
 
 type CoverLetterTemplatePageProps = {
-  selectedJd: JdItem;
+  selectedJd: JdItem | null;
+  templateQuestions: TemplateQuestion[];
   templateGenerated: boolean;
   loadingKey: string | null;
   setTemplateGenerated: (value: boolean) => void;
   runMockAction: RunMockAction;
-  showAlert: ShowAlert;
 };
 
 export function CoverLetterTemplatePage({
   selectedJd,
+  templateQuestions,
   templateGenerated,
   loadingKey,
   setTemplateGenerated,
   runMockAction,
-  showAlert,
 }: CoverLetterTemplatePageProps) {
   return (
     <>
@@ -34,14 +36,19 @@ export function CoverLetterTemplatePage({
             <Button
               type="primary"
               icon={<FileSearchOutlined />}
-              disabled={loadingKey === 'template-generate'}
+              disabled={!selectedJd || loadingKey === 'template-generate'}
               onClick={() =>
-                runMockAction('template-generate', { type: 'success', message: '자기소개서 문항을 생성했습니다.' }, () => setTemplateGenerated(true))
+                selectedJd &&
+                void runMockAction(
+                  'template-generate',
+                  () => mockClient.generateCoverLetterTemplate(selectedJd.id),
+                  () => setTemplateGenerated(true),
+                )
               }
             >
               {loadingKey === 'template-generate' ? <InlineLoading label="생성 중" /> : '문항 생성'}
             </Button>
-            <Button icon={<DownloadOutlined />} onClick={() => showAlert({ type: 'info', message: '문서 다운로드 목업을 실행했습니다.' })}>
+            <Button icon={<DownloadOutlined />} onClick={() => void runMockAction('template-doc', mockClient.downloadTemplateDocument)}>
               문서
             </Button>
           </Space>
@@ -50,14 +57,20 @@ export function CoverLetterTemplatePage({
       <Row gutter={[22, 22]}>
         <Col xs={24} xl={8}>
           <SectionCard title="JD 요약">
-            <strong>{selectedJd.title}</strong>
-            <p className="muted">{selectedJd.summary}</p>
-            <Divider />
-            <Space wrap>
-              {selectedJd.stack.map((stack) => (
-                <Tag key={stack}>{stack}</Tag>
-              ))}
-            </Space>
+            {selectedJd ? (
+              <>
+                <strong>{selectedJd.title}</strong>
+                <p className="muted">{selectedJd.summary}</p>
+                <Divider />
+                <Space wrap>
+                  {selectedJd.stack.map((stack) => (
+                    <Tag key={stack}>{stack}</Tag>
+                  ))}
+                </Space>
+              </>
+            ) : (
+              <EmptyState description="선택된 JD가 없습니다." />
+            )}
           </SectionCard>
         </Col>
         <Col xs={24} xl={16}>
@@ -72,7 +85,7 @@ export function CoverLetterTemplatePage({
                 )}
               />
             ) : (
-              <Empty description="생성된 문항이 없습니다." />
+              <EmptyState description="생성된 문항이 없습니다." />
             )}
           </SectionCard>
         </Col>
