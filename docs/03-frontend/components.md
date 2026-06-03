@@ -58,4 +58,11 @@
 
 ## charts/
 
-ECharts 래퍼 (`EChart.tsx`, `DonutChart.tsx` 등). 대시보드 분석 요약에서 사용.
+| 파일 | 기능 |
+|------|------|
+| `EChart.tsx` | ECharts 공통 래퍼 |
+| `DonutChart.tsx` | 적합도 도넛 (대시보드) |
+| `chartAdapters.ts` | 차트 시리즈 데이터 변환 |
+| `chartTheme.ts` | 라이트/다크 팔레트 |
+
+[`AnalysisSummaryPanel.tsx`](../../src/components/dashboard/AnalysisSummaryPanel.tsx)에서 사용합니다.
