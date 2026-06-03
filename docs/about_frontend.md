@@ -1,3 +1,11 @@
+# 프론트엔드·백엔드 협업 참고 (일반)
+
+> **이 문서는 팀 학습용 일반 가이드입니다.**  
+> **HumouR UI 목업**(`web_design_playground`)은 실제 HTTP·Axios 없이 [`mockClient`](../src/api/mockClient.ts) + [`apiMockData.ts`](../src/data/apiMockData.ts)로 API 계약만 연습합니다.  
+> 레포 실행·화면별 JSON 계약은 [docs/README.md](./README.md) · [08-features](./08-features/README.md)를 보세요.
+
+---
+
 # 전체 그림: 프론트엔드는 “화면”이 아니라 “사용자와 백엔드 사이의 계약을 구현하는 영역”이다
 
 주니어 때는 프론트엔드를 “버튼 만들고, 페이지 꾸미고, API 호출해서 데이터 뿌리는 일” 정도로 생각하기 쉽다. 그런데 실무에서는 프론트엔드가 **사용자 행동을 백엔드 API 요청으로 바꾸고, 백엔드 응답을 다시 사용자가 이해할 수 있는 화면 상태로 바꾸는 역할**을 한다.
