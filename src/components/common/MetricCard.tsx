@@ -1,7 +1,5 @@
 import { Card, Statistic } from 'antd';
-import type { metrics } from '../../data/mockData';
-
-type MetricItem = (typeof metrics)[number];
+import type { MetricItem } from '../../api/adapters';
 
 export function MetricCard({ item }: { item: MetricItem }) {
   return (
