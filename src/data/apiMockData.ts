@@ -81,6 +81,15 @@ export const dashboardApiResponse = {
         tone: 'warning',
       },
     ],
+    analysis_summary: {
+      chart_type: 'donut',
+      center_value: 86,
+      center_label: '평균 적합도',
+      segments: [
+        { label: '적합', value: 86, color_key: 'primary' },
+        { label: '검토 필요', value: 14, color_key: 'track' },
+      ],
+    },
     tasks: [
       { id: 'task-001', title: 'JD 분석 요청 2건 승인', priority: 'high' },
       { id: 'task-002', title: '자기소개서 Excel 오류 행 확인', priority: 'high' },
@@ -111,6 +120,16 @@ export const dashboardApiResponse = {
     detail: string;
     tone: 'primary' | 'accent' | 'warning';
   }[];
+  analysis_summary: {
+    chart_type: 'donut';
+    center_value: number;
+    center_label: string;
+    segments: {
+      label: string;
+      value: number;
+      color_key: 'primary' | 'accent' | 'track' | 'warning';
+    }[];
+  };
   tasks: {
     id: string;
     title: string;
