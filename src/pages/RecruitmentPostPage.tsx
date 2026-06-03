@@ -27,6 +27,12 @@ export function RecruitmentPostPage({
   runMockAction,
   showAlert,
 }: RecruitmentPostPageProps) {
+  const toggleSelectedRow = (id: string) => {
+    setSelectedRows((current) =>
+      current.includes(id) ? current.filter((selectedId) => selectedId !== id) : [...current, id],
+    );
+  };
+
   return (
     <>
       <PageTitle
@@ -38,7 +44,7 @@ export function RecruitmentPostPage({
             <Button
               icon={<FileSearchOutlined />}
               type="primary"
-              disabled={!selectedRows.length}
+              disabled={!selectedRows.length || loadingKey === 'post-generate'}
               onClick={() =>
                 runMockAction('post-generate', { type: 'success', message: '모집 공고를 생성했습니다.' }, () => setPostGenerated(true))
               }
@@ -54,21 +60,46 @@ export function RecruitmentPostPage({
       <Row gutter={[22, 22]}>
         <Col xs={24} xl={13}>
           <SectionCard title="JD 선택">
-            <Table
-              rowKey="id"
-              pagination={false}
-              dataSource={jdList}
-              rowSelection={{
-                selectedRowKeys: selectedRows,
-                onChange: (keys) => setSelectedRows(keys),
-              }}
-              columns={[
-                { title: '직무', dataIndex: 'title' },
-                { title: '팀', dataIndex: 'team' },
-                { title: '상태', dataIndex: 'status', render: statusTag },
-                { title: '적합도', dataIndex: 'fit', render: (value: number) => `${value}%` },
-              ]}
-            />
+            <div className="desktop-table-wrap">
+              <Table
+                rowKey="id"
+                pagination={false}
+                scroll={{ x: 560 }}
+                dataSource={jdList}
+                rowSelection={{
+                  selectedRowKeys: selectedRows,
+                  onChange: (keys) => setSelectedRows(keys),
+                }}
+                columns={[
+                  { title: '직무', dataIndex: 'title' },
+                  { title: '팀', dataIndex: 'team' },
+                  { title: '상태', dataIndex: 'status', render: statusTag },
+                  { title: '적합도', dataIndex: 'fit', render: (value: number) => `${value}%` },
+                ]}
+              />
+            </div>
+            <div className="mobile-selection-list">
+              {jdList.map((item) => {
+                const selected = selectedRows.includes(item.id);
+                return (
+                  <button
+                    aria-pressed={selected}
+                    className={`selection-card ${selected ? 'active' : ''}`}
+                    key={item.id}
+                    onClick={() => toggleSelectedRow(item.id)}
+                    type="button"
+                  >
+                    <span className="selection-check">{selected ? '선택됨' : '선택'}</span>
+                    <strong>{item.title}</strong>
+                    <span>{item.team}</span>
+                    <div>
+                      {statusTag(item.status)}
+                      <Tag color="blue">Fit {item.fit}%</Tag>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </SectionCard>
         </Col>
         <Col xs={24} xl={11}>
