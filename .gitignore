@@ -10,10 +10,17 @@ dist/
 # QA / local captures
 qa-screenshots/
 
-# Env / secrets (keep .env.example tracked if you add one)
+# Playwright (playwright-core)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Env / secrets
 .env
 .env.local
 .env.*.local
+# keep: .env.example
 
 # Logs
 *.log
@@ -34,4 +41,5 @@ pnpm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
 Desktop.ini
