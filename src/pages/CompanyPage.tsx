@@ -1,20 +1,23 @@
-import { Button, Col, Divider, Form, Input, List, Progress, Row, Select, Space, Tag } from 'antd';
-import { CheckCircleOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Space } from 'antd';
+import { ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import { CompanyCompletionPanel } from '../components/company/CompanyCompletionPanel';
+import { CompanyProfileForm } from '../components/company/CompanyProfileForm';
 import { InlineLoading } from '../components/common/InlineLoading';
 import { PageTitle } from '../components/common/PageTitle';
 import { SectionCard } from '../components/common/SectionCard';
-import { companyProfile, palette } from '../data/mockData';
+import type { CompanyChoices, CompanyProfile } from '../api/adapters';
+import { mockClient } from '../api/mockClient';
 import type { RunMockAction, ShowAlert } from '../types/app';
 
-const { TextArea } = Input;
-
 type CompanyPageProps = {
+  company: CompanyProfile;
+  companyChoices: CompanyChoices;
   loadingKey: string | null;
   runMockAction: RunMockAction;
   showAlert: ShowAlert;
 };
 
-export function CompanyPage({ loadingKey, runMockAction, showAlert }: CompanyPageProps) {
+export function CompanyPage({ company, companyChoices, loadingKey, runMockAction, showAlert }: CompanyPageProps) {
   return (
     <>
       <PageTitle
@@ -30,13 +33,7 @@ export function CompanyPage({ loadingKey, runMockAction, showAlert }: CompanyPag
               type="primary"
               icon={loadingKey === 'company-save' ? undefined : <SaveOutlined />}
               disabled={loadingKey === 'company-save'}
-              onClick={() =>
-                runMockAction('company-save', {
-                  type: 'success',
-                  message: '회사 정보가 저장되었습니다.',
-                  description: '저장된 값은 mockData 기준으로 데모 화면에 반영됩니다.',
-                })
-              }
+              onClick={() => void runMockAction('company-save', mockClient.saveCompanyProfile)}
             >
               {loadingKey === 'company-save' ? <InlineLoading label="저장 중" /> : '저장'}
             </Button>
@@ -46,73 +43,12 @@ export function CompanyPage({ loadingKey, runMockAction, showAlert }: CompanyPag
       <Row gutter={[22, 22]}>
         <Col xs={24} xl={15}>
           <SectionCard title="회사 프로필">
-            <Form layout="vertical" initialValues={companyProfile}>
-              <Row gutter={16}>
-                <Col xs={24} md={12}>
-                  <Form.Item label="회사명" name="name">
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item label="산업군" name="industry">
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item label="규모" name="size">
-                    <Select options={['1-50명', '51-200명', '201-500명', '500명 이상'].map((value) => ({ value }))} />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item label="위치" name="location">
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item label="회사 소개">
-                <TextArea rows={5} defaultValue={companyProfile.introduction} />
-              </Form.Item>
-              <Form.Item label="핵심 가치">
-                <Space wrap>
-                  {companyProfile.values.map((value) => (
-                    <Tag className="large-tag" closable key={value}>
-                      {value}
-                    </Tag>
-                  ))}
-                  <Button
-                    icon={<PlusOutlined />}
-                    size="small"
-                    onClick={() => showAlert({ type: 'info', message: '핵심 가치 추가 입력은 API 연동 단계에서 저장됩니다.' })}
-                  >
-                    태그 추가
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
+            <CompanyProfileForm company={company} choices={companyChoices} showAlert={showAlert} />
           </SectionCard>
         </Col>
         <Col xs={24} xl={9}>
           <SectionCard title="입력 완성도">
-            <Progress percent={companyProfile.completion} strokeColor={palette.accent} />
-            <Divider />
-            <List
-              dataSource={companyProfile.benefits}
-              renderItem={(item) => (
-                <List.Item>
-                  <CheckCircleOutlined className="success-icon" />
-                  {item}
-                </List.Item>
-              )}
-            />
-            <Button
-              block
-              type="primary"
-              ghost
-              icon={<EditOutlined />}
-              onClick={() => showAlert({ type: 'info', message: '수정 완료 상태로 전환했습니다.' })}
-            >
-              수정 완료
-            </Button>
+            <CompanyCompletionPanel company={company} showAlert={showAlert} />
           </SectionCard>
         </Col>
       </Row>
