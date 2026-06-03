@@ -34,6 +34,7 @@ export function CoverLetterTemplatePage({
             <Button
               type="primary"
               icon={<FileSearchOutlined />}
+              disabled={loadingKey === 'template-generate'}
               onClick={() =>
                 runMockAction('template-generate', { type: 'success', message: '자기소개서 문항을 생성했습니다.' }, () => setTemplateGenerated(true))
               }
