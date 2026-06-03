@@ -223,7 +223,7 @@ export default function App() {
         );
       case '/dashboard':
       default:
-        return <DashboardPage navigate={navigate} showAlert={showAlert} />;
+        return <DashboardPage mode={mode} navigate={navigate} showAlert={showAlert} />;
     }
   };
 
