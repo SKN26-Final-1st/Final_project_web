@@ -29,6 +29,7 @@ export function CompanyPage({ loadingKey, runMockAction, showAlert }: CompanyPag
             <Button
               type="primary"
               icon={loadingKey === 'company-save' ? undefined : <SaveOutlined />}
+              disabled={loadingKey === 'company-save'}
               onClick={() =>
                 runMockAction('company-save', {
                   type: 'success',
@@ -69,7 +70,7 @@ export function CompanyPage({ loadingKey, runMockAction, showAlert }: CompanyPag
                 </Col>
               </Row>
               <Form.Item label="회사 소개">
-                <TextArea rows={5} defaultValue="AI 기반 HR 채용 보조 시스템으로 채용 담당자의 검토 흐름을 빠르게 만듭니다." />
+                <TextArea rows={5} defaultValue={companyProfile.introduction} />
               </Form.Item>
               <Form.Item label="핵심 가치">
                 <Space wrap>
@@ -78,7 +79,11 @@ export function CompanyPage({ loadingKey, runMockAction, showAlert }: CompanyPag
                       {value}
                     </Tag>
                   ))}
-                  <Button icon={<PlusOutlined />} size="small">
+                  <Button
+                    icon={<PlusOutlined />}
+                    size="small"
+                    onClick={() => showAlert({ type: 'info', message: '핵심 가치 추가 입력은 API 연동 단계에서 저장됩니다.' })}
+                  >
                     태그 추가
                   </Button>
                 </Space>
