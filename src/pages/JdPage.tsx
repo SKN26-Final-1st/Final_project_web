@@ -42,6 +42,7 @@ export function JdPage({
             <Button
               type="primary"
               icon={<FileSearchOutlined />}
+              disabled={loadingKey === 'jd-analysis'}
               onClick={() =>
                 runMockAction(
                   'jd-analysis',
@@ -101,7 +102,11 @@ export function JdPage({
                       {stack}
                     </Tag>
                   ))}
-                  <Button size="small" icon={<PlusOutlined />}>
+                  <Button
+                    size="small"
+                    icon={<PlusOutlined />}
+                    onClick={() => showAlert({ type: 'info', message: '기술 스택 추가 입력은 API 연동 단계에서 저장됩니다.' })}
+                  >
                     추가
                   </Button>
                 </Space>
@@ -113,7 +118,19 @@ export function JdPage({
                     <Progress percent={selectedJd.fit} />
                   </div>
                 </Col>
-                <Col xs={24} md={16}>
+                <Col xs={24} md={8}>
+                  <div className="mini-panel">
+                    <span className="form-stat-label">요구 경력</span>
+                    <strong>{selectedJd.requiredExperience}</strong>
+                  </div>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div className="mini-panel">
+                    <span className="form-stat-label">고용 형태</span>
+                    <strong>{selectedJd.employmentType}</strong>
+                  </div>
+                </Col>
+                <Col span={24}>
                   <div className="inline-action-box">
                     <span>모집 공고 작성 화면으로 연결</span>
                     <Button onClick={() => navigate('/recruitment-post')} type="primary" ghost>
