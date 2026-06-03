@@ -32,6 +32,9 @@ pnpm-debug.log*
 .eslintcache
 *.tsbuildinfo
 
+# Local agent / brainstorm sessions
+.superpowers/
+
 # Editor
 .idea/
 .vscode/*
