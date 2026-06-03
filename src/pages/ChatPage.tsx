@@ -79,7 +79,12 @@ export function ChatPage({ chatMessages, chatInput, loadingKey, setChatMessages,
                 onPressEnter={sendChatMessage}
                 placeholder="리포트에 대해 질문하기"
               />
-              <Button type="primary" icon={<SendOutlined />} onClick={sendChatMessage}>
+              <Button
+                type="primary"
+                icon={<SendOutlined />}
+                disabled={loadingKey === 'chat'}
+                onClick={sendChatMessage}
+              >
                 전송
               </Button>
             </div>
