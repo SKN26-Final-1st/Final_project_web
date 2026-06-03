@@ -293,42 +293,10 @@ select {
   background: rgba(37, 99, 235, 0.1);
 }
 
-.donut-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 12px 0 4px;
-}
-
-.donut {
-  --value: 86%;
-  display: grid;
-  place-items: center;
-  width: 188px;
-  height: 188px;
-  border-radius: 50%;
-  background: conic-gradient(var(--primary) var(--value), rgba(20, 184, 166, 0.22) 0);
-}
-
-.donut > div {
-  display: grid;
-  place-items: center;
-  width: 122px;
-  height: 122px;
-  border-radius: 50%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-}
-
-.donut strong {
-  color: var(--text);
-  font-size: 32px;
-  line-height: 1;
-}
-
-.donut span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
+.echart-donut {
+  width: min(100%, 240px);
+  height: 220px;
+  margin: 0 auto;
 }
 
 .insight-dot {
