@@ -376,6 +376,11 @@ select {
   align-items: stretch;
 }
 
+.mini-panel strong {
+  color: var(--text);
+  font-size: 16px;
+}
+
 .inline-action-box {
   justify-content: space-between;
   height: 100%;
@@ -426,6 +431,58 @@ select {
 
 .warning-row td {
   background: rgba(245, 158, 11, 0.09) !important;
+}
+
+.desktop-table-wrap {
+  min-width: 0;
+}
+
+.mobile-selection-list {
+  display: none;
+}
+
+.selection-card {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  color: var(--text);
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 88%, var(--bg));
+  cursor: pointer;
+}
+
+.selection-card:hover,
+.selection-card:focus-visible,
+.selection-card.active {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.selection-card.active {
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.selection-card > strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.selection-card > span:not(.selection-check) {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.selection-check {
+  width: fit-content;
+  padding: 3px 8px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.1);
 }
 
 .mt-16 {
@@ -653,17 +710,16 @@ select {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .sidebar,
   .shell > .ant-layout-sider {
     display: none !important;
   }
 
   .top-header {
-    height: auto;
-    min-height: 70px;
+    min-height: 72px;
     gap: 12px;
-    padding: 14px 12px;
+    padding: 14px 22px;
   }
 
   .top-title {
@@ -672,8 +728,27 @@ select {
 
   .mobile-route-select {
     display: block;
-    flex: 1 1 130px;
+    flex: 1 1 220px;
+    min-width: 180px;
+    max-width: 360px;
+  }
+
+  .top-header > .ant-space {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .top-header {
+    height: auto;
+    min-height: 70px;
+    padding: 14px 12px;
+  }
+
+  .mobile-route-select {
+    flex-basis: 130px;
     min-width: 130px;
+    max-width: none;
   }
 
   .top-header > .ant-space {
@@ -701,6 +776,15 @@ select {
 
   .chat-input-row {
     grid-template-columns: 1fr;
+  }
+
+  .desktop-table-wrap {
+    display: none;
+  }
+
+  .mobile-selection-list {
+    display: grid;
+    gap: 12px;
   }
 
   .auth-header {
