@@ -21,8 +21,21 @@
 | [`MetricCard.tsx`](../../src/components/common/MetricCard.tsx) | 대시보드 지표 카드 |
 | [`InlineLoading.tsx`](../../src/components/common/InlineLoading.tsx) | 버튼 내 로딩 |
 
-## 테마
+## 테마·브랜딩
 
-- `App.tsx`: Ant Design `ConfigProvider` + 라이트/다크 `Switch`
-- 색상 토큰: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) `palette`
-- 전역 스타일: [`src/styles.css`](../../src/styles.css)
+- `App.tsx`: Ant Design `ConfigProvider` + 라이트/다크 `Switch` (`data-theme` on `.app-root`)
+- 색상 토큰: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) `palette` (primary `#2563EB`, accent `#14B8A6` 등)
+- 폰트: `Pretendard, Noto Sans KR, system-ui, sans-serif`
+- 로고·아이콘: [`public/assets/`](../../public/assets/) — `/assets/humour-logo-*.png`, `humour-app-icon.png`
+- 전역 스타일: [`src/styles.css`](../../src/styles.css) (사이드바, 인증 카드, 채팅 버블 등)
+
+## 차트 (`components/charts/`)
+
+| 파일 | 역할 |
+|------|------|
+| `EChart.tsx` | ECharts React 래퍼 |
+| `DonutChart.tsx` | 대시보드 적합도 도넛 |
+| `chartAdapters.ts` | API/목 데이터 → 시리즈 변환 |
+| `chartTheme.ts` | 라이트/다크 색상 |
+
+[`AnalysisSummaryPanel.tsx`](../../src/components/dashboard/AnalysisSummaryPanel.tsx)에서 `mode`에 따라 테마를 넘깁니다.
