@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState, type Key } from 'react';
 import { Alert, App as AntApp, ConfigProvider, Switch, Tooltip, theme as antdTheme } from 'antd';
 import { MoonOutlined, SunOutlined } from '@ant-design/icons';
+import { PageError, PageLoading } from './components/common/PageState';
 import { AppShell } from './components/layout/AppShell';
-import { initialChatMessages, jdList, palette, type AppRoute } from './data/mockData';
+import { mockClient } from './api/mockClient';
+import { palette, type AppRoute, type ChatMessage } from './data/mockData';
+import { useMockAppData } from './hooks/useMockAppData';
 import { LoginPage, PasswordResetPage, SignupPage } from './pages/AuthPages';
 import { ChatPage } from './pages/ChatPage';
 import { CompanyPage } from './pages/CompanyPage';
@@ -12,7 +15,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { JdPage } from './pages/JdPage';
 import { MyPage } from './pages/MyPage';
 import { RecruitmentPostPage } from './pages/RecruitmentPostPage';
-import type { AlertState, ThemeMode } from './types/app';
+import type { AlertState, KeySetter, ThemeMode } from './types/app';
 import { authRoutes, readRouteFromHash } from './utils/routes';
 
 export default function App() {
@@ -20,15 +23,16 @@ export default function App() {
   const [route, setRoute] = useState<AppRoute>(readRouteFromHash);
   const [alert, setAlert] = useState<AlertState | null>(null);
   const [loadingKey, setLoadingKey] = useState<string | null>(null);
-  const [chatMessages, setChatMessages] = useState(initialChatMessages);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
-  const [selectedJdId, setSelectedJdId] = useState(jdList[0].id);
-  const [selectedRows, setSelectedRows] = useState<Key[]>([jdList[0].id]);
+  const [selectedJdIdOverride, setSelectedJdIdOverride] = useState<string | null>(null);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[] | null>(null);
   const [coverUploaded, setCoverUploaded] = useState(false);
   const [analysisDone, setAnalysisDone] = useState(false);
   const [postGenerated, setPostGenerated] = useState(true);
   const [templateGenerated, setTemplateGenerated] = useState(true);
   const [resetStep, setResetStep] = useState(0);
+  const { data, loading, error, reload } = useMockAppData();
 
   useEffect(() => {
     const syncRoute = () => setRoute(readRouteFromHash());
@@ -40,7 +44,22 @@ export default function App() {
     };
   }, []);
 
-  const selectedJd = jdList.find((item) => item.id === selectedJdId) ?? jdList[0];
+  const jdIds = useMemo(() => data?.jdList.map((item) => item.id) ?? [], [data?.jdList]);
+  const selectedJdId =
+    selectedJdIdOverride && jdIds.includes(selectedJdIdOverride) ? selectedJdIdOverride : data?.jdList[0]?.id ?? null;
+  const selectedRows = useMemo(() => {
+    if (selectedRowKeys === null) {
+      return selectedJdId ? [selectedJdId] : [];
+    }
+
+    const validRows = selectedRowKeys.filter((id) => jdIds.includes(String(id)));
+    return validRows;
+  }, [jdIds, selectedJdId, selectedRowKeys]);
+  const activeChatMessages = chatMessages.length ? chatMessages : data?.analysisReport.chatMessages ?? [];
+  const selectedJd = data?.jdList.find((item) => item.id === selectedJdId) ?? data?.jdList[0] ?? null;
+  const updateSelectedRows: KeySetter = (nextRows) => {
+    setSelectedRowKeys((current) => (typeof nextRows === 'function' ? nextRows(current ?? []) : nextRows));
+  };
 
   const themeConfig = useMemo(
     () => ({
@@ -84,46 +103,49 @@ export default function App() {
     window.setTimeout(() => setAlert(null), 3400);
   };
 
-  const runMockAction = (
+  const runMockAction = async <T,>(
     key: string,
-    nextAlert: AlertState,
-    afterComplete?: () => void,
-    duration = 720,
+    action: () => Promise<{ status_code: number; message: string; data: T }>,
+    afterComplete?: (response: { status_code: number; message: string; data: T }) => void,
   ) => {
     if (loadingKey) {
       return;
     }
+
     setLoadingKey(key);
-    window.setTimeout(() => {
+    try {
+      const response = await action();
+      showAlert({
+        type: response.status_code >= 400 ? 'error' : 'success',
+        message: response.message,
+      });
+      afterComplete?.(response);
+    } catch (nextError) {
+      showAlert({
+        type: 'error',
+        message: '목업 API 요청이 실패했습니다.',
+        description: nextError instanceof Error ? nextError.message : undefined,
+      });
+    } finally {
       setLoadingKey(null);
-      showAlert(nextAlert);
-      afterComplete?.();
-    }, duration);
+    }
   };
 
   const sendChatMessage = () => {
     if (loadingKey === 'chat') {
       return;
     }
+
     const trimmed = chatInput.trim();
     if (!trimmed) {
       showAlert({ type: 'warning', message: '빈 메시지는 전송할 수 없습니다.' });
       return;
     }
-    setChatMessages((prev) => [...prev, { role: 'user', text: trimmed }]);
+
+    setChatMessages([...activeChatMessages, { role: 'user', text: trimmed }]);
     setChatInput('');
-    runMockAction(
-      'chat',
-      { type: 'success', message: 'AI 답변이 추가되었습니다.' },
-      () =>
-        setChatMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            text: 'JD 요구사항과 자기소개서 근거를 함께 보면 직무 적합도는 높고, 테스트 자동화 경험은 면접에서 확인하면 좋습니다.',
-          },
-        ]),
-      560,
+    void runMockAction('chat', () => mockClient.sendChatMessage(trimmed), (response) =>
+      setChatMessages((prev) => [...prev, response.data]),
     );
   };
 
@@ -139,17 +161,38 @@ export default function App() {
     </Tooltip>
   );
 
-  const renderPage = () => {
+  const renderProtectedPage = () => {
+    if (loading) {
+      return <PageLoading />;
+    }
+
+    if (error) {
+      return <PageError message={error} onRetry={() => void reload()} />;
+    }
+
+    if (!data) {
+      return <PageError message="초기 데이터가 없습니다." onRetry={() => void reload()} />;
+    }
+
     switch (route) {
       case '/company':
-        return <CompanyPage loadingKey={loadingKey} runMockAction={runMockAction} showAlert={showAlert} />;
+        return (
+          <CompanyPage
+            company={data.company}
+            companyChoices={data.companyChoices}
+            loadingKey={loadingKey}
+            runMockAction={runMockAction}
+            showAlert={showAlert}
+          />
+        );
       case '/jd':
         return (
           <JdPage
+            jdList={data.jdList}
             selectedJdId={selectedJdId}
             selectedJd={selectedJd}
             loadingKey={loadingKey}
-            setSelectedJdId={setSelectedJdId}
+                  setSelectedJdId={setSelectedJdIdOverride}
             runMockAction={runMockAction}
             navigate={navigate}
             showAlert={showAlert}
@@ -158,22 +201,25 @@ export default function App() {
       case '/cover-letter':
         return (
           <CoverLetterPage
+            jdList={data.jdList}
             selectedJdId={selectedJdId}
+            draft={data.coverLetterDraft}
+            coverRows={data.coverLetterRows}
             coverUploaded={coverUploaded}
             analysisDone={analysisDone}
             loadingKey={loadingKey}
-            setSelectedJdId={setSelectedJdId}
+            setSelectedJdId={setSelectedJdIdOverride}
             setCoverUploaded={setCoverUploaded}
             setAnalysisDone={setAnalysisDone}
             runMockAction={runMockAction}
-            showAlert={showAlert}
             navigate={navigate}
           />
         );
       case '/chat':
         return (
           <ChatPage
-            chatMessages={chatMessages}
+            report={data.analysisReport}
+            chatMessages={activeChatMessages}
             chatInput={chatInput}
             loadingKey={loadingKey}
             setChatMessages={setChatMessages}
@@ -182,48 +228,96 @@ export default function App() {
           />
         );
       case '/mypage':
-        return <MyPage navigate={navigate} showAlert={showAlert} />;
+        return (
+          <MyPage
+            profile={data.userProfile}
+            company={data.company}
+            companyChoices={data.companyChoices}
+            creditPercent={data.dashboard.creditPercent}
+            navigate={navigate}
+            runMockAction={runMockAction}
+          />
+        );
       case '/recruitment-post':
         return (
           <RecruitmentPostPage
+            jdList={data.jdList}
+            recruitmentPreview={data.recruitmentPreview}
             selectedRows={selectedRows}
             postGenerated={postGenerated}
             loadingKey={loadingKey}
-            setSelectedRows={setSelectedRows}
+            setSelectedRows={updateSelectedRows}
             setPostGenerated={setPostGenerated}
             runMockAction={runMockAction}
-            showAlert={showAlert}
           />
         );
       case '/cover-letter-template':
         return (
           <CoverLetterTemplatePage
             selectedJd={selectedJd}
+            templateQuestions={data.templateQuestions}
             templateGenerated={templateGenerated}
             loadingKey={loadingKey}
             setTemplateGenerated={setTemplateGenerated}
             runMockAction={runMockAction}
+          />
+        );
+      case '/dashboard':
+      default:
+        return (
+          <DashboardPage
+            dashboard={data.dashboard}
+            mode={mode}
+            navigate={navigate}
+            showAlert={showAlert}
+            reloadData={reload}
+          />
+        );
+    }
+  };
+
+  const renderAuthPage = () => {
+    const authDefaults = data?.authDefaults;
+
+    switch (route) {
+      case '/signup':
+        return (
+          <SignupPage
+            mode={mode}
+            navigate={navigate}
+            themeSwitch={themeSwitch}
+            loadingKey={loadingKey}
+            authDefaults={authDefaults}
+            runMockAction={runMockAction}
             showAlert={showAlert}
           />
         );
-      case '/login':
-        return <LoginPage mode={mode} navigate={navigate} themeSwitch={themeSwitch} />;
-      case '/signup':
-        return <SignupPage mode={mode} navigate={navigate} themeSwitch={themeSwitch} showAlert={showAlert} />;
       case '/password-reset':
         return (
           <PasswordResetPage
             mode={mode}
             navigate={navigate}
             themeSwitch={themeSwitch}
+            loadingKey={loadingKey}
+            authDefaults={authDefaults}
+            runMockAction={runMockAction}
             resetStep={resetStep}
             setResetStep={setResetStep}
             showAlert={showAlert}
           />
         );
-      case '/dashboard':
+      case '/login':
       default:
-        return <DashboardPage mode={mode} navigate={navigate} showAlert={showAlert} />;
+        return (
+          <LoginPage
+            mode={mode}
+            navigate={navigate}
+            themeSwitch={themeSwitch}
+            loadingKey={loadingKey}
+            authDefaults={authDefaults}
+            runMockAction={runMockAction}
+          />
+        );
     }
   };
 
@@ -246,10 +340,17 @@ export default function App() {
             </div>
           )}
           {isAuth ? (
-            renderPage()
+            renderAuthPage()
           ) : (
-            <AppShell route={route} themeSwitch={themeSwitch} navigate={navigate} showAlert={showAlert}>
-              {renderPage()}
+            <AppShell
+              route={route}
+              themeSwitch={themeSwitch}
+              creditPercent={data?.dashboard.creditPercent ?? 0}
+              notifications={data?.notifications}
+              navigate={navigate}
+              showAlert={showAlert}
+            >
+              {renderProtectedPage()}
             </AppShell>
           )}
         </div>
