@@ -46,7 +46,12 @@ npm run lint    # ESLint
 npm run preview # 빌드 결과 미리보기
 ```
 
+## 문서 (프론트엔드 · Django API 계약)
+
+페이지별 **Django JSON API 형태**, **관련 소스 파일 역할**, 아키텍처는 [`docs/README.md`](./docs/README.md) 위키에서 확인할 수 있습니다.
+
 ## 참고
 
 - 이 레포는 **육뚝이들** 팀의 **디자인·UI 실험용**이며, HumouR 메인 프로젝트의 공식 백엔드/배포 저장소와는 분리되어 있습니다.
+- API 응답 샘플·목 클라이언트: `src/data/apiMockData.ts`, `src/api/mockClient.ts`
 - QA 캡처 등 로컬 산출물은 `.gitignore`에 정의되어 있습니다 (`dist/`, `qa-screenshots/` 등).
