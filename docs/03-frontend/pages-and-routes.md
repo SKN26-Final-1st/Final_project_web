@@ -18,7 +18,8 @@
 | `/signup` | `SignupPage` | 공개 |
 | `/password-reset` | `PasswordResetPage` | 공개 |
 
-메뉴 정의: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) — `mainMenu`, `authMenu`.
+메뉴 정의: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) — `mainMenu`(8), `authMenu`(3).  
+사이드바 라벨 예: 대시보드, 회사 정보, JD 관리, 자기소개서, 채팅, 마이페이지, **모집 공고**, **자소서 포맷**.
 
 ## `App.tsx` 렌더 분기
 
