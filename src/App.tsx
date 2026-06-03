@@ -90,6 +90,9 @@ export default function App() {
     afterComplete?: () => void,
     duration = 720,
   ) => {
+    if (loadingKey) {
+      return;
+    }
     setLoadingKey(key);
     window.setTimeout(() => {
       setLoadingKey(null);
@@ -99,6 +102,9 @@ export default function App() {
   };
 
   const sendChatMessage = () => {
+    if (loadingKey === 'chat') {
+      return;
+    }
     const trimmed = chatInput.trim();
     if (!trimmed) {
       showAlert({ type: 'warning', message: '빈 메시지는 전송할 수 없습니다.' });
@@ -124,6 +130,7 @@ export default function App() {
   const themeSwitch = (
     <Tooltip title={mode === 'dark' ? 'Light Mode' : 'Dark Mode'}>
       <Switch
+        aria-label={mode === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환'}
         checked={mode === 'dark'}
         checkedChildren={<MoonOutlined />}
         unCheckedChildren={<SunOutlined />}
