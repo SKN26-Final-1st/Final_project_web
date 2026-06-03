@@ -45,6 +45,7 @@ export function CoverLetterPage({
           <Button
             type="primary"
             icon={<FileSearchOutlined />}
+            disabled={loadingKey === 'cover-analysis'}
             onClick={() =>
               runMockAction(
                 'cover-analysis',
@@ -98,6 +99,7 @@ export function CoverLetterPage({
             {coverUploaded ? (
               <Table
                 pagination={false}
+                scroll={{ x: 520 }}
                 dataSource={coverLetterRows}
                 rowClassName={(record) => (record.status.includes('누락') ? 'warning-row' : '')}
                 columns={[
