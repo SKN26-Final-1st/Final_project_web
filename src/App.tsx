@@ -8,6 +8,7 @@ import { AppShell } from './components/layout/AppShell';
 import { apiClient } from './api/backendClient';
 import { palette, type AppRoute, type ChatMessage } from './data/mockData';
 import { useMockAppData } from './hooks/useMockAppData';
+import { AdminPage } from './pages/AdminPage';
 import { LoginPage, PasswordResetPage, SignupPage } from './pages/AuthPages';
 import { ChatPage } from './pages/ChatPage';
 import { CompanyPage } from './pages/CompanyPage';
@@ -177,6 +178,8 @@ export default function App() {
     }
 
     switch (route) {
+      case '/admin':
+        return <AdminPage admin={data.admin} navigate={navigate} showAlert={showAlert} />;
       case '/company':
         return (
           <CompanyPage

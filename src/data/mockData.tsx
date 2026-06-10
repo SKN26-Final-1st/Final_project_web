@@ -7,11 +7,13 @@ import {
   FormOutlined,
   IdcardOutlined,
   ProfileOutlined,
+  SafetyCertificateOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 
 export type AppRoute =
   | '/dashboard'
+  | '/admin'
   | '/company'
   | '/jd'
   | '/cover-letter'
@@ -50,6 +52,12 @@ export const mainMenu: MenuItem[] = [
     label: '대시보드',
     description: '채용/지원자/분석 현황 요약',
     icon: <DashboardOutlined />,
+  },
+  {
+    route: '/admin',
+    label: '관리자',
+    description: 'HR 담당자와 운영 권한 관리',
+    icon: <SafetyCertificateOutlined />,
   },
   {
     route: '/company',

@@ -58,6 +58,52 @@ export type DashboardData = {
   creditPercent: number;
 };
 
+export type AdminSummaryItem = {
+  label: string;
+  value: number;
+  suffix: string;
+  helper: string;
+  tone: 'primary' | 'accent' | 'warning';
+};
+
+export type AdminMember = {
+  key: string;
+  name: string;
+  email: string;
+  role: string;
+  scope: string;
+  status: string;
+  statusCode: StatusCode;
+  lastActive: string;
+};
+
+export type AdminPermission = {
+  key: string;
+  role: string;
+  description: string;
+  permissions: string[];
+};
+
+export type AdminData = {
+  companyName: string;
+  ownerName: string;
+  summary: AdminSummaryItem[];
+  members: AdminMember[];
+  permissions: AdminPermission[];
+  operatingStatus: {
+    activeJobs: number;
+    pendingReviews: number;
+    processingResumes: number;
+    averageScore: number;
+  };
+  credit: {
+    percent: number;
+    remaining: number;
+    subscriptionStatus: string;
+    expiresAt: string;
+  };
+};
+
 export type CompanyProfile = {
   name: string;
   employeeCount: number;
@@ -312,6 +358,126 @@ export function mapDashboard(data: ApiData<typeof dashboardApiResponse>): Dashbo
       `인증 키 허용 지원서 ${data.resumes.length}건 기준 확인`,
     ],
     creditPercent: creditToPercent(data.account.credit),
+  };
+}
+
+export function mapAdmin(data: ApiData<typeof dashboardApiResponse>): AdminData {
+  const reportsByResume = new Map(data.analysis_reports.map((report) => [report.resume_id, report]));
+  const applicantScores = data.resumes.map((resume) => gradeToScore(reportsByResume.get(resume.id)?.overall_grade));
+  const averageScore = average(applicantScores);
+  const activeJobs = data.job_descriptions.filter((job) => job.status === 'on_going').length;
+  const pendingReviews = data.resumes.filter((resume) => !resume.reviewed).length;
+  const processingResumes = data.resumes.filter((resume) => resume.status === 'processing').length;
+  const creditPercent = creditToPercent(data.account.credit);
+  const teams = data.company_info.team_composition.length ? data.company_info.team_composition : ['HR'];
+
+  return {
+    companyName: data.company_info.company_name,
+    ownerName: data.account.name,
+    summary: [
+      {
+        label: 'HR 담당자',
+        value: 4,
+        suffix: '명',
+        helper: '관리자 1명 · 리뷰어 1명 포함',
+        tone: 'primary',
+      },
+      {
+        label: '진행 중 JD',
+        value: activeJobs,
+        suffix: '건',
+        helper: `전체 JD ${data.job_descriptions.length}건`,
+        tone: 'accent',
+      },
+      {
+        label: '검토 대기',
+        value: pendingReviews,
+        suffix: '명',
+        helper: processingResumes ? `분석 중 ${processingResumes}명` : '분석 대기 없음',
+        tone: pendingReviews ? 'warning' : 'accent',
+      },
+      {
+        label: '분석 크레딧',
+        value: data.account.credit,
+        suffix: 'pt',
+        helper: `${creditPercent}% 사용 가능`,
+        tone: creditPercent < 30 ? 'warning' : 'primary',
+      },
+    ],
+    members: [
+      {
+        key: 'owner',
+        name: data.account.name,
+        email: `${data.account.username}@${data.company_info.company_name.toLowerCase()}.hr`,
+        role: '최고 관리자',
+        scope: '전체 워크스페이스',
+        status: '활성',
+        statusCode: 'subscribe_active',
+        lastActive: formatDateTime(data.job_descriptions[0]?.updated_at ?? data.account.subscribe_expiration),
+      },
+      {
+        key: 'lead',
+        name: '정다은',
+        email: 'daeun.jung@humour.ai',
+        role: 'HR 리드',
+        scope: teams[0] ?? 'HR',
+        status: '활성',
+        statusCode: 'normal',
+        lastActive: formatDateTime(data.resumes[0]?.updated_at ?? data.account.subscribe_expiration),
+      },
+      {
+        key: 'recruiter',
+        name: '김민재',
+        email: 'minjae.kim@humour.ai',
+        role: '채용 담당자',
+        scope: teams[1] ?? teams[0] ?? 'HR',
+        status: processingResumes ? '분석 확인 중' : '활성',
+        statusCode: processingResumes ? 'processing' : 'normal',
+        lastActive: formatDateTime(data.resumes[1]?.updated_at ?? data.account.subscribe_expiration),
+      },
+      {
+        key: 'reviewer',
+        name: '박서연',
+        email: 'seoyeon.park@humour.ai',
+        role: '리뷰어',
+        scope: teams[2] ?? teams[0] ?? 'HR',
+        status: '초대 대기',
+        statusCode: 'onqueue',
+        lastActive: '초대 메일 발송 대기',
+      },
+    ],
+    permissions: [
+      {
+        key: 'admin',
+        role: '최고 관리자',
+        description: '회사 정보, 결제, 담당자 권한까지 전체 운영 설정을 관리합니다.',
+        permissions: ['회사 설정', '멤버 초대', '권한 변경', '크레딧 관리'],
+      },
+      {
+        key: 'lead',
+        role: 'HR 리드',
+        description: '채용 운영 기준과 JD, 지원자 분석 흐름을 관리합니다.',
+        permissions: ['JD 승인', '지원자 검토', '리포트 공유', '공고 생성'],
+      },
+      {
+        key: 'reviewer',
+        role: '리뷰어',
+        description: '배정된 지원자의 분석 리포트와 면접 질문만 확인합니다.',
+        permissions: ['리포트 열람', '후보 메모', '검토 상태 변경'],
+      },
+    ],
+    operatingStatus: {
+      activeJobs,
+      pendingReviews,
+      processingResumes,
+      averageScore,
+    },
+    credit: {
+      percent: creditPercent,
+      remaining: data.account.credit,
+      subscriptionStatus: data.account.subscribe ? '구독 활성' : '구독 만료',
+      expiresAt: formatDateTime(data.account.subscribe_expiration),
+    },
   };
 }
 

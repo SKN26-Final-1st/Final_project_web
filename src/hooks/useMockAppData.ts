@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   mapAnalysisReport,
+  mapAdmin,
   mapCompany,
   mapCoverLetterDraft,
   mapCoverLetterRows,
@@ -9,6 +10,7 @@ import {
   mapTemplateQuestions,
   mapUserProfile,
   type AnalysisReportData,
+  type AdminData,
   type AuthDefaults,
   type CompanyProfile,
   type CoverLetterDraft,
@@ -22,6 +24,7 @@ import {
 import { apiClient } from '../api/backendClient';
 
 export type MockAppData = {
+  admin: AdminData;
   dashboard: DashboardData;
   company: CompanyProfile;
   jdList: JdItem[];
@@ -81,6 +84,7 @@ export function useMockAppData() {
         : { title: '모집 공고', sections: [] };
 
       setData({
+        admin: mapAdmin(normalizedDashboard),
         dashboard: mapDashboard(normalizedDashboard),
         company: mapCompany(company),
         jdList: mapJdList(jobDescriptions, resumes, analysisReports),

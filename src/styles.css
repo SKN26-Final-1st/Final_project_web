@@ -1747,6 +1747,196 @@ button,
   font-weight: 800;
 }
 
+.admin-page {
+  display: grid;
+  gap: var(--layout-gap);
+  min-width: 0;
+}
+
+.admin-summary-card {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 13px;
+  align-items: center;
+  min-height: 138px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface) 84%, var(--primary-soft));
+  box-shadow: var(--shadow-sm);
+  animation: card-rise 520ms ease both;
+}
+
+.admin-summary-card.accent {
+  background: color-mix(in srgb, var(--surface) 84%, var(--accent-soft));
+}
+
+.admin-summary-card.warning {
+  background: color-mix(in srgb, var(--surface) 86%, rgba(245, 158, 11, 0.12));
+}
+
+.admin-summary-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  color: var(--primary);
+  border-radius: 15px;
+  background: var(--surface);
+  font-size: 21px;
+}
+
+.admin-summary-card.accent .admin-summary-icon {
+  color: var(--accent);
+}
+
+.admin-summary-card.warning .admin-summary-icon {
+  color: var(--warning);
+}
+
+.admin-summary-card span,
+.admin-credit-head span,
+.admin-credit-meta span,
+.admin-ops-list span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-summary-card strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.admin-summary-card small,
+.admin-credit-meta small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.admin-member-table .ant-table {
+  min-width: 760px;
+}
+
+.admin-member-cell {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.admin-member-cell strong {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.admin-member-cell span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-credit-panel,
+.admin-permission-grid,
+.admin-ops-list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-credit-head,
+.admin-credit-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-credit-head span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-credit-head span svg {
+  color: var(--primary);
+}
+
+.admin-credit-head strong {
+  color: var(--text);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.admin-permission-card {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 86%, var(--primary-soft));
+}
+
+.admin-permission-head {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.admin-permission-head>span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--primary);
+  border-radius: 13px;
+  background: var(--surface);
+  font-size: 18px;
+}
+
+.admin-permission-head strong {
+  display: block;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.admin-permission-head p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.admin-ops-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+
+.admin-ops-list strong {
+  color: var(--text);
+  font-size: 19px;
+  line-height: 1;
+}
+
 .jd-list {
   display: grid;
   gap: 12px;
