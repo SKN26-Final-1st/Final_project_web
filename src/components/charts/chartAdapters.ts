@@ -1,3 +1,10 @@
+import type { PieSeriesOption } from 'echarts/charts';
+import type {
+  GraphicComponentOption,
+  LegendComponentOption,
+  TooltipComponentOption,
+} from 'echarts/components';
+import type { ComposeOption } from 'echarts/core';
 import { type ChartColorKey, type ChartThemeTokens, resolveChartColor } from './chartTheme';
 
 export type DonutSummaryData = {
@@ -10,9 +17,11 @@ export type DonutSummaryData = {
   }[];
 };
 
-export type DashboardChartOption = Record<string, unknown>;
+export type DonutChartOption = ComposeOption<
+  PieSeriesOption | TooltipComponentOption | LegendComponentOption | GraphicComponentOption
+>;
 
-export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeTokens): DashboardChartOption {
+export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeTokens): DonutChartOption {
   return {
     animation: true,
     color: data.segments.map((segment) => resolveChartColor(segment.colorKey, theme)),
@@ -22,9 +31,9 @@ export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeToke
       borderColor: theme.border,
       textStyle: {
         color: theme.text,
-        fontFamily: 'Pretendard, Noto Sans KR, system-ui, sans-serif',
+        fontFamily: '"Noto Sans KR Clean", "Noto Sans KR", system-ui, sans-serif',
       },
-      valueFormatter: (value: unknown) => `${value}%`,
+      valueFormatter: (value) => `${value}%`,
     },
     legend: {
       show: false,
@@ -33,12 +42,12 @@ export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeToke
       {
         type: 'text',
         left: 'center',
-        top: '40%',
+        top: '43%',
         silent: true,
         style: {
           text: `${data.centerValue}%`,
           fill: theme.text,
-          fontSize: 27,
+          fontSize: 32,
           fontWeight: 800,
           align: 'center',
           verticalAlign: 'middle',
@@ -47,12 +56,12 @@ export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeToke
       {
         type: 'text',
         left: 'center',
-        top: '63%',
+        top: '58%',
         silent: true,
         style: {
           text: data.centerLabel,
           fill: theme.muted,
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           align: 'center',
           verticalAlign: 'middle',
@@ -63,7 +72,7 @@ export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeToke
       {
         name: data.centerLabel,
         type: 'pie',
-        radius: ['58%', '80%'],
+        radius: ['55%', '82%'],
         center: ['50%', '50%'],
         avoidLabelOverlap: true,
         clockwise: true,
@@ -85,167 +94,6 @@ export function toDonutChartOption(data: DonutSummaryData, theme: ChartThemeToke
             color: resolveChartColor(segment.colorKey, theme),
           },
         })),
-      },
-    ],
-  };
-}
-
-export type TrendChartData = {
-  labels: string[];
-  values: number[];
-  name: string;
-  unit?: string;
-};
-
-export type DashboardTrendSource = TrendChartData & {
-  key: string;
-};
-
-export function toTrendChartData(trend: DashboardTrendSource): TrendChartData {
-  return {
-    labels: trend.labels,
-    values: trend.values,
-    name: trend.name,
-    unit: trend.unit,
-  };
-}
-
-export function toLineChartOption(data: TrendChartData, theme: ChartThemeTokens): DashboardChartOption {
-  return {
-    animation: true,
-    grid: {
-      top: 18,
-      right: 12,
-      bottom: 28,
-      left: 28,
-    },
-    tooltip: {
-      trigger: 'axis',
-      backgroundColor: theme.tooltipBg,
-      borderColor: theme.border,
-      textStyle: {
-        color: theme.text,
-        fontFamily: 'Pretendard, Noto Sans KR, system-ui, sans-serif',
-      },
-      valueFormatter: (value: unknown) => `${value}${data.unit ?? ''}`,
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: data.labels,
-      axisLine: {
-        show: false,
-      },
-      axisTick: {
-        show: false,
-      },
-      axisLabel: {
-        color: theme.muted,
-        fontSize: 11,
-      },
-    },
-    yAxis: {
-      type: 'value',
-      splitNumber: 3,
-      axisLabel: {
-        color: theme.muted,
-        fontSize: 11,
-      },
-      splitLine: {
-        lineStyle: {
-          color: theme.border,
-          type: 'dashed',
-        },
-      },
-    },
-    series: [
-      {
-        name: data.name,
-        type: 'line',
-        smooth: true,
-        symbol: 'circle',
-        symbolSize: 7,
-        lineStyle: {
-          width: 4,
-          color: theme.primary,
-        },
-        itemStyle: {
-          color: theme.primary,
-          borderColor: theme.surface,
-          borderWidth: 2,
-        },
-        areaStyle: {
-          color: theme.primarySoft,
-        },
-        data: data.values,
-      },
-    ],
-  };
-}
-
-export function toBarChartOption(data: TrendChartData, theme: ChartThemeTokens): DashboardChartOption {
-  return {
-    animation: true,
-    grid: {
-      top: 18,
-      right: 12,
-      bottom: 28,
-      left: 34,
-    },
-    tooltip: {
-      trigger: 'axis',
-      backgroundColor: theme.tooltipBg,
-      borderColor: theme.border,
-      textStyle: {
-        color: theme.text,
-        fontFamily: 'Pretendard, Noto Sans KR, system-ui, sans-serif',
-      },
-      valueFormatter: (value: unknown) => `${value}${data.unit ?? ''}`,
-    },
-    xAxis: {
-      type: 'category',
-      data: data.labels,
-      axisLine: {
-        show: false,
-      },
-      axisTick: {
-        show: false,
-      },
-      axisLabel: {
-        color: theme.muted,
-        fontSize: 11,
-      },
-    },
-    yAxis: {
-      type: 'value',
-      splitNumber: 3,
-      axisLabel: {
-        color: theme.muted,
-        fontSize: 11,
-      },
-      splitLine: {
-        lineStyle: {
-          color: theme.border,
-          type: 'dashed',
-        },
-      },
-    },
-    series: [
-      {
-        name: data.name,
-        type: 'bar',
-        barWidth: 11,
-        roundCap: true,
-        itemStyle: {
-          color: theme.primary,
-          borderRadius: [8, 8, 8, 8],
-        },
-        emphasis: {
-          itemStyle: {
-            color: theme.accent,
-          },
-        },
-        data: data.values,
       },
     ],
   };

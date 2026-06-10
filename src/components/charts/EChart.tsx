@@ -1,17 +1,17 @@
 import { useEffect, useRef } from 'react';
 import type { CSSProperties } from 'react';
-import { BarChart, LineChart, PieChart } from 'echarts/charts';
-import { GraphicComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import { PieChart } from 'echarts/charts';
+import { GraphicComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { SVGRenderer } from 'echarts/renderers';
-import type { DashboardChartOption } from './chartAdapters';
+import type { DonutChartOption } from './chartAdapters';
 
-echarts.use([PieChart, LineChart, BarChart, GridComponent, TooltipComponent, LegendComponent, GraphicComponent, SVGRenderer]);
+echarts.use([PieChart, TooltipComponent, LegendComponent, GraphicComponent, SVGRenderer]);
 
 type EChartProps = {
   ariaLabel: string;
   className?: string;
-  option: DashboardChartOption;
+  option: DonutChartOption;
   renderer?: 'svg';
   style?: CSSProperties;
 };

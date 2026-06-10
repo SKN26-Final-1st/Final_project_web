@@ -6,7 +6,6 @@ export type ChartColorKey = 'primary' | 'accent' | 'track' | 'warning';
 export type ChartThemeTokens = {
   mode: ThemeMode;
   primary: string;
-  primarySoft: string;
   accent: string;
   track: string;
   warning: string;
@@ -23,15 +22,14 @@ export function getChartTheme(mode: ThemeMode): ChartThemeTokens {
   return {
     mode,
     primary: palette.primary,
-    primarySoft: isDark ? 'rgba(37, 99, 235, 0.28)' : 'rgba(37, 99, 235, 0.12)',
     accent: palette.accent,
-    track: isDark ? 'rgba(13, 148, 136, 0.18)' : 'rgba(13, 148, 136, 0.18)',
-    warning: '#d97706',
+    track: isDark ? 'rgba(20, 184, 166, 0.18)' : 'rgba(20, 184, 166, 0.22)',
+    warning: '#f59e0b',
     text: isDark ? '#ffffff' : palette.text,
-    muted: isDark ? 'rgba(255, 255, 255, 0.68)' : 'rgba(17, 24, 39, 0.6)',
-    surface: isDark ? '#111827' : palette.card,
-    border: isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(17, 24, 39, 0.1)',
-    tooltipBg: isDark ? 'rgba(11, 18, 32, 0.96)' : '#ffffff',
+    muted: isDark ? 'rgba(255, 255, 255, 0.68)' : 'rgba(15, 23, 42, 0.62)',
+    surface: isDark ? '#1e3a8a' : palette.card,
+    border: isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(30, 58, 138, 0.12)',
+    tooltipBg: isDark ? 'rgba(15, 23, 42, 0.96)' : '#ffffff',
   };
 }
 
