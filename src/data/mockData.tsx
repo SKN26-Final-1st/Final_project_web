@@ -38,11 +38,11 @@ export type ChatMessage = {
 
 export const palette = {
   primary: '#2563EB',
-  accent: '#14B8A6',
-  dark: '#1E3A8A',
-  background: '#F8FAFC',
+  accent: '#0D9488',
+  dark: '#111827',
+  background: '#EEF4FF',
   card: '#FFFFFF',
-  text: '#0F172A',
+  text: '#111827',
 };
 
 export const mainMenu: MenuItem[] = [

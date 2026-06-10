@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState, type Key } from 'react';
-import { Alert, App as AntApp, ConfigProvider, Switch, Tooltip, theme as antdTheme } from 'antd';
+import { Alert, App as AntApp, ConfigProvider, Switch, Tooltip } from 'antd';
 import { MoonOutlined, SunOutlined } from '@ant-design/icons';
 import { PageError, PageLoading } from './components/common/PageState';
 import { AppShell } from './components/layout/AppShell';
 import { mockClient } from './api/mockClient';
-import { palette, type AppRoute, type ChatMessage } from './data/mockData';
+import { type AppRoute, type ChatMessage } from './data/mockData';
 import { useMockAppData } from './hooks/useMockAppData';
 import { LoginPage, PasswordResetPage, SignupPage } from './pages/AuthPages';
 import { ChatPage } from './pages/ChatPage';
@@ -16,6 +16,7 @@ import { JdPage } from './pages/JdPage';
 import { MyPage } from './pages/MyPage';
 import { RecruitmentPostPage } from './pages/RecruitmentPostPage';
 import type { AlertState, KeySetter, ThemeMode } from './types/app';
+import { buildAppTheme } from './theme/appTheme';
 import { authRoutes, readRouteFromHash } from './utils/routes';
 
 export default function App() {
@@ -62,33 +63,7 @@ export default function App() {
   };
 
   const themeConfig = useMemo(
-    () => ({
-      algorithm: mode === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
-      token: {
-        colorPrimary: palette.primary,
-        colorInfo: palette.primary,
-        colorSuccess: palette.accent,
-        colorBgBase: mode === 'dark' ? palette.text : palette.background,
-        colorTextBase: mode === 'dark' ? palette.card : palette.text,
-        fontFamily: 'Pretendard, Noto Sans KR, system-ui, sans-serif',
-        borderRadius: 12,
-      },
-      components: {
-        Card: {
-          borderRadiusLG: 22,
-        },
-        Button: {
-          borderRadius: 12,
-          controlHeight: 40,
-        },
-        Input: {
-          borderRadius: 12,
-        },
-        Select: {
-          borderRadius: 12,
-        },
-      },
-    }),
+    () => buildAppTheme(mode),
     [mode],
   );
 
