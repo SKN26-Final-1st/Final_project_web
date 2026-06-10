@@ -322,10 +322,8 @@ export default function App() {
             <AppShell
               route={route}
               themeSwitch={themeSwitch}
-              creditPercent={data?.dashboard.creditPercent ?? 0}
               notifications={data?.notifications}
               navigate={navigate}
-              showAlert={showAlert}
             >
               {renderProtectedPage()}
             </AppShell>

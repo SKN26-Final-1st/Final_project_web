@@ -1,6 +1,6 @@
-import { authMenu, mainMenu, type AppRoute } from '../data/mockData';
+import { authMenu, mainMenu, utilityRoutes, type AppRoute } from '../data/mockData';
 
-const allRoutes = [...mainMenu, ...authMenu].map((item) => item.route);
+const allRoutes = [...mainMenu.map((item) => item.route), ...utilityRoutes, ...authMenu.map((item) => item.route)];
 
 export const authRoutes: AppRoute[] = ['/login', '/signup', '/password-reset'];
 

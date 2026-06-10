@@ -6,7 +6,6 @@ import {
   FileTextOutlined,
   FormOutlined,
   IdcardOutlined,
-  MessageOutlined,
   ProfileOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -71,12 +70,6 @@ export const mainMenu: MenuItem[] = [
     icon: <FileTextOutlined />,
   },
   {
-    route: '/chat',
-    label: '채팅',
-    description: '리포트 기반 질의응답',
-    icon: <MessageOutlined />,
-  },
-  {
     route: '/mypage',
     label: '마이페이지',
     description: '프로필/보안/회사 요약',
@@ -95,6 +88,8 @@ export const mainMenu: MenuItem[] = [
     icon: <FormOutlined />,
   },
 ];
+
+export const utilityRoutes: AppRoute[] = ['/chat'];
 
 export const authMenu: MenuItem[] = [
   {

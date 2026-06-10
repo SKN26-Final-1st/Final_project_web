@@ -16,17 +16,23 @@ type TopHeaderProps = {
 };
 
 export function TopHeader({ route, themeSwitch, notifications, navigate }: TopHeaderProps) {
+  const routeLabel = mainMenu.find((item) => item.route === route)?.label ?? (route === '/chat' ? '채팅' : '화면');
+  const routeOptions = [
+    ...mainMenu.map((item) => ({ value: item.route, label: item.label })),
+    ...(route === '/chat' ? [{ value: '/chat' as AppRoute, label: '채팅' }] : []),
+  ];
+
   return (
     <Header className="top-header">
       <div className="top-title">
         <img src="/assets/humour-app-icon.png" alt="" />
-        <span>{mainMenu.find((item) => item.route === route)?.label}</span>
+        <span>{routeLabel}</span>
       </div>
       <Select
         className="mobile-route-select"
         value={route}
         onChange={(value) => navigate(value)}
-        options={mainMenu.map((item) => ({ value: item.route, label: item.label }))}
+        options={routeOptions}
         aria-label="화면 선택"
       />
       <Space>

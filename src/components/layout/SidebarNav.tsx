@@ -1,40 +1,68 @@
-import { Layout } from 'antd';
-import { CreditSummary } from './CreditSummary';
-import { mainMenu, type AppRoute } from '../../data/mockData';
-import type { Navigate, ShowAlert } from '../../types/app';
-
-const { Sider } = Layout;
+import type { ReactNode } from 'react';
+import { Button, Tooltip } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
+import { NotificationButton } from './NotificationButton';
+import type { NotificationsData } from '../../api/adapters';
+import type { AppRoute } from '../../data/mockData';
+import type { Navigate } from '../../types/app';
+import { buildSidebarNavModel } from './sidebarNavModel';
 
 type SidebarNavProps = {
   route: AppRoute;
-  creditPercent: number;
+  themeSwitch: ReactNode;
+  notifications?: NotificationsData;
   navigate: Navigate;
-  showAlert: ShowAlert;
 };
 
-export function SidebarNav({ route, creditPercent, navigate, showAlert }: SidebarNavProps) {
+export function SidebarNav({ route, themeSwitch, notifications, navigate }: SidebarNavProps) {
+  const { menuItems, routeLabel } = buildSidebarNavModel(route);
+
   return (
-    <Sider className="sidebar" width={292} breakpoint="lg" collapsedWidth={0}>
-      <button className="brand-button" onClick={() => navigate('/dashboard')} aria-label="대시보드로 이동">
-        <img src="/assets/humour-logo-dark.png" alt="HumouR" />
-      </button>
-      <div className="side-section">
-        <span className="side-label">Main menu</span>
-        {mainMenu.map((item) => (
-          <button
-            key={item.route}
-            className={`side-nav-item ${route === item.route ? 'active' : ''}`}
-            onClick={() => navigate(item.route)}
-          >
-            {item.icon}
-            <span>
-              <strong>{item.label}</strong>
-              <small>{item.description}</small>
+    <aside className="sidebar" aria-label="사이드바">
+      <div className="sidebar-panel">
+        <div className="brand-area">
+          <button className="brand-button" onClick={() => navigate('/dashboard')} aria-label="대시보드로 이동">
+            <span className="brand-mark">
+              <img src="/assets/humour-app-icon.png" alt="" />
+            </span>
+            <span className="brand-copy">
+              <strong>HumouR</strong>
+              <small>Recruiting CRM</small>
             </span>
           </button>
-        ))}
+          <span className="sidebar-route-chip">{routeLabel}</span>
+          <div className="brand-toolbar" aria-label="전역 도구">
+            <NotificationButton notifications={notifications} />
+            {themeSwitch}
+            <Tooltip title="로그아웃">
+              <Button
+                aria-label="로그아웃"
+                className="logout-button"
+                icon={<LogoutOutlined />}
+                shape="circle"
+                onClick={() => navigate('/login')}
+              />
+            </Tooltip>
+          </div>
+        </div>
+        <nav className="side-section" aria-label="주요 메뉴">
+          <span className="side-label">Main menu</span>
+          {menuItems.map((item) => (
+            <button
+              key={item.route}
+              className={`side-nav-item ${route === item.route ? 'active' : ''}`}
+              onClick={() => navigate(item.route)}
+              title={item.label}
+            >
+              {item.icon}
+              <span>
+                <strong>{item.label}</strong>
+                <small>{item.description}</small>
+              </span>
+            </button>
+          ))}
+        </nav>
       </div>
-      <CreditSummary creditPercent={creditPercent} showAlert={showAlert} />
-    </Sider>
+    </aside>
   );
 }
