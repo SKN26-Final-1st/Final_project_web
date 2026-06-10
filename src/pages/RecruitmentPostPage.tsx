@@ -33,7 +33,7 @@ export function RecruitmentPostPage({
   runApiAction,
 }: RecruitmentPostPageProps) {
   return (
-    <>
+    <div className="recruitment-post-page">
       <PageTitle
         eyebrow="Recruitment Post"
         title="모집 공고 작성"
@@ -77,6 +77,6 @@ export function RecruitmentPostPage({
           </SectionCard>
         </Col>
       </Row>
-    </>
+    </div>
   );
 }

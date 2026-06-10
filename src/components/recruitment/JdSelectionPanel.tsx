@@ -30,14 +30,15 @@ export function JdSelectionPanel({ jdList, selectedRows, setSelectedRows }: JdSe
             onChange: (keys) => setSelectedRows(keys),
           }}
           columns={[
-            { title: 'JD', dataIndex: 'title' },
-            { title: '요건', dataIndex: 'team' },
+            { title: 'JD', dataIndex: 'title', ellipsis: true },
+            { title: '요건', dataIndex: 'team', ellipsis: true },
             {
               title: '상태',
               dataIndex: 'status',
+              width: 112,
               render: (_value: string, record) => statusTag(record.status, record.statusCode),
             },
-            { title: '평균 점수', dataIndex: 'fit', render: (value: number) => `${value}점` },
+            { title: '평균 점수', dataIndex: 'fit', width: 96, render: (value: number) => `${value}점` },
           ]}
         />
       </div>

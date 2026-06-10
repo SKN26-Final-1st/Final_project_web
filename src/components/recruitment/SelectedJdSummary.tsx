@@ -16,7 +16,7 @@ export function SelectedJdSummary({ jdList, selectedRows }: SelectedJdSummaryPro
   }
 
   return (
-    <Space wrap>
+    <Space className="selected-jd-summary" wrap>
       {selectedItems.map((item) => (
         <Tag className="large-tag" key={item.id}>
           {item.title}

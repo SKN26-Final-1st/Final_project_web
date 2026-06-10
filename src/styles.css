@@ -745,6 +745,16 @@ button,
     --dashboard-task-text-size: 13px;
   }
 
+  .shell:has(.desktop-shell-nav:hover) .recruitment-post-page,
+  .shell:has(.desktop-shell-nav:focus-within) .recruitment-post-page,
+  .shell:has(.desktop-shell-nav[data-account-open="true"]) .recruitment-post-page {
+    --recruitment-card-title-size: 15px;
+    --recruitment-table-text-size: 13px;
+    --recruitment-tag-size: 12px;
+    --recruitment-preview-title-size: 21px;
+    --recruitment-preview-text-size: 14px;
+  }
+
   .desktop-shell-nav {
     --sidebar-current-width: var(--sidebar-collapsed-width);
     z-index: 30;
@@ -2228,6 +2238,92 @@ button,
   text-align: center;
 }
 
+.recruitment-post-page {
+  --recruitment-card-title-size: 16px;
+  --recruitment-table-text-size: 14px;
+  --recruitment-tag-size: 13px;
+  --recruitment-preview-title-size: 24px;
+  --recruitment-preview-text-size: 15px;
+  min-width: 0;
+}
+
+.recruitment-post-page .ant-row>.ant-col {
+  min-width: 0;
+}
+
+.recruitment-post-page .section-card {
+  width: 100%;
+}
+
+.recruitment-post-page .section-card .ant-card-head-wrapper,
+.recruitment-post-page .section-card .ant-card-head-title,
+.recruitment-post-page .section-card .ant-card-body {
+  min-width: 0;
+}
+
+.recruitment-post-page .section-card .ant-card-head-title {
+  font-size: var(--recruitment-card-title-size);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recruitment-post-page .ant-table,
+.recruitment-post-page .ant-table-wrapper {
+  font-size: var(--recruitment-table-text-size);
+}
+
+.recruitment-post-page .ant-table-cell {
+  white-space: nowrap;
+}
+
+.recruitment-post-page .ant-table-cell .ant-tag {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+.recruitment-post-page .selected-jd-summary,
+.recruitment-post-page .selected-jd-summary .ant-space-item {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.recruitment-post-page .large-tag,
+.recruitment-post-page .ant-tag {
+  font-size: var(--recruitment-tag-size);
+}
+
+.recruitment-post-page .large-tag {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+.recruitment-post-page .selection-card {
+  min-width: 0;
+}
+
+.recruitment-post-page .selection-card>strong {
+  font-size: var(--recruitment-card-title-size);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recruitment-post-page .selection-card>span:not(.selection-check) {
+  font-size: var(--recruitment-tag-size);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .document-preview {
   max-width: 920px;
   padding: 24px;
@@ -2239,11 +2335,12 @@ button,
 
 .document-preview h2 {
   margin-bottom: 16px;
-  font-size: 24px;
+  font-size: var(--recruitment-preview-title-size, 24px);
 }
 
 .document-preview p {
   margin: 0 0 12px;
+  font-size: var(--recruitment-preview-text-size, inherit);
   line-height: 1.8;
 }
 
