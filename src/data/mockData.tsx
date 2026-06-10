@@ -37,11 +37,11 @@ export type ChatMessage = {
 
 export const palette = {
   primary: '#2563EB',
-  accent: '#0D9488',
-  dark: '#111827',
-  background: '#EEF4FF',
+  accent: '#14B8A6',
+  dark: '#1E3A8A',
+  background: '#F8FAFC',
   card: '#FFFFFF',
-  text: '#111827',
+  text: '#0F172A',
 };
 
 export const mainMenu: MenuItem[] = [
@@ -88,8 +88,6 @@ export const mainMenu: MenuItem[] = [
     icon: <FormOutlined />,
   },
 ];
-
-export const utilityRoutes: AppRoute[] = ['/chat'];
 
 export const authMenu: MenuItem[] = [
   {
