@@ -24,6 +24,7 @@ export function DashboardHero({ dashboard, navigate, showAlert, reloadData }: Da
   const analysisValue = dashboard.analysisSummary.centerValue;
   const primaryMetric = dashboard.metrics[0];
   const secondaryMetric = dashboard.metrics[1];
+  const creditMetric = dashboard.metrics.find((item) => item.label.includes('크레딧'));
 
   const refreshDashboard = () => {
     void reloadData().then(() => showAlert({ type: 'info', message: '대시보드 데이터를 새로고침했습니다.' }));
@@ -101,7 +102,10 @@ export function DashboardHero({ dashboard, navigate, showAlert, reloadData }: Da
         <div className="summary-progress">
           <div>
             <span>분석 크레딧</span>
-            <strong>{dashboard.creditPercent}%</strong>
+            <strong>
+              {creditMetric?.value ?? 0}
+              {creditMetric?.suffix ?? 'pt'}
+            </strong>
           </div>
           <Progress percent={dashboard.creditPercent} showInfo={false} />
         </div>

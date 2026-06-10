@@ -41,6 +41,7 @@ function AccountMenu({
 }: Omit<NavigationProps, 'route' | 'mode'> & { onClose: () => void }) {
   const displayName = profile?.displayName ?? '채용 담당자';
   const email = profile?.email ?? 'recruiter@humour.ai';
+  const creditPointText = `${profile?.credit ?? 0}pt`;
 
   const moveTo = (nextRoute: AppRoute) => {
     onClose();
@@ -69,8 +70,8 @@ function AccountMenu({
       <div className="account-credit-panel">
         <div>
           <CreditCardOutlined />
-          <span>크레딧 사용량</span>
-          <strong>{creditPercent}% 사용</strong>
+          <span>분석 크레딧</span>
+          <strong>{creditPointText}</strong>
         </div>
         <Progress percent={creditPercent} showInfo={false} />
         <button

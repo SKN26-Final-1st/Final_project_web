@@ -236,7 +236,6 @@ export default function App() {
           <MyPage
             profile={data.userProfile}
             company={data.company}
-            creditPercent={data.dashboard.creditPercent}
             navigate={navigate}
             runApiAction={runApiAction}
           />

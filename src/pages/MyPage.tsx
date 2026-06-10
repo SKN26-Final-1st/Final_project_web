@@ -13,12 +13,11 @@ import type { Navigate, RunApiAction } from '../types/app';
 type MyPageProps = {
   profile: UserProfile;
   company: CompanyProfile;
-  creditPercent: number;
   navigate: Navigate;
   runApiAction: RunApiAction;
 };
 
-export function MyPage({ profile, company, creditPercent, navigate, runApiAction }: MyPageProps) {
+export function MyPage({ profile, company, navigate, runApiAction }: MyPageProps) {
   return (
     <>
       <PageTitle
@@ -34,7 +33,7 @@ export function MyPage({ profile, company, creditPercent, navigate, runApiAction
       <Row gutter={[24, 24]}>
         <Col xs={24} xl={8}>
           <SectionCard title="프로필">
-            <ProfileSummaryCard profile={profile} creditPercent={creditPercent} />
+            <ProfileSummaryCard profile={profile} />
           </SectionCard>
         </Col>
         <Col xs={24} xl={16}>

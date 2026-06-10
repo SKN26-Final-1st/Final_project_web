@@ -3,16 +3,17 @@ import { palette } from '../../data/mockData';
 import type { ShowAlert } from '../../types/app';
 
 type CreditSummaryProps = {
+  creditPoints: number;
   creditPercent: number;
   showAlert: ShowAlert;
 };
 
-export function CreditSummary({ creditPercent, showAlert }: CreditSummaryProps) {
+export function CreditSummary({ creditPoints, creditPercent, showAlert }: CreditSummaryProps) {
   return (
     <div className="credit-card">
       <div className="credit-card-head">
         <span>분석 크레딧</span>
-        <strong>{creditPercent}%</strong>
+        <strong>{creditPoints}pt</strong>
       </div>
       <Progress percent={creditPercent} strokeColor={palette.accent} />
       <Button

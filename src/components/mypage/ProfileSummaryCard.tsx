@@ -3,14 +3,13 @@ import type { UserProfile } from '../../api/adapters';
 
 type ProfileSummaryCardProps = {
   profile: UserProfile;
-  creditPercent: number;
 };
 
 function getInitials(name: string) {
   return name.trim().slice(0, 2).toUpperCase();
 }
 
-export function ProfileSummaryCard({ profile, creditPercent }: ProfileSummaryCardProps) {
+export function ProfileSummaryCard({ profile }: ProfileSummaryCardProps) {
   return (
     <>
       <div className="profile-card">
@@ -26,7 +25,7 @@ export function ProfileSummaryCard({ profile, creditPercent }: ProfileSummaryCar
         dataSource={[
           `계정 ID ${profile.username}`,
           `구독 종료 ${profile.subscribeExpirationText}`,
-          `분석 크레딧 ${profile.credit}pt (${creditPercent}%)`,
+          `분석 크레딧 ${profile.credit}pt`,
         ]}
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />

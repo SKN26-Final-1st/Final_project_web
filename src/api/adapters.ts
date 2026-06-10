@@ -400,7 +400,7 @@ export function mapAdmin(data: ApiData<typeof dashboardApiResponse>): AdminData 
         label: '분석 크레딧',
         value: data.account.credit,
         suffix: 'pt',
-        helper: `${creditPercent}% 사용 가능`,
+        helper: `${data.account.credit}pt 보유`,
         tone: creditPercent < 30 ? 'warning' : 'primary',
       },
     ],
