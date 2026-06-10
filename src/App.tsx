@@ -211,6 +211,7 @@ export default function App() {
             creditPercent={data.dashboard.creditPercent}
             navigate={navigate}
             runMockAction={runMockAction}
+            showAlert={showAlert}
           />
         );
       case '/recruitment-post':

@@ -4,10 +4,9 @@ import type { UserProfile } from '../../api/adapters';
 
 type ProfileSummaryCardProps = {
   profile: UserProfile;
-  creditPercent: number;
 };
 
-export function ProfileSummaryCard({ profile, creditPercent }: ProfileSummaryCardProps) {
+export function ProfileSummaryCard({ profile }: ProfileSummaryCardProps) {
   return (
     <>
       <div className="profile-card">
@@ -22,7 +21,7 @@ export function ProfileSummaryCard({ profile, creditPercent }: ProfileSummaryCar
       </div>
       <Divider />
       <List
-        dataSource={[profile.email, `마지막 로그인 ${profile.lastLoginText}`, `분석 크레딧 ${creditPercent}%`]}
+        dataSource={[profile.email, `마지막 로그인 ${profile.lastLoginText}`, `알림 채널 ${profile.notificationChannel}`]}
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />
     </>

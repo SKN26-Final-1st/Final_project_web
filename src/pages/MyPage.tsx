@@ -1,6 +1,7 @@
 import { Button, Col, Row } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 import { AccountSettingsForm } from '../components/mypage/AccountSettingsForm';
+import { AnalysisCreditPanel } from '../components/mypage/AnalysisCreditPanel';
 import { CompanySummaryPanel } from '../components/mypage/CompanySummaryPanel';
 import { ProfileSummaryCard } from '../components/mypage/ProfileSummaryCard';
 import { SecuritySettingsForm } from '../components/mypage/SecuritySettingsForm';
@@ -8,7 +9,7 @@ import { PageTitle } from '../components/common/PageTitle';
 import { SectionCard } from '../components/common/SectionCard';
 import type { CompanyChoices, CompanyProfile, UserProfile } from '../api/adapters';
 import { mockClient } from '../api/mockClient';
-import type { Navigate, RunMockAction } from '../types/app';
+import type { Navigate, RunMockAction, ShowAlert } from '../types/app';
 
 type MyPageProps = {
   profile: UserProfile;
@@ -17,9 +18,10 @@ type MyPageProps = {
   creditPercent: number;
   navigate: Navigate;
   runMockAction: RunMockAction;
+  showAlert: ShowAlert;
 };
 
-export function MyPage({ profile, company, companyChoices, creditPercent, navigate, runMockAction }: MyPageProps) {
+export function MyPage({ profile, company, companyChoices, creditPercent, navigate, runMockAction, showAlert }: MyPageProps) {
   return (
     <>
       <PageTitle
@@ -34,9 +36,18 @@ export function MyPage({ profile, company, companyChoices, creditPercent, naviga
       />
       <Row gutter={[22, 22]}>
         <Col xs={24} xl={8}>
-          <SectionCard title="프로필">
-            <ProfileSummaryCard profile={profile} creditPercent={creditPercent} />
-          </SectionCard>
+          <Row gutter={[22, 22]}>
+            <Col span={24}>
+              <SectionCard title="프로필">
+                <ProfileSummaryCard profile={profile} />
+              </SectionCard>
+            </Col>
+            <Col span={24}>
+              <SectionCard title="사용량 관리">
+                <AnalysisCreditPanel creditPercent={creditPercent} showAlert={showAlert} />
+              </SectionCard>
+            </Col>
+          </Row>
         </Col>
         <Col xs={24} xl={16}>
           <Row gutter={[22, 22]}>
