@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type Key } from 'react';
 import { Alert, App as AntApp, ConfigProvider, Switch, Tooltip } from 'antd';
 import { MoonOutlined, SunOutlined } from '@ant-design/icons';
 import { PageError, PageLoading } from './components/common/PageState';
+import { FloatingChatAssistant } from './components/chat/FloatingChatAssistant';
 import { AppShell } from './components/layout/AppShell';
 import { mockClient } from './api/mockClient';
 import { type AppRoute, type ChatMessage } from './data/mockData';
@@ -327,6 +328,16 @@ export default function App() {
               navigate={navigate}
             >
               {renderProtectedPage()}
+              {data && route !== '/chat' && (
+                <FloatingChatAssistant
+                  report={data.analysisReport}
+                  chatMessages={activeChatMessages}
+                  chatInput={chatInput}
+                  loadingKey={loadingKey}
+                  setChatInput={setChatInput}
+                  sendChatMessage={sendChatMessage}
+                />
+              )}
             </AppShell>
           )}
         </div>

@@ -66,7 +66,7 @@ export function CoverLetterUploadPanel({
       )}
       {analysisDone && (
         <Button className="mt-16" type="primary" block onClick={() => navigate('/chat')}>
-          채팅 화면에서 리포트 확인
+          AI 채팅으로 리포트 확인
         </Button>
       )}
     </>
