@@ -1,61 +1,59 @@
-import { Button, Col, Row, Space } from 'antd';
-import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { AnalysisSummaryPanel } from '../components/dashboard/AnalysisSummaryPanel';
-import { ApplicantReviewTable } from '../components/dashboard/ApplicantReviewTable';
-import { DashboardMetrics } from '../components/dashboard/DashboardMetrics';
-import { TaskListPanel } from '../components/dashboard/TaskListPanel';
-import { PageTitle } from '../components/common/PageTitle';
-import type { DashboardData } from '../api/adapters';
+import { useMemo } from 'react';
+import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import type { DashboardData, NotificationsData, UserProfile } from '../api/adapters';
+import { DashboardOperationsRail } from '../components/dashboard/DashboardOperationsRail';
+import { DashboardOverviewGrid } from '../components/dashboard/DashboardOverviewGrid';
+import { DashboardToolbar } from '../components/dashboard/DashboardToolbar';
+import { buildDashboardViewModel } from '../components/dashboard/dashboardViewModel';
 import type { Navigate, ShowAlert, ThemeMode } from '../types/app';
 
 type DashboardPageProps = {
   dashboard: DashboardData;
   mode: ThemeMode;
+  profile: UserProfile;
+  notifications: NotificationsData;
   navigate: Navigate;
   showAlert: ShowAlert;
   reloadData: () => Promise<void>;
 };
 
-export function DashboardPage({ dashboard, mode, navigate, showAlert, reloadData }: DashboardPageProps) {
+export function DashboardPage({
+  dashboard,
+  mode,
+  profile,
+  notifications,
+  navigate,
+  showAlert,
+  reloadData,
+}: DashboardPageProps) {
+  const viewModel = useMemo(() => buildDashboardViewModel(dashboard, notifications), [dashboard, notifications]);
+
   return (
-    <>
-      <PageTitle
-        eyebrow="Dashboard"
-        title="채용 현황 대시보드"
-        description="채용 공고, 지원자, AI 분석 리포트 상태를 한 화면에서 확인합니다."
-        actions={
-          <Space wrap>
-            <Button
-              icon={<ReloadOutlined />}
-              onClick={() =>
-                void reloadData().then(() => showAlert({ type: 'info', message: '대시보드 데이터를 새로고침했습니다.' }))
-              }
-            >
-              새로고침
-            </Button>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/jd')}>
-              새 채용 공고
-            </Button>
-          </Space>
-        }
-      />
+    <div className="dashboard-composition">
+      <main className="dashboard-main-panel">
+        <DashboardToolbar notifications={notifications} reloadData={reloadData} showAlert={showAlert} />
 
-      <DashboardMetrics metrics={dashboard.metrics} />
+        <div className="dashboard-title-row">
+          <div>
+            <span className="dashboard-eyebrow">HumouR Overview</span>
+            <h1>채용 현황 대시보드</h1>
+          </div>
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/jd')}>
+            새 채용 공고
+          </Button>
+        </div>
 
-      <Row gutter={[22, 22]} className="section-row">
-        <Col xs={24} xl={15}>
-          <ApplicantReviewTable applicants={dashboard.applicants} showAlert={showAlert} />
-        </Col>
-        <Col xs={24} xl={9}>
-          <AnalysisSummaryPanel
-            analysisSummary={dashboard.analysisSummary}
-            insightCards={dashboard.insightCards}
-            mode={mode}
-          />
-        </Col>
-      </Row>
+        <DashboardOverviewGrid
+          dashboard={dashboard}
+          mode={mode}
+          navigate={navigate}
+          showAlert={showAlert}
+          viewModel={viewModel}
+        />
+      </main>
 
-      <TaskListPanel tasks={dashboard.tasks} />
-    </>
+      <DashboardOperationsRail navigate={navigate} profile={profile} viewModel={viewModel} />
+    </div>
   );
 }

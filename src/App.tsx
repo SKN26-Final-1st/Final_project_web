@@ -268,6 +268,8 @@ export default function App() {
           <DashboardPage
             dashboard={data.dashboard}
             mode={mode}
+            profile={data.userProfile}
+            notifications={data.notifications}
             navigate={navigate}
             showAlert={showAlert}
             reloadData={reload}

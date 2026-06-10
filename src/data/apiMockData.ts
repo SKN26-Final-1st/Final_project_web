@@ -101,6 +101,22 @@ export const dashboardApiResponse = {
         { label: '검토 필요', value: 14, color_key: 'track' },
       ],
     },
+    trends: [
+      {
+        trend_key: 'candidate_flow',
+        labels: ['2월', '3월', '4월', '5월', '6월'],
+        values: [16, 21, 28, 34, 31],
+        name: '지원자',
+        unit: '명',
+      },
+      {
+        trend_key: 'report_throughput',
+        labels: ['2월', '3월', '4월', '5월', '6월'],
+        values: [18, 26, 33, 52, 47],
+        name: '분석 리포트',
+        unit: '개',
+      },
+    ],
     tasks: [
       { id: 'task-001', title: 'JD 분석 요청 2건 승인', priority: 'high' },
       { id: 'task-002', title: '자기소개서 Excel 오류 행 확인', priority: 'high' },
@@ -141,6 +157,13 @@ export const dashboardApiResponse = {
       color_key: 'primary' | 'accent' | 'track' | 'warning';
     }[];
   };
+  trends: {
+    trend_key: string;
+    labels: string[];
+    values: number[];
+    name: string;
+    unit?: string;
+  }[];
   tasks: {
     id: string;
     title: string;

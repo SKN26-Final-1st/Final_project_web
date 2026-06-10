@@ -17,6 +17,7 @@ import type { ChatMessage } from '../data/mockData';
 type ApiData<T> = T extends { data: infer Data } ? Data : never;
 
 export type MetricItem = {
+  key: string;
   label: string;
   value: number;
   suffix: string;
@@ -49,12 +50,27 @@ export type AnalysisSummary = {
   }[];
 };
 
+export type DashboardTask = {
+  id: string;
+  title: string;
+  priority: 'high' | 'medium' | 'low';
+};
+
+export type DashboardTrend = {
+  key: string;
+  labels: string[];
+  values: number[];
+  name: string;
+  unit?: string;
+};
+
 export type DashboardData = {
   metrics: MetricItem[];
   applicants: ApplicantRow[];
   insightCards: InsightCard[];
   analysisSummary: AnalysisSummary;
-  tasks: string[];
+  tasks: DashboardTask[];
+  trends: DashboardTrend[];
   creditPercent: number;
 };
 
@@ -149,6 +165,7 @@ export type AuthDefaults = ApiData<typeof authDefaultsApiResponse>;
 
 export function mapDashboard(data: ApiData<typeof dashboardApiResponse>): DashboardData {
   const metrics = data.metrics.map((item) => ({
+    key: item.metric_key,
     label: item.label,
     value: item.value,
     suffix: item.suffix,
@@ -182,7 +199,18 @@ export function mapDashboard(data: ApiData<typeof dashboardApiResponse>): Dashbo
         colorKey: segment.color_key,
       })),
     },
-    tasks: data.tasks.map((task) => task.title),
+    tasks: data.tasks.map((task) => ({
+      id: task.id,
+      title: task.title,
+      priority: task.priority,
+    })),
+    trends: data.trends.map((trend) => ({
+      key: trend.trend_key,
+      labels: trend.labels,
+      values: trend.values,
+      name: trend.name,
+      unit: trend.unit,
+    })),
     creditPercent: creditMetric?.value ?? 0,
   };
 }
