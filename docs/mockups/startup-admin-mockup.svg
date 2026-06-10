@@ -1,0 +1,298 @@
+<svg width="1600" height="1600" viewBox="0 0 1600 1600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgA" x1="0" y1="0" x2="1600" y2="1600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#dfeaff"/>
+      <stop offset="0.55" stop-color="#f4f7ff"/>
+      <stop offset="1" stop-color="#e8fbf8"/>
+    </linearGradient>
+    <linearGradient id="primaryAccent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f73f6"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="barBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f73f6"/>
+      <stop offset="1" stop-color="#9dbdff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#1f4da1" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shadowSm" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1f4da1" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      text {
+        font-family: "Noto Sans KR", "Apple SD Gothic Neo", system-ui, sans-serif;
+        letter-spacing: 0;
+      }
+      .title { fill: #102033; font-size: 38px; font-weight: 900; }
+      .h2 { fill: #102033; font-size: 22px; font-weight: 900; }
+      .h3 { fill: #102033; font-size: 18px; font-weight: 900; }
+      .label { fill: rgba(16,32,51,0.64); font-size: 13px; font-weight: 900; }
+      .small { fill: rgba(16,32,51,0.64); font-size: 12px; font-weight: 800; }
+      .body { fill: rgba(16,32,51,0.66); font-size: 16px; font-weight: 700; }
+      .value { fill: #102033; font-size: 34px; font-weight: 900; }
+      .valueSm { fill: #102033; font-size: 20px; font-weight: 900; }
+      .blue { fill: #2f73f6; }
+      .teal { fill: #14b8a6; }
+      .orange { fill: #f59e0b; }
+      .red { fill: #ef4444; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1600" fill="url(#bgA)"/>
+  <path d="M580 0C472 128 442 246 490 354C538 462 458 540 360 574C262 608 189 701 210 817C232 941 363 1011 482 1018C601 1025 660 980 758 1002C856 1024 932 1100 1058 1100H0V0H580Z" fill="#2f73f6" opacity="0.055"/>
+  <path d="M1600 0V446C1486 380 1379 383 1280 456C1181 529 1084 517 1015 434C946 351 858 292 754 314C650 336 554 254 562 143C566 88 589 41 626 0H1600Z" fill="#14b8a6" opacity="0.07"/>
+
+  <!-- Sidebar -->
+  <rect x="40" y="40" width="248" height="1020" rx="22" fill="white" fill-opacity="0.94" stroke="#d6e4ff" filter="url(#shadow)"/>
+  <text x="74" y="104" fill="#183872" font-size="29" font-weight="900">HumouR</text>
+  <text x="76" y="148" class="label" fill-opacity="0.55">MAIN MENU</text>
+
+  <g transform="translate(64 178)">
+    <rect x="0" y="0" width="200" height="58" rx="18" fill="transparent"/>
+    <rect x="14" y="12" width="34" height="34" rx="12" fill="#e9f1ff"/>
+    <text x="31" y="35" text-anchor="middle" class="blue" font-size="13" font-weight="900">DB</text>
+    <text x="62" y="25" fill="rgba(16,32,51,0.64)" font-size="14" font-weight="900">대시보드</text>
+    <text x="62" y="44" fill="rgba(16,32,51,0.42)" font-size="11" font-weight="800">채용 현황 요약</text>
+  </g>
+  <g transform="translate(64 248)">
+    <rect x="0" y="0" width="200" height="64" rx="18" fill="#2f73f6"/>
+    <rect x="14" y="15" width="34" height="34" rx="12" fill="white" fill-opacity="0.18"/>
+    <text x="31" y="38" text-anchor="middle" fill="white" font-size="13" font-weight="900">AD</text>
+    <text x="62" y="28" fill="white" font-size="14" font-weight="900">관리자</text>
+    <text x="62" y="48" fill="white" fill-opacity="0.72" font-size="11" font-weight="800">HR 권한과 한도</text>
+  </g>
+  <g transform="translate(64 326)">
+    <rect x="14" y="12" width="34" height="34" rx="12" fill="#e9f1ff"/>
+    <text x="31" y="35" text-anchor="middle" class="blue" font-size="13" font-weight="900">CO</text>
+    <text x="62" y="25" fill="rgba(16,32,51,0.64)" font-size="14" font-weight="900">회사 정보</text>
+    <text x="62" y="44" fill="rgba(16,32,51,0.42)" font-size="11" font-weight="800">프로필과 분석 기준</text>
+  </g>
+  <g transform="translate(64 396)">
+    <rect x="14" y="12" width="34" height="34" rx="12" fill="#e9f1ff"/>
+    <text x="31" y="35" text-anchor="middle" class="blue" font-size="13" font-weight="900">JD</text>
+    <text x="62" y="25" fill="rgba(16,32,51,0.64)" font-size="14" font-weight="900">JD 관리</text>
+    <text x="62" y="44" fill="rgba(16,32,51,0.42)" font-size="11" font-weight="800">직무기술서 작성</text>
+  </g>
+  <g transform="translate(64 466)">
+    <rect x="14" y="12" width="34" height="34" rx="12" fill="#e9f1ff"/>
+    <text x="31" y="35" text-anchor="middle" class="blue" font-size="13" font-weight="900">CL</text>
+    <text x="62" y="25" fill="rgba(16,32,51,0.64)" font-size="14" font-weight="900">자기소개서</text>
+    <text x="62" y="44" fill="rgba(16,32,51,0.42)" font-size="11" font-weight="800">입력과 업로드</text>
+  </g>
+  <g transform="translate(64 536)">
+    <rect x="14" y="12" width="34" height="34" rx="12" fill="#e9f1ff"/>
+    <text x="31" y="35" text-anchor="middle" class="blue" font-size="13" font-weight="900">CP</text>
+    <text x="62" y="25" fill="rgba(16,32,51,0.64)" font-size="14" font-weight="900">모집 공고</text>
+    <text x="62" y="44" fill="rgba(16,32,51,0.42)" font-size="11" font-weight="800">공고 미리보기</text>
+  </g>
+  <g transform="translate(64 932)">
+    <rect x="0" y="0" width="200" height="92" rx="18" fill="#f7faff" stroke="#d6e4ff"/>
+    <circle cx="34" cy="34" r="20" fill="#2f73f6"/>
+    <text x="34" y="39" text-anchor="middle" fill="white" font-size="12" font-weight="900">민지</text>
+    <text x="66" y="31" class="h3" font-size="14">김민지</text>
+    <text x="66" y="51" class="small">hr@asterlabs.co.kr</text>
+    <rect x="18" y="68" width="164" height="8" rx="4" fill="#dfe9ff"/>
+    <rect x="18" y="68" width="105" height="8" rx="4" fill="#14b8a6"/>
+  </g>
+
+  <!-- Content frame -->
+  <g transform="translate(320 40)">
+    <!-- Page title -->
+    <rect x="0" y="0" width="1240" height="162" rx="22" fill="white" fill-opacity="0.94" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+    <path d="M1002 162L1046 32L1240 52V162H1002Z" fill="#2f73f6" opacity="0.08"/>
+    <text x="32" y="48" class="blue" font-size="13" font-weight="900">COMPANY ADMIN</text>
+    <text x="32" y="94" class="title">개별 스타트업 관리자</text>
+    <text x="32" y="132" class="body">스타트업 HR 담당자의 면접방, 비밀번호, LLM 질문 생성량과 포인트 차감 한도를 관리합니다.</text>
+    <rect x="994" y="40" width="108" height="44" rx="11" fill="white" stroke="#b7d0ff"/>
+    <text x="1048" y="68" text-anchor="middle" fill="#102033" font-size="14" font-weight="900">한도 조정</text>
+    <rect x="1118" y="40" width="90" height="44" rx="11" fill="#2f73f6"/>
+    <text x="1163" y="68" text-anchor="middle" fill="white" font-size="14" font-weight="900">방 생성</text>
+
+    <!-- Summary cards -->
+    <g transform="translate(0 204)">
+      <rect x="0" y="0" width="286" height="132" rx="18" fill="#fbfdff" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="28" y="42" width="48" height="48" rx="15" fill="white"/>
+      <text x="52" y="72" text-anchor="middle" class="blue" font-size="14" font-weight="900">PT</text>
+      <text x="100" y="44" class="label">남은 포인트</text>
+      <text x="100" y="78" class="value">76,420</text>
+      <text x="100" y="106" class="small">이번 달 예산의 64% 사용</text>
+    </g>
+    <g transform="translate(314 204)">
+      <rect x="0" y="0" width="286" height="132" rx="18" fill="#fbfffe" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="28" y="42" width="48" height="48" rx="15" fill="white"/>
+      <text x="52" y="72" text-anchor="middle" class="teal" font-size="14" font-weight="900">AI</text>
+      <text x="100" y="44" class="label">이번 달 LLM 토큰</text>
+      <text x="100" y="78" class="value">1.84M</text>
+      <text x="100" y="106" class="small">벤더 사용량 기준 자동 차감</text>
+    </g>
+    <g transform="translate(628 204)">
+      <rect x="0" y="0" width="286" height="132" rx="18" fill="#fffdfa" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="28" y="42" width="48" height="48" rx="15" fill="white"/>
+      <text x="52" y="72" text-anchor="middle" class="orange" font-size="14" font-weight="900">RM</text>
+      <text x="100" y="44" class="label">활성 면접방</text>
+      <text x="100" y="78" class="value">12</text>
+      <text x="100" y="106" class="small">비밀번호 만료 예정 2개</text>
+    </g>
+    <g transform="translate(954 204)">
+      <rect x="0" y="0" width="286" height="132" rx="18" fill="#fffafa" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="28" y="42" width="48" height="48" rx="15" fill="white"/>
+      <text x="52" y="72" text-anchor="middle" class="red" font-size="14" font-weight="900">GD</text>
+      <text x="100" y="44" class="label">가드레일 알림</text>
+      <text x="100" y="78" class="value">3</text>
+      <text x="100" y="106" class="small">상한 초과 접근 차단</text>
+    </g>
+
+    <!-- Main left panel: guardrail -->
+    <g transform="translate(0 374)">
+      <rect x="0" y="0" width="734" height="332" rx="18" fill="white" fill-opacity="0.94" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="0" y="0" width="734" height="4" rx="2" fill="#2f73f6"/>
+      <rect x="0" y="4" width="734" height="64" fill="#f7faff"/>
+      <text x="28" y="42" class="h2">LLM 질문 생성 가드레일</text>
+      <text x="632" y="42" text-anchor="end" class="blue" font-size="14" font-weight="900">정책 변경 내역</text>
+
+      <text x="28" y="113" class="label">회사 월 포인트 예산</text>
+      <text x="28" y="165" fill="#102033" font-size="44" font-weight="900">120,000pt</text>
+      <rect x="302" y="132" width="92" height="34" rx="17" fill="#e6fbf7"/>
+      <text x="348" y="154" text-anchor="middle" fill="#0f766e" font-size="13" font-weight="900">정상 운영</text>
+      <rect x="28" y="194" width="354" height="14" rx="7" fill="#dfe9ff"/>
+      <rect x="28" y="194" width="226" height="14" rx="7" fill="url(#primaryAccent)"/>
+
+      <g transform="translate(28 236)">
+        <rect x="0" y="0" width="112" height="72" rx="14" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="18" y="26" class="small">질문 생성 1회</text>
+        <text x="18" y="54" class="valueSm">3,000pt</text>
+        <rect x="130" y="0" width="112" height="72" rx="14" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="148" y="26" class="small">방별 일일 한도</text>
+        <text x="148" y="54" class="valueSm">12,000pt</text>
+        <rect x="260" y="0" width="112" height="72" rx="14" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="278" y="26" class="small">포인트 환산</text>
+        <text x="278" y="54" class="valueSm">토큰 기반</text>
+      </g>
+
+      <rect x="420" y="96" width="286" height="78" rx="16" fill="#e6fbf7" stroke="#9be3db"/>
+      <text x="444" y="128" fill="#0f766e" font-size="18" font-weight="900">토큰 기반 차감</text>
+      <text x="444" y="154" class="small">LLM 벤더 사용 토큰을 수집하고 포인트로 환산합니다.</text>
+
+      <g transform="translate(420 196)">
+        <rect x="0" y="0" width="286" height="34" rx="12" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="18" y="22" fill="#102033" font-size="13" font-weight="900">프로필 분석</text>
+        <rect x="110" y="13" width="154" height="8" rx="4" fill="#dfe9ff"/>
+        <rect x="110" y="13" width="73" height="8" rx="4" fill="#14b8a6"/>
+        <rect x="0" y="50" width="286" height="34" rx="12" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="18" y="72" fill="#102033" font-size="13" font-weight="900">질문 생성</text>
+        <rect x="110" y="63" width="154" height="8" rx="4" fill="#dfe9ff"/>
+        <rect x="110" y="63" width="118" height="8" rx="4" fill="#14b8a6"/>
+        <rect x="0" y="100" width="286" height="34" rx="12" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="18" y="122" fill="#102033" font-size="13" font-weight="900">재생성 제한</text>
+        <rect x="110" y="113" width="154" height="8" rx="4" fill="#dfe9ff"/>
+        <rect x="110" y="113" width="57" height="8" rx="4" fill="#14b8a6"/>
+      </g>
+    </g>
+
+    <!-- Profile card -->
+    <g transform="translate(762 374)">
+      <rect x="0" y="0" width="478" height="332" rx="18" fill="white" fill-opacity="0.94" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="0" y="0" width="478" height="4" rx="2" fill="#2f73f6"/>
+      <rect x="0" y="4" width="478" height="64" fill="#f7faff"/>
+      <text x="28" y="42" class="h2">스타트업 프로필</text>
+      <text x="430" y="42" text-anchor="end" class="blue" font-size="14" font-weight="900">수정</text>
+      <rect x="28" y="94" width="60" height="60" rx="18" fill="url(#primaryAccent)"/>
+      <text x="58" y="132" text-anchor="middle" fill="white" font-size="20" font-weight="900">AL</text>
+      <text x="108" y="119" class="h2">Aster Labs</text>
+      <text x="108" y="146" class="small">B2B SaaS · Series A · 채용 진행 5건</text>
+
+      <g transform="translate(28 182)">
+        <rect x="0" y="0" width="422" height="40" rx="13" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="20" y="25" class="label">대표 HR</text>
+        <text x="402" y="25" text-anchor="end" fill="#102033" font-size="14" font-weight="900">김민지 / Talent Lead</text>
+        <rect x="0" y="52" width="422" height="40" rx="13" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="20" y="77" class="label">담당자 식별값</text>
+        <text x="402" y="77" text-anchor="end" fill="#102033" font-size="14" font-weight="900">SKN-123123 / 1</text>
+        <rect x="0" y="104" width="422" height="40" rx="13" fill="#f7faff" stroke="#d6e4ff"/>
+        <text x="20" y="129" class="label">질문 생성 권한</text>
+        <text x="402" y="129" text-anchor="end" fill="#102033" font-size="14" font-weight="900">HR 관리자 4명</text>
+      </g>
+    </g>
+
+    <!-- Bottom table -->
+    <g transform="translate(0 734)">
+      <rect x="0" y="0" width="734" height="292" rx="18" fill="white" fill-opacity="0.94" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="0" y="0" width="734" height="4" rx="2" fill="#2f73f6"/>
+      <rect x="0" y="4" width="734" height="64" fill="#f7faff"/>
+      <text x="28" y="42" class="h2">면접방 / 비밀번호 관리</text>
+      <text x="656" y="42" text-anchor="end" class="blue" font-size="14" font-weight="900">전체 방 보기</text>
+      <rect x="28" y="92" width="678" height="42" rx="0" fill="#f7faff"/>
+      <text x="44" y="119" class="label">면접방</text>
+      <text x="174" y="119" class="label">용도</text>
+      <text x="304" y="119" class="label">비밀번호</text>
+      <text x="440" y="119" class="label">질문 생성</text>
+      <text x="556" y="119" class="label">포인트</text>
+      <text x="648" y="119" class="label">상태</text>
+
+      <line x1="28" y1="174" x2="706" y2="174" stroke="#d6e4ff"/>
+      <line x1="28" y1="220" x2="706" y2="220" stroke="#d6e4ff"/>
+      <text x="44" y="158" fill="#102033" font-size="14" font-weight="900">방1</text>
+      <text x="44" y="178" class="small">백엔드 개발자</text>
+      <text x="174" y="158" fill="#102033" font-size="14" font-weight="800">면접관 전용</text>
+      <rect x="304" y="141" width="86" height="28" rx="14" fill="#e9f1ff"/>
+      <text x="347" y="160" text-anchor="middle" class="blue mono" font-size="12" font-weight="900">K9p-42Qx</text>
+      <text x="440" y="158" fill="#102033" font-size="14" font-weight="900">84개</text>
+      <text x="440" y="178" class="small">최근 12분 전</text>
+      <text x="556" y="158" fill="#102033" font-size="14" font-weight="900">12,480pt</text>
+      <rect x="648" y="141" width="48" height="28" rx="14" fill="#e6fbf7"/>
+      <text x="672" y="160" text-anchor="middle" fill="#0f766e" font-size="12" font-weight="900">활성</text>
+
+      <text x="44" y="204" fill="#102033" font-size="14" font-weight="900">방2</text>
+      <text x="44" y="224" class="small">디자이너</text>
+      <text x="174" y="204" fill="#102033" font-size="14" font-weight="800">평가자 공유</text>
+      <rect x="304" y="187" width="76" height="28" rx="14" fill="#fff3d8"/>
+      <text x="342" y="206" text-anchor="middle" fill="#b45309" font-size="12" font-weight="900">만료 임박</text>
+      <text x="440" y="204" fill="#102033" font-size="14" font-weight="900">51개</text>
+      <text x="440" y="224" class="small">오늘 10:42</text>
+      <text x="556" y="204" fill="#102033" font-size="14" font-weight="900">7,820pt</text>
+      <rect x="648" y="187" width="48" height="28" rx="14" fill="#fff3d8"/>
+      <text x="672" y="206" text-anchor="middle" fill="#b45309" font-size="12" font-weight="900">갱신</text>
+
+      <text x="44" y="250" fill="#102033" font-size="14" font-weight="900">방3</text>
+      <text x="44" y="270" class="small">데이터 분석가</text>
+      <text x="174" y="250" fill="#102033" font-size="14" font-weight="800">내부 리뷰</text>
+      <rect x="304" y="233" width="62" height="28" rx="14" fill="#e9f1ff"/>
+      <text x="335" y="252" text-anchor="middle" class="blue" font-size="12" font-weight="900">비공개</text>
+      <text x="440" y="250" fill="#102033" font-size="14" font-weight="900">33개</text>
+      <text x="440" y="270" class="small">어제 18:20</text>
+      <text x="556" y="250" fill="#102033" font-size="14" font-weight="900">4,960pt</text>
+      <rect x="648" y="233" width="48" height="28" rx="14" fill="#e9f1ff"/>
+      <text x="672" y="252" text-anchor="middle" class="blue" font-size="12" font-weight="900">대기</text>
+    </g>
+
+    <!-- Right bottom logs -->
+    <g transform="translate(762 734)">
+      <rect x="0" y="0" width="478" height="292" rx="18" fill="white" fill-opacity="0.94" stroke="#d6e4ff" filter="url(#shadowSm)"/>
+      <rect x="0" y="0" width="478" height="4" rx="2" fill="#2f73f6"/>
+      <rect x="0" y="4" width="478" height="64" fill="#f7faff"/>
+      <text x="28" y="42" class="h2">LLM 사용 로그</text>
+      <text x="430" y="42" text-anchor="end" class="blue" font-size="14" font-weight="900">다운로드</text>
+      <rect x="28" y="92" width="422" height="96" rx="16" fill="#f7faff" stroke="#d6e4ff"/>
+      <rect x="52" y="148" width="34" height="28" rx="8" fill="url(#barBlue)"/>
+      <rect x="102" y="132" width="34" height="44" rx="8" fill="url(#barBlue)"/>
+      <rect x="152" y="112" width="34" height="64" rx="8" fill="#14b8a6"/>
+      <rect x="202" y="138" width="34" height="38" rx="8" fill="url(#barBlue)"/>
+      <rect x="252" y="104" width="34" height="72" rx="8" fill="url(#barBlue)"/>
+      <rect x="302" y="124" width="34" height="52" rx="8" fill="#14b8a6"/>
+      <rect x="352" y="96" width="34" height="80" rx="8" fill="url(#barBlue)"/>
+
+      <rect x="28" y="214" width="422" height="42" rx="14" fill="#f7faff" stroke="#d6e4ff"/>
+      <rect x="44" y="222" width="26" height="26" rx="9" fill="#e9f1ff"/>
+      <text x="57" y="240" text-anchor="middle" class="blue" font-size="11" font-weight="900">Q</text>
+      <text x="84" y="239" fill="#102033" font-size="13" font-weight="900">방1 질문 12개 생성</text>
+      <text x="430" y="239" text-anchor="end" fill="#102033" font-size="13" font-weight="900">-1,260pt</text>
+      <rect x="28" y="264" width="422" height="42" rx="14" fill="#f7faff" stroke="#d6e4ff"/>
+      <rect x="44" y="272" width="26" height="26" rx="9" fill="#e9f1ff"/>
+      <text x="57" y="290" text-anchor="middle" class="blue" font-size="11" font-weight="900">P</text>
+      <text x="84" y="289" fill="#102033" font-size="13" font-weight="900">지원자 프로필 요약</text>
+      <text x="430" y="289" text-anchor="end" fill="#102033" font-size="13" font-weight="900">-420pt</text>
+    </g>
+  </g>
+</svg>
