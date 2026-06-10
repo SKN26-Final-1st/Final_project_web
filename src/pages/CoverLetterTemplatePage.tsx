@@ -5,8 +5,8 @@ import { InlineLoading } from '../components/common/InlineLoading';
 import { PageTitle } from '../components/common/PageTitle';
 import { SectionCard } from '../components/common/SectionCard';
 import type { JdItem, TemplateQuestion } from '../api/adapters';
-import { mockClient } from '../api/mockClient';
-import type { RunMockAction } from '../types/app';
+import { apiClient } from '../api/backendClient';
+import type { RunApiAction } from '../types/app';
 
 type CoverLetterTemplatePageProps = {
   selectedJd: JdItem | null;
@@ -14,7 +14,7 @@ type CoverLetterTemplatePageProps = {
   templateGenerated: boolean;
   loadingKey: string | null;
   setTemplateGenerated: (value: boolean) => void;
-  runMockAction: RunMockAction;
+  runApiAction: RunApiAction;
 };
 
 export function CoverLetterTemplatePage({
@@ -23,7 +23,7 @@ export function CoverLetterTemplatePage({
   templateGenerated,
   loadingKey,
   setTemplateGenerated,
-  runMockAction,
+  runApiAction,
 }: CoverLetterTemplatePageProps) {
   return (
     <>
@@ -39,22 +39,22 @@ export function CoverLetterTemplatePage({
               disabled={!selectedJd || loadingKey === 'template-generate'}
               onClick={() =>
                 selectedJd &&
-                void runMockAction(
+                void runApiAction(
                   'template-generate',
-                  () => mockClient.generateCoverLetterTemplate(selectedJd.id),
+                  () => apiClient.generateCoverLetterTemplate(selectedJd.id),
                   () => setTemplateGenerated(true),
                 )
               }
             >
               {loadingKey === 'template-generate' ? <InlineLoading label="생성 중" /> : '문항 생성'}
             </Button>
-            <Button icon={<DownloadOutlined />} onClick={() => void runMockAction('template-doc', mockClient.downloadTemplateDocument)}>
+            <Button icon={<DownloadOutlined />} onClick={() => void runApiAction('template-doc', apiClient.downloadTemplateDocument)}>
               문서
             </Button>
           </Space>
         }
       />
-      <Row gutter={[22, 22]}>
+      <Row gutter={[24, 24]}>
         <Col xs={24} xl={8}>
           <SectionCard title="JD 요약">
             {selectedJd ? (
