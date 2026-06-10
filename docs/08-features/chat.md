@@ -1,18 +1,21 @@
-# 분석 리포트 채팅 (`#/chat`)
+# 분석 리포트 채팅 (전역 플로팅, `#/chat` 호환)
 
 ## 화면 역할
 
-지원자 분석 리포트 탭·예시 질문을 보고, 리포트 맥락에서 AI에게 질문합니다.
+보호된 화면 우하단의 HumouR AI 플로팅 버튼에서 리포트 맥락으로 질문합니다. `#/chat` 전용 페이지는 직접 접근 호환용으로 유지합니다.
 
 ## 관련 파일
 
 | 파일 | 기능 |
 |------|------|
-| [`src/pages/ChatPage.tsx`](../../src/pages/ChatPage.tsx) | 2열 레이아웃, 대화 초기화 |
+| [`src/components/chat/FloatingChatAssistant.tsx`](../../src/components/chat/FloatingChatAssistant.tsx) | 전역 플로팅 런처·채팅 패널 |
+| [`src/pages/ChatPage.tsx`](../../src/pages/ChatPage.tsx) | 직접 `#/chat` 접근용 2열 레이아웃 |
 | [`src/components/chat/ReportContextPanel.tsx`](../../src/components/chat/ReportContextPanel.tsx) | 탭·예시 질문 → 입력창 채우기 |
 | [`src/components/chat/ChatWindowPanel.tsx`](../../src/components/chat/ChatWindowPanel.tsx) | 메시지·전송 UI |
 | [`src/App.tsx`](../../src/App.tsx) | `chatMessages`, `chatInput`, `sendChatMessage` → `mockClient.sendChatMessage` |
 | [`src/data/apiMockData.ts`](../../src/data/apiMockData.ts) | `analysisReportApiResponse` |
+
+`/chat`은 `utilityRoutes`에 포함되어 라우트는 살아 있지만 `mainMenu`에는 표시하지 않습니다.
 
 ## Django API
 

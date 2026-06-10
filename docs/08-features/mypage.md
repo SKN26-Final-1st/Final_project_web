@@ -2,20 +2,21 @@
 
 ## 화면 역할
 
-담당자 프로필, 계정·알림 설정, 보안 UI, 회사 요약·크레딧을 표시합니다.
+담당자 프로필, 분석 크레딧 사용량, 계정·알림 설정, 보안 UI, 회사 요약을 표시합니다.
 
 ## 관련 파일
 
 | 파일 | 기능 |
 |------|------|
 | [`src/pages/MyPage.tsx`](../../src/pages/MyPage.tsx) | 프로필 저장 → `saveUserProfile` |
-| [`src/components/mypage/ProfileSummaryCard.tsx`](../../src/components/mypage/ProfileSummaryCard.tsx) | 아바타·역할·크레딧 |
+| [`src/components/mypage/ProfileSummaryCard.tsx`](../../src/components/mypage/ProfileSummaryCard.tsx) | 아바타·역할·최근 로그인 |
+| [`src/components/mypage/AnalysisCreditPanel.tsx`](../../src/components/mypage/AnalysisCreditPanel.tsx) | 분석 크레딧 잔여율·충전 문의 |
 | [`src/components/mypage/AccountSettingsForm.tsx`](../../src/components/mypage/AccountSettingsForm.tsx) | `display_name`, `notification_channel` |
 | [`src/components/mypage/SecuritySettingsForm.tsx`](../../src/components/mypage/SecuritySettingsForm.tsx) | 비밀번호 UI(목) |
 | [`src/components/mypage/CompanySummaryPanel.tsx`](../../src/components/mypage/CompanySummaryPanel.tsx) | 회사 요약 → `#/company` |
 | [`src/data/apiMockData.ts`](../../src/data/apiMockData.ts) | `userProfileApiResponse` |
 
-대시보드 `metrics` 중 `credits` → `creditPercent`를 헤더·프로필 카드에 공유합니다.
+대시보드 `metrics` 중 `credits` → `creditPercent`를 마이페이지 사용량 관리 카드에 공유합니다.
 
 ## Django API
 
@@ -61,4 +62,4 @@
 |------|------|
 | `company` (GET companies/me) | `CompanySummaryPanel` |
 | `companyChoices` | 알림 Radio 옵션 |
-| `dashboard.creditPercent` | 크레딧 Progress |
+| `dashboard.creditPercent` | `AnalysisCreditPanel` 크레딧 Progress |

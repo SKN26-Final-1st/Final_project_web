@@ -37,7 +37,7 @@ src/
 │   └── mockClient.ts           # 목 API (→ Django HTTP로 교체 예정)
 ├── data/
 │   ├── apiMockData.ts          # Django 응답 JSON 계약 샘플
-│   └── mockData.tsx            # AppRoute, mainMenu, authMenu, palette
+│   └── mockData.tsx            # AppRoute, mainMenu, utilityRoutes, authMenu, palette
 ├── hooks/
 │   └── useMockAppData.ts       # 초기 GET 11건 병렬 로드
 ├── pages/                      # 화면 단위 컨테이너
@@ -60,7 +60,7 @@ src/
 │   ├── chat/
 │   ├── mypage/
 │   ├── recruitment/
-│   └── charts/                 # EChart, DonutChart, chartAdapters, chartTheme
+│   └── charts/                 # EChart, DonutChart, DashboardLine/BarChart, chartAdapters, chartTheme
 ├── types/
 │   └── app.ts                  # ThemeMode, AlertState, RunMockAction, …
 └── utils/

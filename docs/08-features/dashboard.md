@@ -2,21 +2,23 @@
 
 ## 화면 역할
 
-채용 공고·지원자·AI 분석·크레딧·할 일을 한 화면에 요약합니다.
+채용 공고·지원자·AI 분석·크레딧·운영 우선순위를 한 화면에서 스캔하는 서비스형 운영 대시보드입니다.
+첫 화면은 신규 지원자, 면접 추천, 추가 질문, 크레딧 위험, 처리해야 할 작업을 먼저 드러냅니다.
 
 ## 관련 파일
 
 | 파일 | 기능 |
 |------|------|
-| [`src/pages/DashboardPage.tsx`](../../src/pages/DashboardPage.tsx) | 레이아웃 조합, 새로고침·JD 이동 버튼 |
-| [`src/components/dashboard/DashboardMetrics.tsx`](../../src/components/dashboard/DashboardMetrics.tsx) | 4개 지표 |
-| [`src/components/dashboard/ApplicantReviewTable.tsx`](../../src/components/dashboard/ApplicantReviewTable.tsx) | 지원자 테이블 |
-| [`src/components/dashboard/AnalysisSummaryPanel.tsx`](../../src/components/dashboard/AnalysisSummaryPanel.tsx) | 적합도 차트·인사이트 |
-| [`src/components/dashboard/TaskListPanel.tsx`](../../src/components/dashboard/TaskListPanel.tsx) | 할 일 리스트 |
+| [`src/pages/DashboardPage.tsx`](../../src/pages/DashboardPage.tsx) | 대시보드 조립, 새 공고 이동 |
+| [`src/components/dashboard/dashboardViewModel.ts`](../../src/components/dashboard/dashboardViewModel.ts) | metric/trend/task/notification → 화면용 운영 뷰모델 |
+| [`src/components/dashboard/DashboardToolbar.tsx`](../../src/components/dashboard/DashboardToolbar.tsx) | 알림, 새로고침, 더 보기 |
+| [`src/components/dashboard/DashboardOverviewGrid.tsx`](../../src/components/dashboard/DashboardOverviewGrid.tsx) | 검토 큐, 추이 차트, 적합도, 우선 후보, 분석 신호 |
+| [`src/components/dashboard/DashboardOperationsRail.tsx`](../../src/components/dashboard/DashboardOperationsRail.tsx) | 프로필, 진행 공고, 운영 우선순위 |
+| [`src/components/dashboard/dashboardViewModel.test.ts`](../../src/components/dashboard/dashboardViewModel.test.ts) | 뷰모델 정렬·집계 테스트 |
 | [`src/hooks/useMockAppData.ts`](../../src/hooks/useMockAppData.ts) | `getDashboard` 호출 |
 | [`src/data/apiMockData.ts`](../../src/data/apiMockData.ts) | `dashboardApiResponse` |
 
-`AppShell`의 크레딧·알림도 동일 훅에서 로드한 `dashboard.creditPercent`, `notifications`를 사용합니다.
+알림은 동일 훅에서 로드한 `notifications`를 사용합니다. 분석 크레딧은 대시보드/사이드바가 아니라 마이페이지 사용량 관리 카드에서 표시합니다.
 
 ## Django API
 
@@ -33,6 +35,15 @@
       "value": 3,
       "suffix": "건",
       "delta_label": "+1 이번 주"
+    }
+  ],
+  "trends": [
+    {
+      "trend_key": "candidate_flow",
+      "labels": ["2월", "3월", "4월", "5월", "6월"],
+      "values": [16, 21, 28, 34, 31],
+      "name": "지원자",
+      "unit": "명"
     }
   ],
   "applicants": [
@@ -68,9 +79,10 @@
 }
 ```
 
-`tone`: `primary` | `accent` | `warning`  
-`priority`: `high` | `medium` | `low`  
-`metric_key` 예: `active_jobs`, `new_applicants`, `reports`, `credits` (크레딧 %는 헤더에도 사용)
+`tone`: `primary` | `accent` | `warning`
+`priority`: `high` | `medium` | `low`
+`metric_key` 예: `active_jobs`, `new_applicants`, `reports`, `credits` (`credits`는 마이페이지 사용량 관리에 사용)
+`trend_key` 예: `candidate_flow`, `report_throughput`
 
 ### 새로고침
 
@@ -82,4 +94,5 @@
 
 ## 어댑터
 
-[`mapDashboard`](../../src/api/adapters.ts): `delta_label` → `change`, `applicant_name` → `name` 등.
+[`mapDashboard`](../../src/api/adapters.ts): `metric_key` → `key`, `delta_label` → `change`, `applicant_name` → `name`, `trend_key` → `key` 등.
+[`buildDashboardViewModel`](../../src/components/dashboard/dashboardViewModel.ts): key 기반 metric 조회, trend fallback, 지원자 우선순위, 알림·작업 정렬을 담당합니다.

@@ -7,9 +7,10 @@
 | [`src/components/layout/AppShell.tsx`](../../src/components/layout/AppShell.tsx) | 인증 제외 화면: 사이드바 + 헤더 + 콘텐츠 |
 | [`src/components/layout/SidebarNav.tsx`](../../src/components/layout/SidebarNav.tsx) | `mainMenu` 기반 네비게이션 |
 | [`src/components/layout/TopHeader.tsx`](../../src/components/layout/TopHeader.tsx) | 상단 바 |
-| [`src/components/layout/CreditSummary.tsx`](../../src/components/layout/CreditSummary.tsx) | 분석 크레딧 % 표시 |
 | [`src/components/layout/NotificationButton.tsx`](../../src/components/layout/NotificationButton.tsx) | 알림 드롭다운 |
 | [`src/components/layout/AuthScreen.tsx`](../../src/components/layout/AuthScreen.tsx) | 로그인·가입·비밀번호 레이아웃 |
+
+채팅은 사이드바 메뉴가 아니라 보호 화면 우하단의 [`FloatingChatAssistant.tsx`](../../src/components/chat/FloatingChatAssistant.tsx)에서 전역으로 엽니다. 분석 크레딧은 마이페이지의 사용량 관리 카드에서 표시합니다.
 
 ## 공통 UI
 
@@ -24,7 +25,7 @@
 ## 테마·브랜딩
 
 - `App.tsx`: Ant Design `ConfigProvider` + 라이트/다크 `Switch` (`data-theme` on `.app-root`)
-- 색상 토큰: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) `palette` (primary `#2563EB`, accent `#14B8A6` 등)
+- 색상 토큰: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) `palette` (primary `#2563EB`, accent `#0D9488` 등)
 - 폰트: `Pretendard, Noto Sans KR, system-ui, sans-serif`
 - 로고·아이콘: [`public/assets/`](../../public/assets/) — `/assets/humour-logo-*.png`, `humour-app-icon.png`
 - 전역 스타일: [`src/styles.css`](../../src/styles.css) (사이드바, 인증 카드, 채팅 버블 등)
@@ -35,7 +36,9 @@
 |------|------|
 | `EChart.tsx` | ECharts React 래퍼 |
 | `DonutChart.tsx` | 대시보드 적합도 도넛 |
-| `chartAdapters.ts` | API/목 데이터 → 시리즈 변환 |
+| `DashboardLineChart.tsx` | 대시보드 선 차트 |
+| `DashboardBarChart.tsx` | 대시보드 막대 차트 |
+| `chartAdapters.ts` | API trend/summary 데이터 → 차트 옵션 변환 |
 | `chartTheme.ts` | 라이트/다크 색상 |
 
-[`AnalysisSummaryPanel.tsx`](../../src/components/dashboard/AnalysisSummaryPanel.tsx)에서 `mode`에 따라 테마를 넘깁니다.
+대시보드 차트 컴포넌트에서 `mode`에 따라 테마를 넘깁니다.

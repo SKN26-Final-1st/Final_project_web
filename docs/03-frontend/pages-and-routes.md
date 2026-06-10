@@ -18,8 +18,9 @@
 | `/signup` | `SignupPage` | 공개 |
 | `/password-reset` | `PasswordResetPage` | 공개 |
 
-메뉴 정의: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) — `mainMenu`(8), `authMenu`(3).  
-사이드바 라벨 예: 대시보드, 회사 정보, JD 관리, 자기소개서, 채팅, 마이페이지, **모집 공고**, **자소서 포맷**.
+메뉴 정의: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) — `mainMenu`(7), `utilityRoutes`(1), `authMenu`(3).
+사이드바 라벨 예: 대시보드, 회사 정보, JD 관리, 자기소개서, 마이페이지, **모집 공고**, **자소서 포맷**.
+`/chat`은 사이드바에 표시하지 않고 전역 플로팅 AI 버튼과 직접 해시 접근으로만 사용합니다.
 
 ## `App.tsx` 렌더 분기
 
