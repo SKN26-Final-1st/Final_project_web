@@ -101,8 +101,7 @@ button,
   --shell-content-pad: var(--layout-gap);
   --sidebar-card-gap: var(--layout-gap);
   --sidebar-width: 292px;
-  --desktop-nav-gap: var(--layout-gap);
-  --desktop-nav-height: 74px;
+  --sidebar-collapsed-width: 84px;
   min-height: 100vh;
   overflow: hidden;
   background:
@@ -127,12 +126,13 @@ button,
 }
 
 .sidebar {
+  --sidebar-current-width: var(--sidebar-width);
   position: fixed !important;
   inset: var(--sidebar-card-gap) auto var(--sidebar-card-gap) var(--sidebar-card-gap);
   z-index: 10;
-  width: var(--sidebar-width) !important;
-  min-width: var(--sidebar-width) !important;
-  max-width: var(--sidebar-width) !important;
+  width: var(--sidebar-current-width) !important;
+  min-width: var(--sidebar-current-width) !important;
+  max-width: var(--sidebar-current-width) !important;
   height: calc(100vh - (var(--sidebar-card-gap) * 2));
   overflow: hidden;
   overscroll-behavior: contain;
@@ -142,6 +142,12 @@ button,
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  transition:
+    width 240ms ease,
+    min-width 240ms ease,
+    max-width 240ms ease,
+    padding 240ms ease,
+    box-shadow 180ms ease;
 }
 
 .sidebar .ant-layout-sider-children {
@@ -708,234 +714,284 @@ button,
   }
 
   .shell>.ant-layout {
-    padding-top: calc(var(--desktop-nav-height) + (var(--desktop-nav-gap) * 2));
+    min-width: 0;
+    margin-left: calc(var(--sidebar-collapsed-width) + (var(--sidebar-card-gap) * 2));
+    transition: margin-left 240ms ease;
+  }
+
+  .shell:has(.desktop-shell-nav:hover)>.ant-layout,
+  .shell:has(.desktop-shell-nav:focus-within)>.ant-layout,
+  .shell:has(.desktop-shell-nav[data-account-open="true"])>.ant-layout {
+    margin-left: calc(var(--sidebar-width) + (var(--sidebar-card-gap) * 2));
+  }
+
+  .shell:has(.desktop-shell-nav:hover) .dashboard-page,
+  .shell:has(.desktop-shell-nav:focus-within) .dashboard-page,
+  .shell:has(.desktop-shell-nav[data-account-open="true"]) .dashboard-page {
+    --dashboard-hero-title-size: 34px;
+    --dashboard-hero-copy-size: 15px;
+    --dashboard-hero-stat-label-size: 11px;
+    --dashboard-hero-stat-value-size: 18px;
+    --dashboard-summary-title-size: 15px;
+    --dashboard-summary-meta-size: 11px;
+    --dashboard-summary-progress-size: 20px;
+    --dashboard-metric-title-size: 12px;
+    --dashboard-metric-value-size: 27px;
+    --dashboard-metric-change-size: 11px;
+    --dashboard-section-title-size: 15px;
+    --dashboard-table-text-size: 13px;
+    --dashboard-insight-title-size: 13px;
+    --dashboard-insight-desc-size: 12px;
+    --dashboard-task-text-size: 13px;
   }
 
   .desktop-shell-nav {
-    position: fixed !important;
-    top: var(--desktop-nav-gap);
-    right: auto;
-    bottom: auto;
-    left: 50%;
+    --sidebar-current-width: var(--sidebar-collapsed-width);
     z-index: 30;
-    width: min(calc(100vw - (var(--shell-content-pad) * 2)), var(--content-max)) !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: var(--desktop-nav-height);
-    overflow: visible;
-    padding: 10px 18px;
-    background: var(--surface-raised) !important;
-    backdrop-filter: blur(18px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-    transform: translateX(-50%);
+    padding: 16px 12px;
+  }
+
+  .desktop-shell-nav:hover,
+  .desktop-shell-nav:focus-within,
+  .desktop-shell-nav[data-account-open="true"] {
+    --sidebar-current-width: var(--sidebar-width);
+    padding: 16px 12px;
   }
 
   .desktop-shell-nav-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 100%;
+  }
+
+  .sidebar-brand-row {
+    display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+  }
+
+  .desktop-shell-nav:hover .sidebar-brand-row,
+  .desktop-shell-nav:focus-within .sidebar-brand-row,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-brand-row {
+    justify-content: flex-start;
   }
 
   .desktop-shell-nav .brand-button {
-    justify-self: start;
-    min-width: 158px;
+    justify-content: center;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    overflow: hidden;
   }
 
-  .desktop-shell-nav .brand-button img {
-    width: 132px;
+  .desktop-shell-nav:hover .brand-button,
+  .desktop-shell-nav:focus-within .brand-button,
+  .desktop-shell-nav[data-account-open="true"] .brand-button {
+    justify-content: flex-start;
+    width: auto;
+    min-width: 146px;
+  }
+
+  .desktop-shell-nav .brand-logo-full {
+    display: none;
+    width: 138px;
+  }
+
+  .desktop-shell-nav .brand-logo-mark {
+    display: block;
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 13px;
+    filter: drop-shadow(0 8px 16px rgba(24, 56, 114, 0.16));
+  }
+
+  .desktop-shell-nav:hover .brand-logo-full,
+  .desktop-shell-nav:focus-within .brand-logo-full,
+  .desktop-shell-nav[data-account-open="true"] .brand-logo-full {
+    display: block;
+  }
+
+  .desktop-shell-nav:hover .brand-logo-mark,
+  .desktop-shell-nav:focus-within .brand-logo-mark,
+  .desktop-shell-nav[data-account-open="true"] .brand-logo-mark {
+    display: none;
   }
 
   .desktop-shell-nav .side-section {
-    display: flex;
-    flex-direction: row;
-    flex: 0 0 auto;
-    justify-self: center;
-    justify-content: flex-start;
     align-items: center;
-    gap: 32px;
-    width: 484px;
+    flex: 1 1 auto;
+    gap: 8px;
+    width: 100%;
     min-width: 0;
-    height: 58px;
     margin-top: 0;
     padding: 0;
-    overflow: visible;
-    scrollbar-width: none;
+    overflow-x: hidden;
   }
 
-  .desktop-shell-nav .side-section::-webkit-scrollbar {
-    display: none;
+  .desktop-shell-nav:hover .side-section,
+  .desktop-shell-nav:focus-within .side-section,
+  .desktop-shell-nav[data-account-open="true"] .side-section {
+    align-items: stretch;
   }
 
   .desktop-shell-nav .side-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .desktop-shell-nav .side-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    min-height: 52px;
+    padding: 0;
+    border-radius: 18px;
+    text-align: left;
+  }
+
+  .desktop-shell-nav:hover .side-nav-item,
+  .desktop-shell-nav:focus-within .side-nav-item,
+  .desktop-shell-nav[data-account-open="true"] .side-nav-item {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    justify-content: stretch;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+    min-height: 52px;
+    padding: 7px 10px;
+    border-radius: 16px;
+  }
+
+  .desktop-shell-nav .side-nav-item:hover,
+  .desktop-shell-nav .side-nav-item:focus-visible {
+    transform: translateY(-1px);
+  }
+
+  .desktop-shell-nav .side-nav-item>span:not(.side-icon) {
     display: none;
   }
 
-  .desktop-shell-nav .side-nav-item.icon-only {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0;
-    width: 54px;
-    min-width: 54px;
-    height: 54px;
-    min-height: 54px;
-    padding: 0 9px;
-    overflow: visible;
-    border-radius: 18px;
-    text-align: center;
-    transition:
-      width 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      min-width 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      background 180ms ease,
-      box-shadow 180ms ease,
-      transform 180ms ease;
+  .desktop-shell-nav:hover .side-nav-item>span:not(.side-icon),
+  .desktop-shell-nav:focus-within .side-nav-item>span:not(.side-icon),
+  .desktop-shell-nav[data-account-open="true"] .side-nav-item>span:not(.side-icon) {
+    display: grid;
+    align-content: center;
+    gap: 1px;
+    min-width: 0;
+    height: 36px;
   }
 
-  .desktop-shell-nav .side-nav-item.icon-only:hover,
-  .desktop-shell-nav .side-nav-item.icon-only:focus-visible {
-    gap: 10px;
-    width: 218px;
-    min-width: 218px;
-    color: var(--primary);
-    border-color: var(--border-strong);
-    background: color-mix(in srgb, var(--primary-soft) 76%, var(--surface));
-    box-shadow: 0 14px 32px rgba(47, 115, 246, 0.14);
-    transform: translateY(-1px);
+  .desktop-shell-nav .side-nav-item strong {
+    line-height: 1.08;
   }
 
-  .desktop-shell-nav .side-nav-item.icon-only .side-icon {
-    position: relative;
-    z-index: 2;
-    flex: 0 0 36px;
+  .desktop-shell-nav .side-nav-item small {
+    margin-top: 0;
+    line-height: 1.08;
+  }
+
+  .desktop-shell-nav .side-icon {
+    flex: 0 0 auto;
     width: 36px;
     height: 36px;
     border-radius: 13px;
-    font-size: 17px;
-  }
-
-  .desktop-shell-nav .nav-slide-label {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    gap: 2px;
-    width: 0;
-    max-width: 0;
-    opacity: 0;
-    overflow: hidden;
-    text-align: left;
-    transform: translateX(-12px);
-    transition:
-      width 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      max-width 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      opacity 170ms ease 70ms,
-      transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .desktop-shell-nav .nav-slide-label strong,
-  .desktop-shell-nav .nav-slide-label small {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .desktop-shell-nav .nav-slide-label strong {
-    color: inherit;
-    font-size: 13px;
-    font-weight: 900;
-    line-height: 1.12;
-  }
-
-  .desktop-shell-nav .nav-slide-label small {
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 800;
-    line-height: 1.18;
-  }
-
-  .desktop-shell-nav .side-nav-item.icon-only:hover .nav-slide-label,
-  .desktop-shell-nav .side-nav-item.icon-only:focus-visible .nav-slide-label {
-    width: 146px;
-    max-width: 146px;
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .desktop-shell-nav .side-nav-item.icon-only.active {
-    color: #ffffff;
-    background: var(--primary);
-  }
-
-  .desktop-shell-nav .side-nav-item.icon-only.active:hover,
-  .desktop-shell-nav .side-nav-item.icon-only.active:focus-visible {
-    color: #ffffff;
-    border-color: transparent;
-    background: var(--primary);
-    box-shadow: 0 16px 34px rgba(47, 115, 246, 0.2);
-  }
-
-  .desktop-shell-nav .side-nav-item.icon-only.active:hover .nav-slide-label small,
-  .desktop-shell-nav .side-nav-item.icon-only.active:focus-visible .nav-slide-label small {
-    color: rgba(255, 255, 255, 0.72);
   }
 
   .desktop-shell-nav .sidebar-account-wrap {
-    justify-self: end;
-    padding-top: 0;
-    border-top: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 12px;
   }
 
   .desktop-shell-nav .sidebar-account-button {
-    display: inline-flex;
-    align-items: center;
+    display: flex;
     justify-content: center;
-    width: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    height: 44px;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    min-height: 52px;
     padding: 0;
-    color: inherit;
-    border: 0;
-    border-radius: 0;
-    background: transparent !important;
-    box-shadow: none;
+    border-radius: 18px;
   }
 
-  .desktop-shell-nav .sidebar-account-button:hover,
-  .desktop-shell-nav .sidebar-account-button:focus-visible,
-  .desktop-shell-nav .sidebar-account-button.active {
-    color: inherit;
-    border: 0;
-    background: transparent !important;
-    box-shadow: none;
-    transform: translateY(-1px);
+  .desktop-shell-nav:hover .sidebar-account-button,
+  .desktop-shell-nav:focus-within .sidebar-account-button,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    gap: 10px;
+    justify-content: stretch;
+    width: 100%;
+    min-width: 0;
+    min-height: 62px;
+    height: auto;
+    padding: 10px;
+    border-radius: 16px;
   }
 
-  .desktop-shell-nav .sidebar-account-button:focus-visible {
-    outline: 2px solid var(--border-strong);
-    outline-offset: 4px;
+  .desktop-shell-nav .sidebar-account-copy,
+  .desktop-shell-nav .sidebar-account-cue {
+    display: none;
   }
 
-  .desktop-shell-nav .sidebar-account-button .ant-avatar {
-    width: 44px;
-    height: 44px;
-    line-height: 44px;
-    box-shadow: none;
+  .desktop-shell-nav:hover .sidebar-account-copy,
+  .desktop-shell-nav:hover .sidebar-account-cue,
+  .desktop-shell-nav:focus-within .sidebar-account-copy,
+  .desktop-shell-nav:focus-within .sidebar-account-cue,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-copy,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-cue {
+    display: block;
   }
 
-  .desktop-shell-nav .sidebar-account-button.active .ant-avatar {
-    background: var(--primary);
-    color: #ffffff;
+  .desktop-shell-nav .sidebar-account-cue {
+    color: var(--subtle);
+    font-size: 13px;
+  }
+
+  .desktop-shell-nav:hover .sidebar-account-button:hover .sidebar-account-cue,
+  .desktop-shell-nav:hover .sidebar-account-button:focus-visible .sidebar-account-cue,
+  .desktop-shell-nav:hover .sidebar-account-button.active .sidebar-account-cue,
+  .desktop-shell-nav:focus-within .sidebar-account-button:hover .sidebar-account-cue,
+  .desktop-shell-nav:focus-within .sidebar-account-button:focus-visible .sidebar-account-cue,
+  .desktop-shell-nav:focus-within .sidebar-account-button.active .sidebar-account-cue,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button:hover .sidebar-account-cue,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button:focus-visible .sidebar-account-cue,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button.active .sidebar-account-cue {
+    color: currentColor;
+  }
+
+  .desktop-shell-nav:hover .sidebar-account-button.active .sidebar-account-cue,
+  .desktop-shell-nav:focus-within .sidebar-account-button.active .sidebar-account-cue,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button.active .sidebar-account-cue {
+    color: rgba(255, 255, 255, 0.72);
   }
 
   .content {
-    min-height: calc(100vh - var(--desktop-nav-height) - var(--desktop-nav-gap));
-    padding: 0 var(--shell-content-pad) var(--shell-content-pad);
+    min-height: 100vh;
+    padding: var(--shell-content-pad) var(--shell-content-pad) var(--shell-content-pad) 0;
+  }
+
+  .content-frame {
+    margin: 0;
   }
 }
 
@@ -1123,6 +1179,27 @@ button,
   color: var(--text);
 }
 
+.dashboard-page {
+  --dashboard-hero-title-size: 38px;
+  --dashboard-hero-copy-size: 16px;
+  --dashboard-hero-stat-label-size: 12px;
+  --dashboard-hero-stat-value-size: 20px;
+  --dashboard-summary-title-size: 17px;
+  --dashboard-summary-meta-size: 12px;
+  --dashboard-summary-progress-size: 22px;
+  --dashboard-metric-title-size: 13px;
+  --dashboard-metric-value-size: 31px;
+  --dashboard-metric-change-size: 12px;
+  --dashboard-section-title-size: 16px;
+  --dashboard-table-text-size: 14px;
+  --dashboard-insight-title-size: 14px;
+  --dashboard-insight-desc-size: 13px;
+  --dashboard-task-text-size: 14px;
+  display: grid;
+  gap: var(--layout-gap);
+  min-width: 0;
+}
+
 .ant-table {
   background: transparent !important;
 }
@@ -1172,10 +1249,15 @@ button,
 }
 
 .ant-form-item-label>label,
-.metric-card .ant-statistic-title,
 .form-stat-label {
   color: var(--muted) !important;
   font-size: 13px;
+  font-weight: 800;
+}
+
+.metric-card .ant-statistic-title {
+  color: var(--muted) !important;
+  font-size: var(--dashboard-metric-title-size, 13px) !important;
   font-weight: 800;
 }
 
@@ -1189,6 +1271,47 @@ button,
   gap: 14px;
   height: 100%;
   padding: 20px !important;
+}
+
+.dashboard-hero h1,
+.dashboard-hero p,
+.dashboard-page .section-card .ant-card-head-title,
+.dashboard-page .applicant-review-card .ant-table,
+.dashboard-page .insight-list .ant-list-item-meta-title,
+.dashboard-page .insight-list .ant-list-item-meta-description,
+.hero-stat span,
+.hero-stat strong,
+.summary-profile strong,
+.summary-profile span,
+.summary-progress span,
+.summary-progress strong,
+.summary-metrics strong,
+.summary-metrics span,
+.metric-card .ant-statistic-title,
+.metric-card .ant-statistic-content,
+.metric-change,
+.task-item span {
+  transition:
+    font-size 220ms ease,
+    line-height 220ms ease;
+}
+
+.dashboard-page .section-card .ant-card-head-title {
+  font-size: var(--dashboard-section-title-size, 16px);
+}
+
+.dashboard-page .applicant-review-card .ant-table,
+.dashboard-page .applicant-review-card .ant-table-thead>tr>th,
+.dashboard-page .applicant-review-card .ant-table-tbody>tr>td {
+  font-size: var(--dashboard-table-text-size, 14px);
+}
+
+.dashboard-page .insight-list .ant-list-item-meta-title {
+  font-size: var(--dashboard-insight-title-size, 14px) !important;
+}
+
+.dashboard-page .insight-list .ant-list-item-meta-description {
+  font-size: var(--dashboard-insight-desc-size, 13px) !important;
 }
 
 .metric-card-head {
@@ -1212,7 +1335,7 @@ button,
 
 .metric-card .ant-statistic-content {
   color: var(--text);
-  font-size: 31px;
+  font-size: var(--dashboard-metric-value-size, 31px);
   font-weight: 900;
 }
 
@@ -1222,7 +1345,7 @@ button,
   max-width: 100%;
   padding: 5px 10px;
   color: var(--primary);
-  font-size: 12px;
+  font-size: var(--dashboard-metric-change-size, 12px);
   font-weight: 900;
   border-radius: 999px;
   background: var(--primary-soft);
@@ -1259,7 +1382,7 @@ button,
 
 .dashboard-hero h1 {
   max-width: 620px;
-  font-size: 38px;
+  font-size: var(--dashboard-hero-title-size, 38px);
   line-height: 1.16;
 }
 
@@ -1267,7 +1390,7 @@ button,
   max-width: 630px;
   margin: 14px 0 0;
   color: var(--muted);
-  font-size: 16px;
+  font-size: var(--dashboard-hero-copy-size, 16px);
   line-height: 1.75;
 }
 
@@ -1303,13 +1426,13 @@ button,
 
 .hero-stat span {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--dashboard-hero-stat-label-size, 12px);
   font-weight: 800;
 }
 
 .hero-stat strong {
   color: var(--text);
-  font-size: 20px;
+  font-size: var(--dashboard-hero-stat-value-size, 20px);
   line-height: 1;
 }
 
@@ -1462,7 +1585,7 @@ button,
 .summary-metrics strong {
   display: block;
   color: var(--text);
-  font-size: 17px;
+  font-size: var(--dashboard-summary-title-size, 17px);
   line-height: 1.2;
 }
 
@@ -1472,7 +1595,7 @@ button,
   display: block;
   margin-top: 4px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--dashboard-summary-meta-size, 12px);
   font-weight: 800;
 }
 
@@ -1489,7 +1612,7 @@ button,
 
 .summary-progress strong {
   color: var(--primary);
-  font-size: 22px;
+  font-size: var(--dashboard-summary-progress-size, 22px);
 }
 
 .summary-metrics {
@@ -1598,6 +1721,7 @@ button,
 .task-item span {
   min-width: 0;
   color: var(--text);
+  font-size: var(--dashboard-task-text-size, 14px);
   font-weight: 700;
   line-height: 1.45;
 }

@@ -22,7 +22,7 @@ type DashboardPageProps = {
 
 export function DashboardPage({ dashboard, mode, navigate, showAlert, reloadData }: DashboardPageProps) {
   return (
-    <>
+    <div className="dashboard-page">
       <DashboardHero dashboard={dashboard} navigate={navigate} showAlert={showAlert} reloadData={reloadData} />
 
       <DashboardMetrics metrics={dashboard.metrics} />
@@ -41,6 +41,6 @@ export function DashboardPage({ dashboard, mode, navigate, showAlert, reloadData
       </Row>
 
       <TaskListPanel tasks={dashboard.tasks} />
-    </>
+    </div>
   );
 }

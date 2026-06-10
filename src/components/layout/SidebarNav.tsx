@@ -105,36 +105,11 @@ function MenuItems({
   route,
   navigate,
   onNavigate,
-  variant = 'full',
-}: Pick<NavigationProps, 'route' | 'navigate'> & { onNavigate?: () => void; variant?: 'full' | 'icon' }) {
+}: Pick<NavigationProps, 'route' | 'navigate'> & { onNavigate?: () => void }) {
   return (
     <>
       {sidebarMenu.map((item) => {
         const isActive = route === item.route;
-        if (variant === 'icon') {
-          return (
-            <button
-              key={item.route}
-              type="button"
-              className={`side-nav-item icon-only ${isActive ? 'active' : ''}`}
-              aria-label={`${item.label}: ${item.description}`}
-              aria-current={isActive ? 'page' : undefined}
-              onClick={() => {
-                onNavigate?.();
-                navigate(item.route);
-              }}
-            >
-              <span className="side-icon" aria-hidden="true">
-                {item.icon}
-              </span>
-              <span className="nav-slide-label" aria-hidden="true">
-                <strong>{item.label}</strong>
-                <small>{item.description}</small>
-              </span>
-            </button>
-          );
-        }
-
         return (
           <button
             key={item.route}
@@ -142,8 +117,9 @@ function MenuItems({
             className={`side-nav-item ${isActive ? 'active' : ''}`}
             aria-label={`${item.label}: ${item.description}`}
             aria-current={isActive ? 'page' : undefined}
-            onClick={() => {
+            onClick={(event) => {
               onNavigate?.();
+              event.currentTarget.blur();
               navigate(item.route);
             }}
           >
@@ -209,7 +185,7 @@ export function MobileShellHeader(props: NavigationProps) {
       <Drawer
         rootClassName="mobile-nav-drawer"
         placement="left"
-        width="min(330px, calc(100vw - 28px))"
+        size="min(330px, calc(100vw - 28px))"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         title={null}
@@ -238,21 +214,37 @@ export function SidebarNav(props: NavigationProps) {
   const { route, mode, creditPercent, profile, themeSwitch, navigate, showAlert } = props;
   const [accountOpen, setAccountOpen] = useState(false);
   const displayName = profile?.displayName ?? '채용 담당자';
+  const email = profile?.email ?? 'recruiter@humour.ai';
 
   return (
-    <nav className="sidebar desktop-shell-nav" aria-label="주요 페이지">
+    <nav className="sidebar desktop-shell-nav" data-account-open={accountOpen ? 'true' : 'false'} aria-label="주요 페이지">
       <div className="desktop-shell-nav-inner">
-        <button type="button" className="brand-button" onClick={() => navigate('/dashboard')} aria-label="대시보드로 이동">
-          <img src={mode === 'dark' ? '/assets/humour-logo-dark.png' : '/assets/humour-logo-light.png'} alt="HumouR" />
-        </button>
+        <div className="sidebar-brand-row">
+          <button
+            type="button"
+            className="brand-button"
+            onClick={(event) => {
+              event.currentTarget.blur();
+              navigate('/dashboard');
+            }}
+            aria-label="대시보드로 이동"
+          >
+            <img
+              className="brand-logo-full"
+              src={mode === 'dark' ? '/assets/humour-logo-dark.png' : '/assets/humour-logo-light.png'}
+              alt="HumouR"
+            />
+            <img className="brand-logo-mark" src="/assets/humour-app-icon.png" alt="" aria-hidden="true" />
+          </button>
+        </div>
         <div className="side-section">
           <span className="side-label">Main menu</span>
-          <MenuItems route={route} navigate={navigate} variant="icon" />
+          <MenuItems route={route} navigate={navigate} />
         </div>
         <div className="sidebar-account-wrap">
           <Popover
             rootClassName="account-popover"
-            placement="bottomRight"
+            placement="rightBottom"
             trigger="click"
             arrow={false}
             open={accountOpen}
@@ -277,6 +269,11 @@ export function SidebarNav(props: NavigationProps) {
               <Avatar size={38} src={profile?.avatarUrl}>
                 {getInitials(displayName)}
               </Avatar>
+              <span className="sidebar-account-copy">
+                <strong>{displayName}</strong>
+                <small>{email}</small>
+              </span>
+              <SettingOutlined className="sidebar-account-cue" aria-hidden="true" />
             </button>
           </Popover>
         </div>
