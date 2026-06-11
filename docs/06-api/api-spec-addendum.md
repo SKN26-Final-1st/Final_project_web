@@ -155,7 +155,9 @@ POST /api/jd/analize/
 
 ## 7. 회원가입 전 username 중복 확인
 
-프론트에는 “중복 확인” 버튼이 있지만 명세에는 별도 API가 없습니다. 현재는 안내성 성공 응답만 표시합니다.
+> **프론트 연동 상태**: real API 모드에서 `POST /api/checkuser/`를 호출합니다. 응답 envelope의 `valid` 필드를 `{ available: boolean }`으로 변환합니다.
+
+아래는 RESTful 경로 제안입니다. 현재 프론트는 backend action 이름 `checkuser`를 사용합니다.
 
 제안:
 
@@ -180,7 +182,9 @@ POST /api/account/check-username/
 
 ## 8. 비밀번호 재설정
 
-로그인 전 비밀번호 재설정 화면이 있지만, 명세에는 해당 API가 없습니다. `account/modify`는 로그인 후 기존 비밀번호 변경에 가깝습니다.
+> **프론트 연동 상태**: real API 모드에서 `POST /api/passqestion/`(질문 조회)과 `POST /api/passreset/`(답변 검증·임시 비밀번호)를 호출합니다. `account/modify`는 로그인 후 마이페이지 비밀번호 변경에 사용합니다.
+
+아래는 단일 endpoint 제안입니다. 현재 프론트는 2단계 action 이름을 사용합니다.
 
 제안:
 
@@ -199,7 +203,9 @@ POST /api/password-reset/
 
 ## 9. 채팅/문서 검색
 
-현재 AI 문서 검색 UI는 프론트 로컬 응답입니다. 백엔드 연동을 위해 아래 API가 필요합니다.
+> **프론트 연동 상태**: real API 모드에서 `POST /api/chat/`를 호출합니다. 요청 body는 `{ chat: [{ role: "user"|"agent", message: string }] }` 형식이며, 응답 envelope에 `response: { role, message }`가 있어야 합니다.
+
+아래는 `resume_id` 기반 단일 질문 제안입니다. 현재 프론트는 대화 히스토리 배열 형식을 사용합니다.
 
 ```text
 POST /api/chat/
