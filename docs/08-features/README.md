@@ -1,6 +1,6 @@
 # 기능별 문서
 
-HumouR UI 목업의 화면별 API 사용 정리입니다. 실제 호출 기준은 [`src/api/backendClient.ts`](../../src/api/backendClient.ts)와 [API 레퍼런스](../06-api/api-reference.md)입니다.
+HumouR 프론트엔드의 화면별 API 사용 정리입니다. 초기 데이터는 React Query(`loadAppData`)로 로드하고, 액션은 [`src/api/backendClient.ts`](../../src/api/backendClient.ts)의 `apiClient`를 통해 실행합니다.
 
 기본 실행은 mock API 모드입니다. 각 화면의 버튼과 라우팅 흐름은 backend 없이 확인할 수 있고, `VITE_USE_MOCK_API=false`에서 axios 기반 실제 호출로 전환됩니다.
 
