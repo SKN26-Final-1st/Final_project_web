@@ -370,6 +370,7 @@ export function mapAdmin(data: ApiData<typeof dashboardApiResponse>): AdminData 
   const processingResumes = data.resumes.filter((resume) => resume.status === 'processing').length;
   const creditPercent = creditToPercent(data.account.credit);
   const teams = data.company_info.team_composition.length ? data.company_info.team_composition : ['HR'];
+  const ownerUsername = data.account.username ?? 'account';
 
   return {
     companyName: data.company_info.company_name,
@@ -408,7 +409,7 @@ export function mapAdmin(data: ApiData<typeof dashboardApiResponse>): AdminData 
       {
         key: 'owner',
         name: data.account.name,
-        email: `${data.account.username}@${data.company_info.company_name.toLowerCase()}.hr`,
+        email: `${ownerUsername}@${data.company_info.company_name.toLowerCase()}.hr`,
         role: '최고 관리자',
         scope: '전체 워크스페이스',
         status: '활성',
@@ -637,7 +638,7 @@ export function mapTemplateQuestions(data: ApiData<typeof coverLetterTemplateApi
 export function mapUserProfile(data: ApiData<typeof userProfileApiResponse>, company?: CompanyInfo): UserProfile {
   return {
     displayName: data.name,
-    username: data.username,
+    username: data.username ?? 'account',
     roleName: data.subscribe ? '구독 활성' : '구독 만료',
     companyName: company?.company_name ?? '회사 정보 없음',
     credit: data.credit,
