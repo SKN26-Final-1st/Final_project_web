@@ -7,6 +7,7 @@
 | `AppRoute` | 페이지 컴포넌트 | 인증 |
 |------------|-----------------|------|
 | `/dashboard` | `DashboardPage` | 보호 |
+| `/admin` | `AdminPage` | 보호 |
 | `/company` | `CompanyPage` | 보호 |
 | `/jd` | `JdPage` | 보호 |
 | `/cover-letter` | `CoverLetterPage` | 보호 |
@@ -18,8 +19,8 @@
 | `/signup` | `SignupPage` | 공개 |
 | `/password-reset` | `PasswordResetPage` | 공개 |
 
-메뉴 정의: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) — `mainMenu`(8), `authMenu`(3).
-사이드바 라벨 예: 대시보드, 회사 정보, JD 관리, 자기소개서, **AI 문서 검색**, 마이페이지, 모집 공고, 자소서 포맷.
+메뉴 정의: [`src/data/mockData.tsx`](../../src/data/mockData.tsx) — `mainMenu`(9), `authMenu`(3).
+사이드바 라벨 예: 대시보드, 관리자, 회사 정보, JD 관리, 자기소개서, **AI 문서 검색**, 마이페이지, 모집 공고, 자소서 포맷.
 
 ## `App.tsx` 렌더 분기
 

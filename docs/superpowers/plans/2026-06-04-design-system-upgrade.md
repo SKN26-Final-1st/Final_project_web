@@ -6,7 +6,7 @@
 
 **Architecture:** Keep the existing Vite, React, Ant Design, and CSS architecture. Add one focused dashboard hero component, refine shared layout components, and centralize the visual upgrade in `src/styles.css` so secondary pages inherit the system without bespoke rewrites.
 
-**Tech Stack:** React 19, TypeScript, Ant Design 5, ECharts, CSS custom properties, Vite.
+**Tech Stack:** React 19, TypeScript, Ant Design 6, ECharts, CSS custom properties, Vite.
 
 ---
 
@@ -15,9 +15,7 @@
 - Create `src/components/dashboard/DashboardHero.tsx`: dashboard-only hero, operational summary rail, and CSS-built recruitment illustration.
 - Modify `src/pages/DashboardPage.tsx`: replace generic page title with `DashboardHero`.
 - Modify `src/components/common/MetricCard.tsx`: add stable icon chips and accessible metric presentation.
-- Modify `src/components/layout/SidebarNav.tsx`: add semantic classes for polished nav styling.
-- Modify `src/components/layout/TopHeader.tsx`: add desktop search affordance and compact action grouping.
-- Modify `src/components/layout/CreditSummary.tsx`: expose percentage copy for the new sidebar credit module.
+- Modify `src/components/layout/SidebarNav.tsx`: add semantic classes, mobile header, account popover, credit panel, and compact action grouping.
 - Modify `src/components/dashboard/AnalysisSummaryPanel.tsx`: add class hooks for summary styling.
 - Modify `src/components/dashboard/ApplicantReviewTable.tsx`: add class hook and progress styling support.
 - Modify `src/components/dashboard/TaskListPanel.tsx`: add index-based visual hooks without changing task data.
@@ -48,15 +46,13 @@ Expected: TypeScript and Vite build pass before implementation.
 ## Task 2: Shared Layout Polish
 
 **Files:**
-- Modify: `src/components/layout/TopHeader.tsx`
 - Modify: `src/components/layout/SidebarNav.tsx`
-- Modify: `src/components/layout/CreditSummary.tsx`
 - Modify: `src/components/common/PageTitle.tsx`
 - Modify: `src/styles.css`
 
 - [ ] **Step 1: Update layout component markup**
 
-Add class hooks for top search, header actions, sidebar icon wrapping, credit percentage, and page-title copy while preserving props and behavior.
+Add class hooks for sidebar icon wrapping, mobile header actions, account popover credit percentage, and page-title copy while preserving props and behavior.
 
 - [ ] **Step 2: Implement shell CSS**
 
@@ -138,11 +134,11 @@ Expected: Vite serves the app at `http://127.0.0.1:5173/`.
 
 - [ ] **Step 4: Browser desktop QA**
 
-Open `http://127.0.0.1:5173/#/dashboard` at 1440px width. Expected: dashboard hero is visible, no overlap, sidebar/header/card system matches the reference-inspired direction.
+Open `http://127.0.0.1:5173/dashboard` at 1440px width. Expected: dashboard hero is visible, no overlap, sidebar/header/card system matches the reference-inspired direction.
 
 - [ ] **Step 5: Browser tablet QA**
 
-Open dashboard at about 900px width. Expected: sidebar is hidden or collapsed by Ant Design breakpoint, header route select is usable, dashboard content stacks cleanly.
+Open dashboard at about 900px width. Expected: desktop sidebar gives way to the mobile header/drawer pattern where applicable, dashboard content stacks cleanly.
 
 - [ ] **Step 6: Browser mobile QA**
 
@@ -150,4 +146,4 @@ Open dashboard at about 390px width. Expected: single-column layout, no text ove
 
 - [ ] **Step 7: Secondary route smoke QA**
 
-Navigate to company, JD, cover-letter, chat, mypage, recruitment-post, and cover-letter-template routes. Expected: each page inherits the upgraded card/header/page-title language and remains usable.
+Navigate to admin, company, JD, cover-letter, chat, mypage, recruitment-post, and cover-letter-template routes. Expected: each page inherits the upgraded card/header/page-title language and remains usable.

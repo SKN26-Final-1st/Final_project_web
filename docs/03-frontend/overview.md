@@ -4,10 +4,10 @@
 
 | 파일 | 역할 |
 |------|------|
-| [`src/components/layout/AppShell.tsx`](../../src/components/layout/AppShell.tsx) | 인증 제외 화면: 사이드바 + 헤더 + 콘텐츠 + `assistantFab` 슬롯 |
-| [`src/components/layout/SidebarNav.tsx`](../../src/components/layout/SidebarNav.tsx) | `mainMenu` 기반 네비게이션, 하단 크레딧 |
-| [`src/components/layout/TopHeader.tsx`](../../src/components/layout/TopHeader.tsx) | 스티키 헤더, 데스크톱 검색, 모바일 라우트 셀렉트 |
-| [`src/components/layout/CreditSummary.tsx`](../../src/components/layout/CreditSummary.tsx) | 분석 크레딧 % 표시 |
+| [`src/components/layout/AppShell.tsx`](../../src/components/layout/AppShell.tsx) | 인증 제외 화면: 데스크톱 사이드바 + 모바일 헤더 + 콘텐츠 + `assistantFab` 슬롯 |
+| [`src/components/layout/SidebarNav.tsx`](../../src/components/layout/SidebarNav.tsx) | `mainMenu` 기반 네비게이션, 모바일 헤더/드로어, 계정 팝오버, 크레딧 패널 |
+| [`src/components/layout/TopHeader.tsx`](../../src/components/layout/TopHeader.tsx) | 레거시 헤더 컴포넌트. 현재 `AppShell`에서 직접 사용하지 않음 |
+| [`src/components/layout/CreditSummary.tsx`](../../src/components/layout/CreditSummary.tsx) | 레거시 크레딧 컴포넌트. 현재 크레딧 UI는 `SidebarNav`의 계정 팝오버에서 렌더링 |
 | [`src/components/layout/AuthScreen.tsx`](../../src/components/layout/AuthScreen.tsx) | 로그인·가입·비밀번호 레이아웃 |
 
 `AppShell`은 `content-frame`에 `key={route}`를 두어 라우트 전환 시 페이지 진입 애니메이션을 유도합니다.

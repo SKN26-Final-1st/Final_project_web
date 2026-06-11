@@ -10,7 +10,8 @@ HumouR UI 목업을 로컬에서 실행하고, mock API 모드와 실제 backend
 현재 주요 runtime dependency:
 
 - React 19
-- Ant Design 5
+- Ant Design 6
+- Ant Design X
 - ECharts 6
 - Axios 1.17.0
 
@@ -24,7 +25,7 @@ npm run dev
 | 항목 | 값 |
 |------|-----|
 | 개발 서버 | `http://127.0.0.1:5173` (`vite --host 127.0.0.1`) |
-| 저장소 폴더 | `final_min_playground` |
+| 저장소 폴더 | `Final_project_web` |
 | npm 패키지명 | `humour-ui-mockup` ([`package.json`](../../package.json)) |
 | 화면 이동 | React Router 라우팅. 예: `/dashboard`, `/company`, `/login` |
 

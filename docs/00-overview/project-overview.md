@@ -1,6 +1,6 @@
 # 프로젝트 개요
 
-`final_min_playground`는 SKN26 파이널 프로젝트 **HumouR**의 프론트엔드 UI 목업 저장소입니다. 채용 담당자가 회사 정보, JD, 지원서, 분석 리포트, 면접 질문 흐름을 한 화면 제품처럼 탐색할 수 있도록 구성합니다.
+`Final_project_web`는 SKN26 파이널 프로젝트 **HumouR**의 프론트엔드 UI 목업 저장소입니다. 채용 담당자가 관리자 운영, 회사 정보, JD, 지원서, 분석 리포트, 면접 질문 흐름을 한 화면 제품처럼 탐색할 수 있도록 구성합니다.
 
 ## 목적
 
@@ -15,6 +15,7 @@
 |------|-----------|------|
 | 라우팅 | `src/App.tsx`, `src/utils/routes.ts` | `/dashboard`, `/login` 등 React Router 라우팅 |
 | 레이아웃 | `src/components/layout/` | 사이드바, 모바일 헤더, 인증 화면 |
+| 관리자 | `src/pages/AdminPage.tsx` | 면접방, 비밀번호, LLM 질문 생성량, 포인트 가드레일 목업 |
 | 대시보드 | `src/components/dashboard/` | 지표, 지원자 테이블, 분석 요약 |
 | 차트 | `src/components/charts/` | ECharts wrapper와 donut chart |
 | AI 문서 검색 | `src/components/chat/`, `src/pages/ChatPage.tsx` | 플로팅 위젯과 전체 채팅 화면 |
@@ -37,7 +38,7 @@
 
 | 영역 | 기술 |
 |------|------|
-| UI | React 19, TypeScript, Ant Design 5 |
+| UI | React 19, TypeScript, Ant Design 6, Ant Design X |
 | 빌드 | Vite 7 |
 | HTTP client | Axios 1.17.0 |
 | 차트 | ECharts 6 |

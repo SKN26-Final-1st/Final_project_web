@@ -10,7 +10,7 @@ The selected direction is "impact plus system expansion": borrow the reference i
 
 This design targets the current React/Vite frontend:
 
-- Common shell: `AppShell`, `SidebarNav`, `TopHeader`
+- Common shell: `AppShell`, `SidebarNav`, `MobileShellHeader`
 - Shared UI layer: cards, metrics, tables, tags, forms, buttons, alerts, chat surfaces
 - Dashboard: hero insight panel, metrics, applicant table, analysis summary, task list
 - Secondary pages: company profile, JD management, cover-letter flows, chat, my page, recruitment post preview, cover-letter template
@@ -60,11 +60,11 @@ The dashboard becomes the showcase screen.
    - Use smooth hover/active transitions.
    - Keep current Ant Design responsive collapse behavior, but polish the mobile replacement.
 
-2. Header:
-   - Add a search affordance on desktop so the app feels operational.
-   - Keep notifications, theme switch, and logout actions.
-   - Use a translucent/sticky surface with blur and subtle border.
-   - On mobile, keep the route select and compact icon actions without text overflow.
+2. Header and account controls:
+   - Keep desktop navigation in the sidebar and mobile navigation in `MobileShellHeader`.
+   - Keep theme switch and logout/profile actions in the account popover.
+   - Use a polished shell surface with subtle borders and clear hover states.
+   - On mobile, keep compact icon actions and drawer navigation without text overflow.
 
 3. Content:
    - Use a constrained max content width on very wide screens while keeping dashboards spacious.
@@ -96,9 +96,9 @@ Motion should make the product feel alive without distracting users.
 
 Target responsive tiers:
 
-- Wide desktop: sidebar, sticky header, dashboard hero with right summary rail, four metric columns.
+- Wide desktop: sidebar, dashboard hero with right summary rail, four metric columns.
 - Laptop/tablet: two-column metric grid, dashboard sections stacked more conservatively, summary rail moves below hero content.
-- Mobile: sidebar hidden, route select visible, single-column content, compact actions, tables remain horizontally scrollable or use existing mobile-friendly alternatives where already present.
+- Mobile: sidebar hidden, mobile header/drawer visible, single-column content, compact actions, tables remain horizontally scrollable or use existing mobile-friendly alternatives where already present.
 
 Text must not overflow controls. Buttons with long Korean labels should wrap through Ant Design `Space` or collapse to icon-only where the existing pattern supports it.
 

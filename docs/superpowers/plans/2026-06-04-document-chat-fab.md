@@ -6,7 +6,7 @@
 
 **Architecture:** Reuse the current app-level chat state so the FAB drawer and `/chat` page share messages, input, loading, and send behavior. Add focused chat context components and keep visual styling in the existing CSS system.
 
-**Tech Stack:** React 19, TypeScript, Ant Design 5, CSS custom properties.
+**Tech Stack:** React 19, TypeScript, Ant Design 6, CSS custom properties.
 
 ---
 

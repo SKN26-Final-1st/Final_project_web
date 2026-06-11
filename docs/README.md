@@ -1,6 +1,6 @@
 # HumouR 프론트엔드 문서
 
-이 문서는 `final_min_playground` UI 목업의 화면 구조, 라우팅, API client, mock/real backend 전환 방식을 정리합니다.
+이 문서는 `Final_project_web` UI 목업의 화면 구조, 라우팅, API client, mock/real backend 전환 방식을 정리합니다.
 
 > 현재 기본 실행은 mock API 모드입니다. 로그인, 회원가입, 비밀번호 재설정, 초기 데이터 로딩이 로컬 mock 응답으로 처리됩니다.
 > 실제 backend 호출을 확인할 때는 `VITE_USE_MOCK_API=false`로 실행하면 [`src/api/backendClient.ts`](../src/api/backendClient.ts)의 axios client가 `/api/{endpoint}/`를 호출합니다.
@@ -33,6 +33,7 @@
 | 화면 | 라우트 | 문서 |
 |------|--------|------|
 | 대시보드 | `/dashboard` | [dashboard.md](./08-features/dashboard.md) |
+| 관리자 | `/admin` | [admin.md](./08-features/admin.md) |
 | 회사 정보 | `/company` | [company.md](./08-features/company.md) |
 | JD 관리 | `/jd` | [jd.md](./08-features/jd.md) |
 | 자기소개서 | `/cover-letter` | [cover-letter.md](./08-features/cover-letter.md) |

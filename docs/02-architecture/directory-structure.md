@@ -1,11 +1,11 @@
 # 디렉터리 구조
 
-`final_min_playground`의 실제 파일 구조 기준 문서입니다.
+`Final_project_web`의 실제 파일 구조 기준 문서입니다.
 
 ## 루트
 
 ```text
-final_min_playground/
+Final_project_web/
 ├── public/
 │   └── assets/                 # HumouR PNG assets
 ├── src/                        # 애플리케이션 소스
@@ -28,7 +28,7 @@ final_min_playground/
 
 ```text
 src/
-├── main.tsx                    # React root, antd reset.css, styles.css
+├── main.tsx                    # React root, BrowserRouter, antd reset.css, styles.css
 ├── App.tsx                     # React Router 라우팅, 테마, API 액션, DocumentChatFab 연결
 ├── styles.css                  # 디자인 토큰과 레이아웃 스타일
 ├── vite-env.d.ts               # Vite import.meta.env 타입
@@ -54,6 +54,7 @@ src/
 | `pages/` | 관련 `components/` |
 |----------|--------------------|
 | `DashboardPage.tsx` | `dashboard/`, `charts/` |
+| `AdminPage.tsx` | 페이지 내부 관리자 운영 패널 중심 |
 | `CompanyPage.tsx` | `company/` |
 | `JdPage.tsx` | `jd/` |
 | `CoverLetterPage.tsx` | `cover-letter/` |
