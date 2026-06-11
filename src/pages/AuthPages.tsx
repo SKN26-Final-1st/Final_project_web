@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button, Col, Flex, Form, Input, Row, Steps } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, LoginOutlined } from '@ant-design/icons';
 import { InlineLoading } from '../components/common/InlineLoading';
@@ -103,6 +103,8 @@ export function SignupPage({
   authDefaults,
   runApiAction,
 }: SignupPageProps) {
+  const [signupForm] = Form.useForm<SignupValues>();
+
   return (
     <AuthScreen
       mode={mode}
@@ -112,6 +114,7 @@ export function SignupPage({
       cardTitle="회원가입"
       card={
         <Form<SignupValues>
+          form={signupForm}
           layout="vertical"
           initialValues={{
             username: authDefaults?.username ?? '',
@@ -133,7 +136,11 @@ export function SignupPage({
                 <Button
                   block
                   disabled={loadingKey === 'signup-check'}
-                  onClick={() => void runApiAction('signup-check', apiClient.checkSignupId)}
+                  onClick={() =>
+                    void runApiAction('signup-check', () =>
+                      apiClient.checkSignupId(signupForm.getFieldValue('username')),
+                    )
+                  }
                 >
                   중복 확인
                 </Button>
@@ -182,15 +189,24 @@ export function PasswordResetPage({
   resetStep,
   setResetStep,
 }: PasswordResetPageProps) {
+  const [resetForm] = Form.useForm<{ username: string; verification_answer: string }>();
+  const [verificationQuestion, setVerificationQuestion] = useState(authDefaults?.verification_question ?? '');
+  const [temporaryPassword, setTemporaryPassword] = useState('');
+
   const stepContents = [
-    <Form.Item label="아이디" key="id">
-      <Input defaultValue={authDefaults?.username ?? ''} />
+    <Form.Item label="아이디" name="username" key="id">
+      <Input />
     </Form.Item>,
-    <Form.Item label="본인확인 질문" key="question">
-      <Input defaultValue={authDefaults?.verification_question ?? ''} />
-    </Form.Item>,
-    <Form.Item label="새 비밀번호" key="password">
-      <Input.Password />
+    <div key="question">
+      <Form.Item label="본인확인 질문">
+        <Input value={verificationQuestion || '아이디 확인 후 질문을 불러옵니다.'} readOnly />
+      </Form.Item>
+      <Form.Item label="본인확인 답변" name="verification_answer">
+        <Input />
+      </Form.Item>
+    </div>,
+    <Form.Item label="임시 비밀번호" key="password">
+      <Input value={temporaryPassword || '재설정 완료 후 표시됩니다.'} readOnly />
     </Form.Item>,
   ];
 
@@ -202,24 +218,56 @@ export function PasswordResetPage({
       title="단계형 재설정 플로우로 인증 화면 상태를 확인합니다."
       cardTitle="비밀번호 찾기"
       card={
-        <div>
+        <Form
+          form={resetForm}
+          layout="vertical"
+          initialValues={{
+            username: authDefaults?.username ?? '',
+            verification_answer: authDefaults?.verification_answer ?? '',
+          }}
+        >
           <Steps size="small" current={resetStep} items={[{ title: 'ID' }, { title: '질문' }, { title: '변경' }]} />
           <div className="step-panel">{stepContents[resetStep]}</div>
           <Button
             type="primary"
             block
-            disabled={loadingKey === 'password-reset'}
+            disabled={loadingKey === 'password-question' || loadingKey === 'password-reset'}
             onClick={() => {
-              if (resetStep < 2) {
-                setResetStep((current) => current + 1);
+              const username = resetForm.getFieldValue('username');
+
+              if (resetStep === 0) {
+                void runApiAction('password-question', () => apiClient.getPasswordQuestion(username), (response) => {
+                  setVerificationQuestion(response.data.verification_question);
+                  setResetStep(1);
+                });
                 return;
               }
-              void runApiAction('password-reset', apiClient.resetPassword, () => navigate('/login'));
+
+              if (resetStep === 1) {
+                void runApiAction(
+                  'password-reset',
+                  () => apiClient.resetPassword(username, resetForm.getFieldValue('verification_answer')),
+                  (response) => {
+                    setTemporaryPassword(response.data.password);
+                    setResetStep(2);
+                  },
+                );
+                return;
+              }
+              navigate('/login');
             }}
           >
-            {loadingKey === 'password-reset' ? <InlineLoading label="재설정 중" /> : resetStep < 2 ? '다음' : '재설정 완료'}
+            {loadingKey === 'password-question' || loadingKey === 'password-reset' ? (
+              <InlineLoading label={loadingKey === 'password-question' ? '질문 확인 중' : '재설정 중'} />
+            ) : resetStep === 0 ? (
+              '질문 확인'
+            ) : resetStep === 1 ? (
+              '재설정'
+            ) : (
+              '로그인으로 이동'
+            )}
           </Button>
-        </div>
+        </Form>
       }
     />
   );
