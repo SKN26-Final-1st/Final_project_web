@@ -21,6 +21,7 @@ import { MyPage } from './pages/MyPage';
 import { RecruitmentPostPage } from './pages/RecruitmentPostPage';
 import type { AlertState, KeySetter, ThemeMode } from './types/app';
 import { appRoutes, authRoutes, getRouteFromPathname } from './utils/routes';
+import type { ApiResponse } from './data/apiMockData';
 
 export default function App() {
   const routerNavigate = useNavigate();
@@ -103,8 +104,8 @@ export default function App() {
 
   const runApiAction = async <T,>(
     key: string,
-    action: () => Promise<{ status_code: number; message: string; data: T }>,
-    afterComplete?: (response: { status_code: number; message: string; data: T }) => void,
+    action: () => Promise<ApiResponse<T>>,
+    afterComplete?: (response: ApiResponse<T>) => void,
   ) => {
     if (loadingKey) {
       return;
@@ -114,8 +115,8 @@ export default function App() {
     try {
       const response = await action();
       showAlert({
-        type: response.status_code >= 400 ? 'error' : 'success',
-        message: response.message,
+        type: response.error ? 'error' : 'success',
+        message: response.message ?? (response.error ? 'API 요청이 실패했습니다.' : '요청이 완료되었습니다.'),
       });
       afterComplete?.(response);
     } catch (nextError) {
@@ -140,9 +141,10 @@ export default function App() {
       return;
     }
 
-    setChatMessages([...activeChatMessages, { role: 'user', text: trimmed }]);
+    const nextChatMessages: ChatMessage[] = [...activeChatMessages, { role: 'user', text: trimmed }];
+    setChatMessages(nextChatMessages);
     setChatInput('');
-    void runApiAction('chat', () => apiClient.sendChatMessage(trimmed), (response) =>
+    void runApiAction('chat', () => apiClient.sendChatMessage(trimmed, nextChatMessages), (response) =>
       setChatMessages((prev) => [...prev, response.data]),
     );
   };
