@@ -1,6 +1,8 @@
 import axios, { AxiosHeaders, type InternalAxiosRequestConfig } from 'axios';
 import {
   analysisReportApiResponse,
+  analysisReportsApiResponse,
+  accountApiResponse,
   authDefaultsApiResponse,
   companyApiResponse,
   coverLettersApiResponse,
@@ -22,6 +24,11 @@ type BackendEnvelope<T> = {
   message?: string;
 } & Record<string, unknown>;
 
+type BackendChatMessage = {
+  role: 'user' | 'agent';
+  message: string;
+};
+
 type DashboardPayload = {
   account: Account;
   company_info: CompanyInfo;
@@ -41,6 +48,7 @@ type SignupBody = {
 
 const API_ROOT = '/api';
 const USE_MOCK_API = import.meta.env.VITE_USE_MOCK_API !== 'false';
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const httpClient = axios.create({
   baseURL: API_ROOT,
@@ -50,9 +58,9 @@ const httpClient = axios.create({
   },
 });
 
-function toApiResponse<T>(message: string, data: T, statusCode = 200): ApiResponse<T> {
+function toApiResponse<T>(message: string, data: T): ApiResponse<T> {
   return {
-    status_code: statusCode,
+    error: false,
     message,
     data,
     meta: {
@@ -141,18 +149,24 @@ function getRequestErrorMessage(error: unknown, fallback: string) {
 }
 
 httpClient.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+  const headers = AxiosHeaders.from(config.headers);
+
+  if (API_KEY) {
+    headers.set('X-API-Key', API_KEY);
+  }
+
   if ((config.method ?? 'get').toLowerCase() === 'get') {
+    config.headers = headers;
     return config;
   }
 
   const csrfToken = await getCsrfToken();
 
   if (csrfToken) {
-    const headers = AxiosHeaders.from(config.headers);
     headers.set('X-CSRFToken', csrfToken);
-    config.headers = headers;
   }
 
+  config.headers = headers;
   return config;
 });
 
@@ -201,6 +215,65 @@ async function loginRequest(username: string, password: string) {
   }
 }
 
+async function checkUserRequest(username: string) {
+  const payload = await requestAction('checkuser', { username });
+  return Boolean(payload.valid);
+}
+
+async function passwordQuestionRequest(username: string) {
+  const payload = await requestAction('passqestion', { username });
+  const verificationQuestion = payload.verification_question;
+
+  if (typeof verificationQuestion !== 'string') {
+    throw new Error('본인확인 질문을 불러오지 못했습니다.');
+  }
+
+  return verificationQuestion;
+}
+
+async function passwordResetRequest(username: string, verificationAnswer: string) {
+  const payload = await requestAction('passreset', {
+    username,
+    verification_answer: verificationAnswer,
+  });
+  const password = payload.password;
+
+  if (typeof password !== 'string') {
+    throw new Error('재설정된 비밀번호를 불러오지 못했습니다.');
+  }
+
+  return password;
+}
+
+function toBackendChatMessages(messages: ChatMessage[]): BackendChatMessage[] {
+  return messages.map((message) => ({
+    role: message.role === 'assistant' ? 'agent' : 'user',
+    message: message.text,
+  }));
+}
+
+async function chatRequest(messages: ChatMessage[]) {
+  const payload = await requestAction('chat', {
+    chat: toBackendChatMessages(messages),
+  });
+  const response = payload.response;
+
+  if (!response || typeof response !== 'object') {
+    throw new Error('채팅 응답을 불러오지 못했습니다.');
+  }
+
+  const chatResponse = response as Partial<BackendChatMessage>;
+
+  if (typeof chatResponse.message !== 'string') {
+    throw new Error('채팅 응답 메시지를 불러오지 못했습니다.');
+  }
+
+  return {
+    role: chatResponse.role === 'user' ? 'user' : 'assistant',
+    text: chatResponse.message,
+  } satisfies ChatMessage;
+}
+
 async function signinRequest(body: {
   username: string;
   password: string;
@@ -224,7 +297,7 @@ async function signinRequest(body: {
 
 function withAccountDefaults(data: Partial<Account>): Account {
   return {
-    ...authDefaultsApiResponse.data,
+    ...accountApiResponse.data,
     ...data,
   };
 }
@@ -317,11 +390,11 @@ function buildRecruitmentPreview(companyInfo: CompanyInfo, jobDescription: JobDe
 
 function getLocalDashboardData(): DashboardPayload {
   return {
-    account: authDefaultsApiResponse.data,
+    account: accountApiResponse.data,
     company_info: companyApiResponse.data,
     job_descriptions: jobDescriptionsApiResponse.data,
     resumes: coverLettersApiResponse.data,
-    analysis_reports: [analysisReportApiResponse.data],
+    analysis_reports: analysisReportsApiResponse.data,
     interview_questions: coverLetterTemplateApiResponse.data,
   };
 }
@@ -383,7 +456,7 @@ export const apiClient = {
 
   getAuthDefaults: async () => toApiResponse('인증 화면 기본값을 불러왔습니다.', authDefaultsApiResponse.data),
 
-  login: async (username = authDefaultsApiResponse.data.username, password = authDefaultsApiResponse.data.password) => {
+  login: async (username = authDefaultsApiResponse.data.username ?? '', password = authDefaultsApiResponse.data.password ?? '') => {
     if (!USE_MOCK_API) {
       await loginRequest(username, password);
     }
@@ -442,7 +515,12 @@ export const apiClient = {
     return toApiResponse('지원서 분석이 완료되었습니다.', { jd_id: jdId, resume_id: resume.id });
   },
 
-  sendChatMessage: async (question: string): Promise<ApiResponse<ChatMessage>> => {
+  sendChatMessage: async (question: string, messages: ChatMessage[] = []): Promise<ApiResponse<ChatMessage>> => {
+    if (!USE_MOCK_API) {
+      const chatMessages = messages.length ? messages : [{ role: 'user', text: question } satisfies ChatMessage];
+      return toApiResponse('AI 응답이 추가되었습니다.', await chatRequest(chatMessages));
+    }
+
     return toApiResponse('AI 응답이 추가되었습니다.', {
       role: 'assistant',
       text: `${question} 질문과 관련해 현재 명세의 JD, 지원서, 리포트, 면접 질문 데이터를 기준으로 확인했습니다. 별도 chat endpoint는 추가 명세가 필요합니다.`,
@@ -457,13 +535,16 @@ export const apiClient = {
     return toApiResponse('계정 수정사항을 저장했습니다.', { updated_at: new Date().toISOString() });
   },
 
-  checkSignupId: async () => toApiResponse('아이디 중복 확인을 완료했습니다.', { available: true }),
+  checkSignupId: async (username = authDefaultsApiResponse.data.username ?? '') => {
+    const available = USE_MOCK_API ? true : await checkUserRequest(username);
+    return toApiResponse('아이디 중복 확인을 완료했습니다.', { available });
+  },
 
   completeSignup: async (body: SignupBody = {}) => {
     if (!USE_MOCK_API) {
       await signinRequest({
-        username: body.username || authDefaultsApiResponse.data.username,
-        password: body.password || authDefaultsApiResponse.data.password,
+        username: body.username || authDefaultsApiResponse.data.username || '',
+        password: body.password || authDefaultsApiResponse.data.password || '',
         name: body.name || authDefaultsApiResponse.data.name,
         verification_question: body.verification_question || authDefaultsApiResponse.data.verification_question,
         verification_answer: body.verification_answer || authDefaultsApiResponse.data.verification_answer,
@@ -473,8 +554,20 @@ export const apiClient = {
     return toApiResponse('가입이 완료되었습니다.', { created: true });
   },
 
-  resetPassword: async () => {
-    return toApiResponse('비밀번호 재설정을 완료했습니다.', { reset: true });
+  getPasswordQuestion: async (username = authDefaultsApiResponse.data.username ?? '') => {
+    const verificationQuestion = USE_MOCK_API
+      ? authDefaultsApiResponse.data.verification_question
+      : await passwordQuestionRequest(username);
+
+    return toApiResponse('본인확인 질문을 불러왔습니다.', { verification_question: verificationQuestion });
+  },
+
+  resetPassword: async (
+    username = authDefaultsApiResponse.data.username ?? '',
+    verificationAnswer = authDefaultsApiResponse.data.verification_answer,
+  ) => {
+    const password = USE_MOCK_API ? 'dallhksn' : await passwordResetRequest(username, verificationAnswer);
+    return toApiResponse('비밀번호 재설정을 완료했습니다.', { password });
   },
 
   generateRecruitmentPost: async (jdIds: string[]) => toApiResponse('모집 공고를 생성했습니다.', { jd_ids: jdIds }),
