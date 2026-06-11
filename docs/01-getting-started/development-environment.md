@@ -1,6 +1,6 @@
 # 개발 환경
 
-HumouR UI 목업을 로컬에서 실행하고, mock API 모드와 실제 backend API 모드를 전환하는 방법입니다.
+HumouR 프론트엔드를 로컬에서 실행하고, mock API 모드와 real backend API 모드를 전환하는 방법입니다.
 
 ## 사전 요구사항
 
@@ -10,6 +10,8 @@ HumouR UI 목업을 로컬에서 실행하고, mock API 모드와 실제 backend
 현재 주요 runtime dependency:
 
 - React 19
+- React Router 7
+- TanStack React Query 5
 - Ant Design 6
 - Ant Design X
 - ECharts 6
@@ -29,36 +31,49 @@ npm run dev
 | npm 패키지명 | `humour-ui-mockup` ([`package.json`](../../package.json)) |
 | 화면 이동 | React Router 라우팅. 예: `/dashboard`, `/company`, `/login` |
 
-브라우저 주소의 pathname으로 접근하면 [`src/utils/routes.ts`](../../src/utils/routes.ts)가 라우트를 동기화합니다. 알 수 없는 경로는 `/dashboard`로 처리합니다.
+브라우저 pathname은 [`src/utils/routes.ts`](../../src/utils/routes.ts)가 `AppRoute`로 변환합니다. 알 수 없는 경로는 `/dashboard`로 처리합니다.
+
+## 환경 변수
+
+[`.env.example`](../../.env.example)를 복사해 `.env`를 만들거나 실행 시 변수를 지정합니다.
+
+| 변수 | 기본값 | 설명 |
+|------|--------|------|
+| `VITE_USE_MOCK_API` | mock (미설정 시 mock) | `false`이면 axios로 실제 backend 호출 |
+| `VITE_API_KEY` | (비어 있음) | 설정 시 모든 요청에 `X-API-Key` 헤더 추가 |
+
+타입 정의: [`src/vite-env.d.ts`](../../src/vite-env.d.ts)
 
 ## API 모드
 
-기본값은 mock API 모드입니다. 백엔드 서버 없이도 로그인 버튼 클릭 후 `/dashboard`로 이동하고, 사이드 메뉴로 실제 페이지 라우팅을 확인할 수 있습니다.
+기본값은 mock API 모드입니다. backend 없이도 로그인 후 `/dashboard`로 이동하고, 사이드 메뉴로 페이지 라우팅을 확인할 수 있습니다.
 
 | 모드 | 설정 | 동작 |
 |------|------|------|
-| mock API | 기본값 또는 `VITE_USE_MOCK_API=true` | [`apiMockData.ts`](../../src/data/apiMockData.ts) 기반 로컬 응답 사용 |
-| real API | `VITE_USE_MOCK_API=false` | [`backendClient.ts`](../../src/api/backendClient.ts)의 axios client가 `/api/{endpoint}/` 호출 |
+| mock API | 기본값 또는 `VITE_USE_MOCK_API=true` | [`apiMockData.ts`](../../src/data/apiMockData.ts) 기반 로컬 응답 |
+| real API | `VITE_USE_MOCK_API=false` | [`backendClient.ts`](../../src/api/backendClient.ts)가 `/api/{endpoint}/` 호출 |
 
-PowerShell에서 실제 API 모드로 실행:
+PowerShell에서 real API 모드:
 
 ```powershell
+Copy-Item .env.example .env
 $env:VITE_USE_MOCK_API='false'
+$env:VITE_API_KEY='your-api-key'   # 필요 시
 npm.cmd run dev
 ```
 
-real API 모드에서는 axios가 다음 공통 설정을 사용합니다.
+real API 모드 axios 공통 설정:
 
 - `baseURL: '/api'`
 - `withCredentials: true`
 - `Content-Type: application/json`
-- POST 요청 전 `GET /api/csrf/` 호출
-- 쿠키의 `csrftoken`을 `X-CSRFToken` 헤더로 전송
+- POST 요청 전 `GET /api/csrf/` → `X-CSRFToken` 헤더
+- `VITE_API_KEY`가 있으면 `X-API-Key` 헤더
 
 ## 기본 스크립트
 
 ```bash
-npm run build   # tsc --noEmit + vite build
+npm run build   # tsc --noEmit && vite build
 npm run lint    # ESLint
 npm run preview # dist 미리보기
 ```
@@ -79,6 +94,7 @@ node scripts/verify-document-chat-widget.mjs
 | 파일 | 역할 |
 |------|------|
 | [`index.html`](../../index.html) | Vite HTML entry, favicon |
-| [`src/main.tsx`](../../src/main.tsx) | React mount, Ant Design reset, global CSS |
-| [`src/App.tsx`](../../src/App.tsx) | 라우팅, 테마, `useMockAppData`, API 액션 실행 |
+| [`src/main.tsx`](../../src/main.tsx) | React mount, `AppQueryProvider`, `BrowserRouter`, global CSS |
+| [`src/App.tsx`](../../src/App.tsx) | 라우팅, 테마, `useMockAppData`, `runApiAction` |
+| [`src/providers/AppQueryProvider.tsx`](../../src/providers/AppQueryProvider.tsx) | TanStack Query `QueryClientProvider` |
 | [`src/api/backendClient.ts`](../../src/api/backendClient.ts) | mock/real API 전환과 axios client |
