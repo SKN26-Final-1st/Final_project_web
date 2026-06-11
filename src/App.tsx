@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, type Key } from 'react';
+import { useCallback, useEffect, useMemo, useState, type Key } from 'react';
+import { Navigate as RouterNavigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { XProvider } from '@ant-design/x';
 import { Alert, App as AntApp, Switch, Tooltip, theme as antdTheme } from 'antd';
 import { MoonOutlined, SunOutlined } from '@ant-design/icons';
@@ -19,11 +20,13 @@ import { JdPage } from './pages/JdPage';
 import { MyPage } from './pages/MyPage';
 import { RecruitmentPostPage } from './pages/RecruitmentPostPage';
 import type { AlertState, KeySetter, ThemeMode } from './types/app';
-import { authRoutes, readRouteFromHash } from './utils/routes';
+import { appRoutes, authRoutes, getRouteFromPathname } from './utils/routes';
 
 export default function App() {
+  const routerNavigate = useNavigate();
+  const location = useLocation();
+  const route = getRouteFromPathname(location.pathname);
   const [mode, setMode] = useState<ThemeMode>('light');
-  const [route, setRoute] = useState<AppRoute>(readRouteFromHash);
   const [alert, setAlert] = useState<AlertState | null>(null);
   const [loadingKey, setLoadingKey] = useState<string | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -38,14 +41,8 @@ export default function App() {
   const { data, loading, error, reload } = useMockAppData();
 
   useEffect(() => {
-    const syncRoute = () => setRoute(readRouteFromHash());
-    window.addEventListener('hashchange', syncRoute);
-    window.addEventListener('popstate', syncRoute);
-    return () => {
-      window.removeEventListener('hashchange', syncRoute);
-      window.removeEventListener('popstate', syncRoute);
-    };
-  }, []);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
 
   const jdIds = useMemo(() => data?.jdList.map((item) => item.id) ?? [], [data?.jdList]);
   const selectedJdId =
@@ -95,11 +92,9 @@ export default function App() {
     [mode],
   );
 
-  const navigate = (nextRoute: AppRoute) => {
-    window.history.pushState(null, '', `#${nextRoute}`);
-    setRoute(nextRoute);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const navigate = useCallback((nextRoute: AppRoute) => {
+    void routerNavigate(nextRoute);
+  }, [routerNavigate]);
 
   const showAlert = (nextAlert: AlertState) => {
     setAlert(nextAlert);
@@ -326,7 +321,7 @@ export default function App() {
 
   const isAuth = authRoutes.includes(route);
 
-  return (
+  const pageContent = (
     <XProvider theme={themeConfig}>
       <AntApp>
         <div className="app-root" data-theme={mode}>
@@ -372,5 +367,15 @@ export default function App() {
         </div>
       </AntApp>
     </XProvider>
+  );
+
+  return (
+    <Routes>
+      <Route path="/" element={<RouterNavigate to="/dashboard" replace />} />
+      {appRoutes.map((appRoute) => (
+        <Route key={appRoute} path={appRoute} element={pageContent} />
+      ))}
+      <Route path="*" element={<RouterNavigate to="/dashboard" replace />} />
+    </Routes>
   );
 }
