@@ -1,6 +1,6 @@
 export type ApiResponse<T> = {
-  status_code: number;
-  message: string;
+  error: boolean;
+  message?: string;
   data: T;
   meta?: {
     page?: number;
@@ -31,9 +31,9 @@ export type StatusCode =
   | 'normal';
 
 export type Account = {
-  id: number;
-  username: string;
-  password: string;
+  id?: number;
+  username?: string;
+  password?: string;
   name: string;
   verification_question: string;
   verification_answer: string;
@@ -44,15 +44,16 @@ export type Account = {
 
 export type AuthKey = {
   id: number;
-  account_id: number;
+  account_id?: number;
+  name: string;
   description: string;
   value: string;
   authorized_resume: number[];
 };
 
 export type CompanyInfo = {
-  id: number;
-  account_id: number;
+  id?: number;
+  account_id?: number;
   company_name: string;
   employee_count: number;
   team_composition: string[];
@@ -62,7 +63,7 @@ export type CompanyInfo = {
 
 export type JobDescription = {
   id: number;
-  account_id: number;
+  account_id?: number;
   job_name: string;
   education_level: string;
   major: string;
@@ -155,9 +156,6 @@ export type InterviewQuestion = {
 };
 
 const account: Account = {
-  id: 1,
-  username: 'admin',
-  password: '1234',
   name: 'administrator',
   verification_question: '좋아하는 색깔은?',
   verification_answer: '파랑',
@@ -166,19 +164,24 @@ const account: Account = {
   subscribe_expiration: '2026-12-31T23:59:59+09:00',
 };
 
+const authDefaults: Account = {
+  id: 1,
+  username: 'admin',
+  password: '1234',
+  ...account,
+};
+
 const authKeys: AuthKey[] = [
   {
     id: 1,
-    account_id: 1,
-    description: '정팀장 키값',
-    value: 'jahsdljkghaslkdfghlakjshdlkjhasdlkjgalksbdglkjasdkgaslkjdghalsasdghahsdjghajkdsg',
+    name: '정팀장 키값',
+    description: '프론트엔드 JD 검토용 API 키',
+    value: 'sk_live_****kLp3',
     authorized_resume: [1, 2, 3],
   },
 ];
 
 const companyInfo: CompanyInfo = {
-  id: 1,
-  account_id: 1,
   company_name: '테크브릿지',
   employee_count: 100,
   team_composition: ['개발팀', '기획/PM팀', '영업팀'],
@@ -190,7 +193,6 @@ const companyInfo: CompanyInfo = {
 const jobDescriptions: JobDescription[] = [
   {
     id: 1,
-    account_id: 1,
     job_name: '잡코리아 2026 프론트엔드 팀 신규 채용',
     education_level: '대졸 이상',
     major: '컴퓨터 공학과 혹은 그에 준하는 관련 학과',
@@ -206,7 +208,6 @@ const jobDescriptions: JobDescription[] = [
   },
   {
     id: 2,
-    account_id: 1,
     job_name: '백엔드 API 개발자 채용',
     education_level: '대졸 이상',
     major: '컴퓨터 공학, 소프트웨어 공학 또는 관련 전공',
@@ -222,7 +223,6 @@ const jobDescriptions: JobDescription[] = [
   },
   {
     id: 3,
-    account_id: 1,
     job_name: 'AI 데이터 분석 인턴 채용',
     education_level: '학력 무관',
     major: '데이터 분석, 통계, 컴퓨터 공학 우대',
@@ -535,25 +535,25 @@ const interviewQuestions: InterviewQuestion[] = [
 ];
 
 export const accountApiResponse = {
-  status_code: 200,
+  error: false,
   message: '계정 정보를 불러왔습니다.',
   data: account,
 } satisfies ApiResponse<Account>;
 
 export const authKeysApiResponse = {
-  status_code: 200,
+  error: false,
   message: '인증 키 목록을 불러왔습니다.',
   data: authKeys,
 } satisfies ApiResponse<AuthKey[]>;
 
 export const companyApiResponse = {
-  status_code: 200,
+  error: false,
   message: '회사 정보를 불러왔습니다.',
   data: companyInfo,
 } satisfies ApiResponse<CompanyInfo>;
 
 export const jobDescriptionsApiResponse = {
-  status_code: 200,
+  error: false,
   message: 'JD 목록을 불러왔습니다.',
   meta: {
     page: 1,
@@ -565,25 +565,25 @@ export const jobDescriptionsApiResponse = {
 } satisfies ApiResponse<JobDescription[]>;
 
 export const resumesApiResponse = {
-  status_code: 200,
+  error: false,
   message: '지원서 목록을 불러왔습니다.',
   data: resumes,
 } satisfies ApiResponse<Resume[]>;
 
 export const analysisReportsApiResponse = {
-  status_code: 200,
+  error: false,
   message: '분석 리포트 목록을 불러왔습니다.',
   data: analysisReports,
 } satisfies ApiResponse<AnalysisReport[]>;
 
 export const interviewQuestionsApiResponse = {
-  status_code: 200,
+  error: false,
   message: '면접 질문 목록을 불러왔습니다.',
   data: interviewQuestions,
 } satisfies ApiResponse<InterviewQuestion[]>;
 
 export const dashboardApiResponse = {
-  status_code: 200,
+  error: false,
   message: '대시보드 데이터를 불러왔습니다.',
   meta: {
     requested_at: '2026-06-09T09:00:00+09:00',
@@ -606,7 +606,7 @@ export const dashboardApiResponse = {
 }>;
 
 export const coverLetterDraftApiResponse = {
-  status_code: 200,
+  error: false,
   message: '지원서 입력 초안을 불러왔습니다.',
   data: resumes[0],
 } satisfies ApiResponse<Resume>;
@@ -614,13 +614,13 @@ export const coverLetterDraftApiResponse = {
 export const coverLettersApiResponse = resumesApiResponse;
 
 export const analysisReportApiResponse = {
-  status_code: 200,
+  error: false,
   message: '분석 리포트를 불러왔습니다.',
   data: analysisReports[0],
 } satisfies ApiResponse<AnalysisReport>;
 
 export const recruitmentPostApiResponse = {
-  status_code: 200,
+  error: false,
   message: '모집 공고를 생성했습니다.',
   data: {
     title: jobDescriptions[0].job_name,
@@ -641,7 +641,7 @@ export const coverLetterTemplateApiResponse = interviewQuestionsApiResponse;
 export const userProfileApiResponse = accountApiResponse;
 
 export const authDefaultsApiResponse = {
-  status_code: 200,
+  error: false,
   message: '인증 화면 기본값을 불러왔습니다.',
-  data: account,
+  data: authDefaults,
 } satisfies ApiResponse<Account>;
