@@ -7,7 +7,7 @@
 | 파일 | 기능 |
 |------|------|
 | `AppShell.tsx` | 데스크톱 사이드바·모바일 헤더·콘텐츠·`assistantFab` 조합 |
-| `SidebarNav.tsx` | 메인 메뉴, 브랜드 로고, 모바일 드로어, 계정 팝오버, 크레딧 |
+| `SidebarNav.tsx` | 메인 메뉴, 브랜드 로고, 사이드바 pin 토글, 모바일 드로어, 계정 팝오버, 크레딧 |
 | `TopHeader.tsx` | 레거시 헤더. 현재 `AppShell`에서 미사용 |
 | `CreditSummary.tsx` | 레거시 크레딧 카드. 현재 `AppShell`에서 미사용 |
 | `AuthScreen.tsx` | 인증 화면 공통 레이아웃 |

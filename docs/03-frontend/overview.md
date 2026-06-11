@@ -5,7 +5,7 @@
 | 파일 | 역할 |
 |------|------|
 | [`src/components/layout/AppShell.tsx`](../../src/components/layout/AppShell.tsx) | 인증 제외 화면: 데스크톱 사이드바 + 모바일 헤더 + 콘텐츠 + `assistantFab` 슬롯 |
-| [`src/components/layout/SidebarNav.tsx`](../../src/components/layout/SidebarNav.tsx) | `mainMenu` 기반 네비게이션, 모바일 헤더/드로어, 계정 팝오버, 크레딧 패널 |
+| [`src/components/layout/SidebarNav.tsx`](../../src/components/layout/SidebarNav.tsx) | `mainMenu` 기반 네비게이션, hover/focus 확장, pin 고정(`data-sidebar-pinned`), 모바일 드로어, 계정 팝오버 |
 | [`src/components/layout/TopHeader.tsx`](../../src/components/layout/TopHeader.tsx) | 레거시 헤더 컴포넌트. 현재 `AppShell`에서 직접 사용하지 않음 |
 | [`src/components/layout/CreditSummary.tsx`](../../src/components/layout/CreditSummary.tsx) | 레거시 크레딧 컴포넌트. 현재 크레딧 UI는 `SidebarNav`의 계정 팝오버에서 렌더링 |
 | [`src/components/layout/AuthScreen.tsx`](../../src/components/layout/AuthScreen.tsx) | 로그인·가입·비밀번호 레이아웃 |
@@ -20,7 +20,7 @@
 | [`DocumentSearchContextPanel.tsx`](../../src/components/chat/DocumentSearchContextPanel.tsx) | `/chat` 좌측 검색 컨텍스트·문서 컬렉션 |
 | [`ChatWindowPanel.tsx`](../../src/components/chat/ChatWindowPanel.tsx) | 메시지·전송 UI (placeholder·로딩 라벨 커스터마이즈) |
 
-채팅 상태(`chatMessages`, `chatInput`, `sendChatMessage`)는 `App.tsx`에서 관리하며 FAB와 `/chat` 페이지가 **동일 상태**를 공유합니다.
+채팅 상태(`chatMessages`, `chatInput`, `sendChatMessage`)는 `App.tsx`에서 관리하며 FAB와 `/chat` 페이지가 **동일 상태**를 공유합니다. real API 모드에서는 `sendChatMessage`가 대화 히스토리 전체를 `POST /api/chat/`에 전달합니다.
 
 ## 공통 UI
 

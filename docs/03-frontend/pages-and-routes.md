@@ -2,7 +2,7 @@
 
 ## React Router 라우트
 
-[`src/main.tsx`](../../src/main.tsx)가 앱을 `BrowserRouter`로 감싸고, [`src/App.tsx`](../../src/App.tsx)는 `useLocation`으로 현재 pathname을 읽어 `AppRoute`로 변환합니다. 알 수 없는 경로와 `/`는 `/dashboard`로 리다이렉트합니다.
+[`src/main.tsx`](../../src/main.tsx)가 `AppQueryProvider` → `BrowserRouter` 순으로 앱을 감싸고, [`src/App.tsx`](../../src/App.tsx)는 `useLocation`으로 현재 pathname을 읽어 `AppRoute`로 변환합니다. 알 수 없는 경로와 `/`는 `/dashboard`로 리다이렉트합니다.
 
 | `AppRoute` | 페이지 컴포넌트 | 인증 |
 |------------|-----------------|------|
@@ -27,7 +27,7 @@
 - `authRoutes` 포함 시 → `renderAuthPage()` (쉘 없음)
 - 그 외 → `AppShell` + `renderProtectedPage()`
   - `route !== '/chat'`일 때 `DocumentChatFab`를 `assistantFab`로 주입
-- `useMockAppData` 로딩/에러 시 `PageLoading` / `PageError`
+- `useMockAppData`(React Query 기반) 로딩/에러 시 `PageLoading` / `PageError`
 - 하위 컴포넌트는 기존처럼 `navigate('/jd')` 형태의 prop을 사용하고, 내부 구현만 `useNavigate`로 이동합니다.
 
 ## 전역에서 페이지로 내려주는 데이터
