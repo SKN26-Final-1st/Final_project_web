@@ -4,6 +4,8 @@ import {
   CreditCardOutlined,
   LogoutOutlined,
   MenuOutlined,
+  PushpinFilled,
+  PushpinOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -214,11 +216,17 @@ export function MobileShellHeader(props: NavigationProps) {
 export function SidebarNav(props: NavigationProps) {
   const { route, mode, creditPercent, profile, themeSwitch, navigate, showAlert } = props;
   const [accountOpen, setAccountOpen] = useState(false);
+  const [sidebarPinned, setSidebarPinned] = useState(false);
   const displayName = profile?.displayName ?? '채용 담당자';
   const email = profile?.email ?? 'recruiter@humour.ai';
 
   return (
-    <nav className="sidebar desktop-shell-nav" data-account-open={accountOpen ? 'true' : 'false'} aria-label="주요 페이지">
+    <nav
+      className="sidebar desktop-shell-nav"
+      data-account-open={accountOpen ? 'true' : 'false'}
+      data-sidebar-pinned={sidebarPinned ? 'true' : 'false'}
+      aria-label="주요 페이지"
+    >
       <div className="desktop-shell-nav-inner">
         <div className="sidebar-brand-row">
           <button
@@ -236,6 +244,19 @@ export function SidebarNav(props: NavigationProps) {
               alt="HumouR"
             />
             <img className="brand-logo-mark" src="/assets/humour-app-icon.png" alt="" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className={`sidebar-pin-button ${sidebarPinned ? 'active' : ''}`}
+            aria-label={sidebarPinned ? '사이드바 고정 해제' : '사이드바 고정'}
+            aria-pressed={sidebarPinned}
+            onClick={(event) => {
+              setSidebarPinned((current) => !current);
+              event.currentTarget.blur();
+            }}
+          >
+            {sidebarPinned ? <PushpinFilled /> : <PushpinOutlined />}
+            <span>핀</span>
           </button>
         </div>
         <div className="side-section">

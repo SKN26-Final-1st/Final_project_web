@@ -33,6 +33,7 @@ button,
 .jd-card,
 .task-item,
 .sidebar-account-button,
+.sidebar-pin-button,
 .account-menu-item,
 .account-credit-link {
   transition:
@@ -62,6 +63,7 @@ button,
   --border: rgba(47, 115, 246, 0.14);
   --border-strong: rgba(47, 115, 246, 0.28);
   --shadow-sm: 0 8px 22px rgba(31, 77, 161, 0.08);
+  --shadow-md: 0 14px 34px rgba(31, 77, 161, 0.1);
   --shadow: 0 18px 50px rgba(31, 77, 161, 0.12);
   --shadow-lg: 0 26px 70px rgba(31, 77, 161, 0.18);
   --radius-sm: 10px;
@@ -92,6 +94,7 @@ button,
   --border: rgba(255, 255, 255, 0.12);
   --border-strong: rgba(110, 163, 255, 0.34);
   --shadow-sm: none;
+  --shadow-md: 0 14px 34px rgba(0, 0, 0, 0.18);
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
   --shadow-lg: 0 26px 70px rgba(0, 0, 0, 0.32);
 }
@@ -719,15 +722,11 @@ button,
     transition: margin-left 240ms ease;
   }
 
-  .shell:has(.desktop-shell-nav:hover)>.ant-layout,
-  .shell:has(.desktop-shell-nav:focus-within)>.ant-layout,
-  .shell:has(.desktop-shell-nav[data-account-open="true"])>.ant-layout {
+  .shell:has(.desktop-shell-nav[data-sidebar-pinned="true"])>.ant-layout {
     margin-left: calc(var(--sidebar-width) + (var(--sidebar-card-gap) * 2));
   }
 
-  .shell:has(.desktop-shell-nav:hover) .dashboard-page,
-  .shell:has(.desktop-shell-nav:focus-within) .dashboard-page,
-  .shell:has(.desktop-shell-nav[data-account-open="true"]) .dashboard-page {
+  .shell:has(.desktop-shell-nav[data-sidebar-pinned="true"]) .dashboard-page {
     --dashboard-hero-title-size: 34px;
     --dashboard-hero-copy-size: 15px;
     --dashboard-hero-stat-label-size: 11px;
@@ -745,9 +744,7 @@ button,
     --dashboard-task-text-size: 13px;
   }
 
-  .shell:has(.desktop-shell-nav:hover) .recruitment-post-page,
-  .shell:has(.desktop-shell-nav:focus-within) .recruitment-post-page,
-  .shell:has(.desktop-shell-nav[data-account-open="true"]) .recruitment-post-page {
+  .shell:has(.desktop-shell-nav[data-sidebar-pinned="true"]) .recruitment-post-page {
     --recruitment-card-title-size: 15px;
     --recruitment-table-text-size: 13px;
     --recruitment-tag-size: 12px;
@@ -763,7 +760,8 @@ button,
 
   .desktop-shell-nav:hover,
   .desktop-shell-nav:focus-within,
-  .desktop-shell-nav[data-account-open="true"] {
+  .desktop-shell-nav[data-account-open="true"],
+  .desktop-shell-nav[data-sidebar-pinned="true"] {
     --sidebar-current-width: var(--sidebar-width);
     padding: 16px 12px;
   }
@@ -785,8 +783,9 @@ button,
 
   .desktop-shell-nav:hover .sidebar-brand-row,
   .desktop-shell-nav:focus-within .sidebar-brand-row,
-  .desktop-shell-nav[data-account-open="true"] .sidebar-brand-row {
-    justify-content: flex-start;
+  .desktop-shell-nav[data-account-open="true"] .sidebar-brand-row,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-brand-row {
+    justify-content: space-between;
   }
 
   .desktop-shell-nav .brand-button {
@@ -799,10 +798,45 @@ button,
 
   .desktop-shell-nav:hover .brand-button,
   .desktop-shell-nav:focus-within .brand-button,
-  .desktop-shell-nav[data-account-open="true"] .brand-button {
+  .desktop-shell-nav[data-account-open="true"] .brand-button,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .brand-button {
     justify-content: flex-start;
     width: auto;
     min-width: 146px;
+  }
+
+  .desktop-shell-nav .sidebar-pin-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 42px;
+    height: 38px;
+    padding: 0 10px;
+    color: var(--subtle);
+    font-size: 12px;
+    font-weight: 900;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--surface) 82%, var(--primary-soft));
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  .desktop-shell-nav:hover .sidebar-pin-button,
+  .desktop-shell-nav:focus-within .sidebar-pin-button,
+  .desktop-shell-nav[data-account-open="true"] .sidebar-pin-button,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-pin-button {
+    display: inline-flex;
+  }
+
+  .sidebar-pin-button:hover,
+  .sidebar-pin-button:focus-visible,
+  .sidebar-pin-button.active {
+    color: #ffffff;
+    border-color: transparent;
+    background: var(--primary);
+    outline: none;
   }
 
   .desktop-shell-nav .brand-logo-full {
@@ -821,13 +855,15 @@ button,
 
   .desktop-shell-nav:hover .brand-logo-full,
   .desktop-shell-nav:focus-within .brand-logo-full,
-  .desktop-shell-nav[data-account-open="true"] .brand-logo-full {
+  .desktop-shell-nav[data-account-open="true"] .brand-logo-full,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .brand-logo-full {
     display: block;
   }
 
   .desktop-shell-nav:hover .brand-logo-mark,
   .desktop-shell-nav:focus-within .brand-logo-mark,
-  .desktop-shell-nav[data-account-open="true"] .brand-logo-mark {
+  .desktop-shell-nav[data-account-open="true"] .brand-logo-mark,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .brand-logo-mark {
     display: none;
   }
 
@@ -844,7 +880,8 @@ button,
 
   .desktop-shell-nav:hover .side-section,
   .desktop-shell-nav:focus-within .side-section,
-  .desktop-shell-nav[data-account-open="true"] .side-section {
+  .desktop-shell-nav[data-account-open="true"] .side-section,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .side-section {
     align-items: stretch;
   }
 
@@ -876,7 +913,8 @@ button,
 
   .desktop-shell-nav:hover .side-nav-item,
   .desktop-shell-nav:focus-within .side-nav-item,
-  .desktop-shell-nav[data-account-open="true"] .side-nav-item {
+  .desktop-shell-nav[data-account-open="true"] .side-nav-item,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .side-nav-item {
     display: grid;
     grid-template-columns: 34px 1fr;
     justify-content: stretch;
@@ -900,7 +938,8 @@ button,
 
   .desktop-shell-nav:hover .side-nav-item>span:not(.side-icon),
   .desktop-shell-nav:focus-within .side-nav-item>span:not(.side-icon),
-  .desktop-shell-nav[data-account-open="true"] .side-nav-item>span:not(.side-icon) {
+  .desktop-shell-nav[data-account-open="true"] .side-nav-item>span:not(.side-icon),
+  .desktop-shell-nav[data-sidebar-pinned="true"] .side-nav-item>span:not(.side-icon) {
     display: grid;
     align-content: center;
     gap: 1px;
@@ -945,7 +984,8 @@ button,
 
   .desktop-shell-nav:hover .sidebar-account-button,
   .desktop-shell-nav:focus-within .sidebar-account-button,
-  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button {
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-button {
     display: grid;
     grid-template-columns: 38px minmax(0, 1fr) auto;
     gap: 10px;
@@ -968,7 +1008,9 @@ button,
   .desktop-shell-nav:focus-within .sidebar-account-copy,
   .desktop-shell-nav:focus-within .sidebar-account-cue,
   .desktop-shell-nav[data-account-open="true"] .sidebar-account-copy,
-  .desktop-shell-nav[data-account-open="true"] .sidebar-account-cue {
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-cue,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-copy,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-cue {
     display: block;
   }
 
@@ -985,13 +1027,17 @@ button,
   .desktop-shell-nav:focus-within .sidebar-account-button.active .sidebar-account-cue,
   .desktop-shell-nav[data-account-open="true"] .sidebar-account-button:hover .sidebar-account-cue,
   .desktop-shell-nav[data-account-open="true"] .sidebar-account-button:focus-visible .sidebar-account-cue,
-  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button.active .sidebar-account-cue {
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button.active .sidebar-account-cue,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-button:hover .sidebar-account-cue,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-button:focus-visible .sidebar-account-cue,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-button.active .sidebar-account-cue {
     color: currentColor;
   }
 
   .desktop-shell-nav:hover .sidebar-account-button.active .sidebar-account-cue,
   .desktop-shell-nav:focus-within .sidebar-account-button.active .sidebar-account-cue,
-  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button.active .sidebar-account-cue {
+  .desktop-shell-nav[data-account-open="true"] .sidebar-account-button.active .sidebar-account-cue,
+  .desktop-shell-nav[data-sidebar-pinned="true"] .sidebar-account-button.active .sidebar-account-cue {
     color: rgba(255, 255, 255, 0.72);
   }
 
