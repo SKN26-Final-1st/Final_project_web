@@ -29,7 +29,7 @@ final_min_playground/
 ```text
 src/
 ├── main.tsx                    # React root, antd reset.css, styles.css
-├── App.tsx                     # 해시 라우팅, 테마, API 액션, DocumentChatFab 연결
+├── App.tsx                     # React Router 라우팅, 테마, API 액션, DocumentChatFab 연결
 ├── styles.css                  # 디자인 토큰과 레이아웃 스타일
 ├── vite-env.d.ts               # Vite import.meta.env 타입
 ├── api/
@@ -63,7 +63,7 @@ src/
 | `CoverLetterTemplatePage.tsx` | 페이지 내부 리스트 중심 |
 | `AuthPages.tsx` | `layout/AuthScreen.tsx` |
 
-전역 플로팅 채팅 위젯 `DocumentChatFab`는 `App.tsx`에서 `AppShell.assistantFab`로 주입됩니다. `#/chat` 화면에서는 중복 표시를 피하기 위해 숨깁니다.
+전역 플로팅 채팅 위젯 `DocumentChatFab`는 `App.tsx`에서 `AppShell.assistantFab`로 주입됩니다. `/chat` 화면에서는 중복 표시를 피하기 위해 숨깁니다.
 
 ## `api/`
 

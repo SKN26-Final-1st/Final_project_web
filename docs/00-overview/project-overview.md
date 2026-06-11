@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 해시 라우팅으로 전체 화면 흐름을 빠르게 확인합니다.
+- React Router 라우팅으로 전체 화면 흐름을 빠르게 확인합니다.
 - 로그인, 회원가입, 비밀번호 재설정은 현재 mock 응답으로 통과시킵니다.
 - 실제 backend 연동을 위해 API 호출 계층은 axios 기반으로 준비합니다.
 - backend 명세가 부족한 영역은 로컬 mock 데이터로 보완합니다.
@@ -13,7 +13,7 @@
 
 | 영역 | 구현 위치 | 요약 |
 |------|-----------|------|
-| 라우팅 | `src/App.tsx`, `src/utils/routes.ts` | `#/dashboard`, `#/login` 등 해시 라우팅 |
+| 라우팅 | `src/App.tsx`, `src/utils/routes.ts` | `/dashboard`, `/login` 등 React Router 라우팅 |
 | 레이아웃 | `src/components/layout/` | 사이드바, 모바일 헤더, 인증 화면 |
 | 대시보드 | `src/components/dashboard/` | 지표, 지원자 테이블, 분석 요약 |
 | 차트 | `src/components/charts/` | ECharts wrapper와 donut chart |
@@ -41,7 +41,7 @@
 | 빌드 | Vite 7 |
 | HTTP client | Axios 1.17.0 |
 | 차트 | ECharts 6 |
-| 라우팅 | 해시 라우팅 |
+| 라우팅 | React Router 라우팅 |
 | 검증 | `npm run build`, `npm run lint`, Playwright 캡처 스크립트 |
 
 ## 정적 자산

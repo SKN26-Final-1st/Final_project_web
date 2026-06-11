@@ -26,13 +26,13 @@ npm run dev
 | 개발 서버 | `http://127.0.0.1:5173` (`vite --host 127.0.0.1`) |
 | 저장소 폴더 | `final_min_playground` |
 | npm 패키지명 | `humour-ui-mockup` ([`package.json`](../../package.json)) |
-| 화면 이동 | 해시 라우팅. 예: `#/dashboard`, `#/company`, `#/login` |
+| 화면 이동 | React Router 라우팅. 예: `/dashboard`, `/company`, `/login` |
 
-브라우저 주소의 해시를 바꾸면 [`src/utils/routes.ts`](../../src/utils/routes.ts)가 라우트를 동기화합니다. 알 수 없는 해시는 `#/dashboard`로 처리합니다.
+브라우저 주소의 pathname으로 접근하면 [`src/utils/routes.ts`](../../src/utils/routes.ts)가 라우트를 동기화합니다. 알 수 없는 경로는 `/dashboard`로 처리합니다.
 
 ## API 모드
 
-기본값은 mock API 모드입니다. 백엔드 서버 없이도 로그인 버튼 클릭 후 `#/dashboard`로 이동하고, 사이드 메뉴로 실제 페이지 라우팅을 확인할 수 있습니다.
+기본값은 mock API 모드입니다. 백엔드 서버 없이도 로그인 버튼 클릭 후 `/dashboard`로 이동하고, 사이드 메뉴로 실제 페이지 라우팅을 확인할 수 있습니다.
 
 | 모드 | 설정 | 동작 |
 |------|------|------|

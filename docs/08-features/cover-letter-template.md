@@ -1,4 +1,4 @@
-# 면접 질문/자소서 포맷 (`#/cover-letter-template`)
+# 면접 질문/자소서 포맷 (`/cover-letter-template`)
 
 ## 화면 역할
 

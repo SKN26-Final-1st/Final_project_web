@@ -45,7 +45,7 @@ flowchart LR
 
 예:
 
-- 로그인 성공 → `reload()` → `#/dashboard`
+- 로그인 성공 → `reload()` → `/dashboard`
 - 회사 정보 저장 → `apiClient.saveCompanyProfile`
 - JD 분석 요청 → `apiClient.requestJobAnalysis`
 - 자기소개서 분석 요청 → `apiClient.requestCoverLetterAnalysis`

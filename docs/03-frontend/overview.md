@@ -16,8 +16,8 @@
 
 | 파일 | 역할 |
 |------|------|
-| [`DocumentChatFab.tsx`](../../src/components/chat/DocumentChatFab.tsx) | 전역 FAB·우측 하단 고정 위젯 (`#/chat` 제외) |
-| [`DocumentSearchContextPanel.tsx`](../../src/components/chat/DocumentSearchContextPanel.tsx) | `#/chat` 좌측 검색 컨텍스트·문서 컬렉션 |
+| [`DocumentChatFab.tsx`](../../src/components/chat/DocumentChatFab.tsx) | 전역 FAB·우측 하단 고정 위젯 (`/chat` 제외) |
+| [`DocumentSearchContextPanel.tsx`](../../src/components/chat/DocumentSearchContextPanel.tsx) | `/chat` 좌측 검색 컨텍스트·문서 컬렉션 |
 | [`ChatWindowPanel.tsx`](../../src/components/chat/ChatWindowPanel.tsx) | 메시지·전송 UI (placeholder·로딩 라벨 커스터마이즈) |
 
 채팅 상태(`chatMessages`, `chatInput`, `sendChatMessage`)는 `App.tsx`에서 관리하며 FAB와 `/chat` 페이지가 **동일 상태**를 공유합니다.

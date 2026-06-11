@@ -1,4 +1,4 @@
-# 모집 공고 (`#/recruitment-post`)
+# 모집 공고 (`/recruitment-post`)
 
 ## 화면 역할
 

@@ -24,7 +24,7 @@
 | [`src/data/apiMockData.ts`](../src/data/apiMockData.ts) | backend 타입과 로컬 mock 데이터 |
 | [`src/api/adapters.ts`](../src/api/adapters.ts) | snake_case API 데이터를 UI 모델로 변환 |
 | [`src/hooks/useMockAppData.ts`](../src/hooks/useMockAppData.ts) | 초기 화면 데이터 로딩 |
-| [`src/App.tsx`](../src/App.tsx) | 해시 라우팅, 테마, API 액션 실행 |
+| [`src/App.tsx`](../src/App.tsx) | React Router 라우팅, 테마, API 액션 실행 |
 | [`src/data/mockData.tsx`](../src/data/mockData.tsx) | `AppRoute`, 메뉴, palette, 채팅 타입 |
 | [`src/styles.css`](../src/styles.css) | UI 스타일과 반응형 레이아웃 |
 
@@ -32,15 +32,15 @@
 
 | 화면 | 라우트 | 문서 |
 |------|--------|------|
-| 대시보드 | `#/dashboard` | [dashboard.md](./08-features/dashboard.md) |
-| 회사 정보 | `#/company` | [company.md](./08-features/company.md) |
-| JD 관리 | `#/jd` | [jd.md](./08-features/jd.md) |
-| 자기소개서 | `#/cover-letter` | [cover-letter.md](./08-features/cover-letter.md) |
-| AI 문서 검색 | `#/chat` | [chat.md](./08-features/chat.md) |
-| 마이페이지 | `#/mypage` | [mypage.md](./08-features/mypage.md) |
-| 모집 공고 | `#/recruitment-post` | [recruitment-post.md](./08-features/recruitment-post.md) |
-| 자소서 템플릿 | `#/cover-letter-template` | [cover-letter-template.md](./08-features/cover-letter-template.md) |
-| 인증 | `#/login`, `#/signup`, `#/password-reset` | [auth.md](./08-features/auth.md) |
+| 대시보드 | `/dashboard` | [dashboard.md](./08-features/dashboard.md) |
+| 회사 정보 | `/company` | [company.md](./08-features/company.md) |
+| JD 관리 | `/jd` | [jd.md](./08-features/jd.md) |
+| 자기소개서 | `/cover-letter` | [cover-letter.md](./08-features/cover-letter.md) |
+| AI 문서 검색 | `/chat` | [chat.md](./08-features/chat.md) |
+| 마이페이지 | `/mypage` | [mypage.md](./08-features/mypage.md) |
+| 모집 공고 | `/recruitment-post` | [recruitment-post.md](./08-features/recruitment-post.md) |
+| 자소서 템플릿 | `/cover-letter-template` | [cover-letter-template.md](./08-features/cover-letter-template.md) |
+| 인증 | `/login`, `/signup`, `/password-reset` | [auth.md](./08-features/auth.md) |
 
 ## 참고 자료
 

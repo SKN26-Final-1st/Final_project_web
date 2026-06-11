@@ -7,7 +7,7 @@ HumouR UI 목업의 라우팅, 레이아웃, 컴포넌트 계층 문서입니다
 | 문서 | 내용 |
 |------|------|
 | [overview.md](./overview.md) | 레이아웃, 테마, 차트, DocumentChatFab 개요 |
-| [pages-and-routes.md](./pages-and-routes.md) | 해시 라우팅과 `App.tsx` 분기 |
+| [pages-and-routes.md](./pages-and-routes.md) | React Router 라우팅과 `App.tsx` 분기 |
 | [components.md](./components.md) | `components/` 폴더별 역할 |
 
 화면별 API 매핑은 [08-features](../08-features/README.md)를 참고합니다.

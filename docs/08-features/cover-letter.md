@@ -1,4 +1,4 @@
-# 지원서 (`#/cover-letter`)
+# 지원서 (`/cover-letter`)
 
 ## 화면 역할
 

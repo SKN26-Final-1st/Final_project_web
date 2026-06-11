@@ -1,10 +1,10 @@
-# 인증 (`#/login`, `#/signup`, `#/password-reset`)
+# 인증 (`/login`, `/signup`, `/password-reset`)
 
 ## 화면 역할
 
 로그인, 회원가입, 비밀번호 재설정 UI입니다. 인증 화면은 `AppShell` 없이 [`AuthScreen`](../../src/components/layout/AuthScreen.tsx)을 사용합니다.
 
-현재 기본 실행은 mock API 모드이므로 인증 action은 네트워크 요청 없이 성공 응답을 반환합니다. 로그인 성공 시 `reload()` 후 `#/dashboard`로 이동해 실제 페이지 라우팅을 확인할 수 있습니다.
+현재 기본 실행은 mock API 모드이므로 인증 action은 네트워크 요청 없이 성공 응답을 반환합니다. 로그인 성공 시 `reload()` 후 `/dashboard`로 이동해 실제 페이지 라우팅을 확인할 수 있습니다.
 
 ## 관련 파일
 
@@ -30,7 +30,7 @@ VITE_USE_MOCK_API=true
 - `apiClient.login` → `{ authenticated: true }`
 - `apiClient.completeSignup` → `{ created: true }`
 - `apiClient.resetPassword` → `{ reset: true }`
-- backend 서버가 없어도 `#/login` → `#/dashboard` 흐름 확인 가능
+- backend 서버가 없어도 `/login` → `/dashboard` 흐름 확인 가능
 
 ## real API 모드
 
