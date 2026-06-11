@@ -12,6 +12,7 @@ Final_project_web/
 ├── scripts/
 │   └── verify-document-chat-widget.mjs
 ├── docs/                       # 프로젝트 문서
+├── .env.example                # VITE_USE_MOCK_API, VITE_API_KEY 예시
 ├── index.html
 ├── package.json
 ├── package-lock.json
@@ -28,18 +29,25 @@ Final_project_web/
 
 ```text
 src/
-├── main.tsx                    # React root, BrowserRouter, antd reset.css, styles.css
-├── App.tsx                     # React Router 라우팅, 테마, API 액션, DocumentChatFab 연결
-├── styles.css                  # 디자인 토큰과 레이아웃 스타일
-├── vite-env.d.ts               # Vite import.meta.env 타입
+├── main.tsx                    # React root, AppQueryProvider, BrowserRouter
+├── App.tsx                     # React Router, 테마, runApiAction, DocumentChatFab
+├── styles.css                  # 디자인 토큰, 레이아웃, 사이드바 pin
+├── vite-env.d.ts               # VITE_USE_MOCK_API, VITE_API_KEY 타입
 ├── api/
 │   ├── adapters.ts             # API snake_case → UI 모델
-│   └── backendClient.ts        # axios client, CSRF, mock/real API 전환
-├── data/
-│   ├── apiMockData.ts          # Django 응답 타입과 mock 샘플
-│   └── mockData.tsx            # AppRoute, mainMenu, authMenu, palette
+│   ├── appDataService.ts       # loadAppData, AppData 타입
+│   ├── backendClient.ts        # axios client, CSRF, API Key, mock/real 전환
+│   ├── queryClient.ts          # TanStack Query 기본 옵션
+│   ├── queryKeys.ts            # 쿼리 키 상수
+│   └── queryOptions.ts         # appData query options
+├── providers/
+│   └── AppQueryProvider.tsx    # QueryClientProvider
 ├── hooks/
-│   └── useMockAppData.ts       # 초기 API 데이터 로드와 정규화
+│   ├── useAppDataQuery.ts      # loadAppData useQuery hook
+│   └── useMockAppData.ts       # App.tsx용 loading/error/reload 래퍼
+├── data/
+│   ├── apiMockData.ts          # ApiResponse 타입, mock fixture
+│   └── mockData.tsx            # AppRoute, mainMenu, authMenu, palette
 ├── pages/                      # 화면 단위 컨테이너
 ├── components/                 # layout, dashboard, charts, chat 등
 ├── types/
@@ -70,8 +78,12 @@ src/
 
 | 파일 | 역할 |
 |------|------|
-| `backendClient.ts` | axios 인스턴스 생성, CSRF request interceptor, mock/real API 전환, `apiClient` export |
-| `adapters.ts` | backend payload를 대시보드, 회사, JD, 리포트 등 UI 모델로 변환 |
+| `backendClient.ts` | axios 인스턴스, CSRF·API Key interceptor, mock/real 전환, `apiClient` export |
+| `appDataService.ts` | dashboard·authDefaults 병렬 조회 후 adapter로 `AppData` 생성 |
+| `adapters.ts` | backend payload → 대시보드, 회사, JD, 리포트 등 UI 모델 |
+| `queryClient.ts` | QueryClient 기본 staleTime, retry, gcTime |
+| `queryKeys.ts` | `appData`, `dashboard`, `jobDescriptions` 등 쿼리 키 |
+| `queryOptions.ts` | `appDataQueryOptions()` |
 
 ## `docs/`
 
